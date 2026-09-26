@@ -20,6 +20,13 @@ export const auditSchema = z.object({
     .pipe(z.url("Please enter a valid URL")),
   spend: z.enum(spendOptions, { error: "Please choose your monthly ad spend" }),
   message: z.string().trim().max(2000).optional().default(""),
+  // Which page or campaign the lead came from, e.g. "audit" or "bfcm".
+  source: z
+    .string()
+    .trim()
+    .regex(/^[a-z0-9-]{1,40}$/)
+    .catch("website")
+    .default("website"),
 });
 
 export type AuditInput = z.infer<typeof auditSchema>;

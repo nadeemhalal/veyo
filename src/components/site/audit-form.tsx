@@ -11,7 +11,17 @@ import { cn } from "@/lib/utils";
 
 const initialState: AuditFormState = { status: "idle", message: "" };
 
-export function AuditForm({ className, compact = false }: { className?: string; compact?: boolean }) {
+export function AuditForm({
+  className,
+  compact = false,
+  source = "website",
+  submitLabel = "Get my free audit",
+}: {
+  className?: string;
+  compact?: boolean;
+  source?: string;
+  submitLabel?: string;
+}) {
   const [state, formAction, pending] = useActionState(submitAudit, initialState);
   const err = state.fieldErrors ?? {};
 
@@ -63,6 +73,8 @@ export function AuditForm({ className, compact = false }: { className?: string; 
         </Field>
       )}
 
+      <input type="hidden" name="source" value={source} />
+
       {/* Honeypot: hidden from people, filled by bots */}
       <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
         <label htmlFor="company">Company</label>
@@ -80,7 +92,7 @@ export function AuditForm({ className, compact = false }: { className?: string; 
         disabled={pending}
         className="inline-flex h-12 w-full items-center justify-center rounded-lg bg-primary px-5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-60"
       >
-        {pending ? "Sending…" : "Get my free audit"}
+        {pending ? "Sending…" : submitLabel}
       </button>
       <p className="text-center text-xs text-muted-foreground">
         Free, no obligation. By submitting you agree to our{" "}

@@ -33,6 +33,18 @@ describe("parseAuditForm", () => {
     if (!result.ok) expect(result.fieldErrors.spend).toBeDefined();
   });
 
+  it("defaults the lead source to website", () => {
+    const result = parseAuditForm(valid);
+    expect(result.ok && result.data.source).toBe("website");
+  });
+
+  it("keeps a valid source tag and replaces an invalid one", () => {
+    const tagged = parseAuditForm({ ...valid, source: "bfcm" });
+    expect(tagged.ok && tagged.data.source).toBe("bfcm");
+    const junk = parseAuditForm({ ...valid, source: "<script>" });
+    expect(junk.ok && junk.data.source).toBe("website");
+  });
+
   it("flags the honeypot as a bot", () => {
     const result = parseAuditForm({ ...valid, company: "Spam Co" });
     expect(result).toEqual({ ok: false, bot: true, fieldErrors: {} });

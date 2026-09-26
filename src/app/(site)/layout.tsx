@@ -1,3 +1,4 @@
+import { AnnouncementBar } from "@/components/site/announcement-bar";
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteHeader } from "@/components/site/site-header";
 
@@ -7,11 +8,16 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
       <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-background focus:px-4 focus:py-2">
         Skip to content
       </a>
-      <SiteHeader />
+      <AnnouncementBar />
+      <div className="contents print:hidden">
+        <SiteHeader />
+      </div>
       <main id="main" className="flex-1">
         {children}
       </main>
-      <SiteFooter />
+      <div className="print:hidden">
+        <SiteFooter />
+      </div>
     </>
   );
 }

@@ -340,3 +340,55 @@ export const caseStudies: CaseStudy[] = [
 ];
 
 export const publishedCaseStudies = caseStudies.filter((c) => c.published);
+
+// Black Friday / Cyber Monday 2026 campaign (/bfcm and /bfcm/playbook).
+// Dates: Black Friday and Cyber Monday are fixed. Click Frenzy's main event is
+// usually mid-November; confirm on clickfrenzy.com.au before promoting a date.
+export const bfcm = {
+  year: 2026,
+  blackFriday: "Friday 27 November",
+  cyberMonday: "Monday 30 November",
+  // Hide the site-wide announcement bar after this date (end of Cyber Monday, AEST).
+  endsAt: "2026-12-01T00:00:00+11:00",
+  sprintPrice: "A$1,990",
+  keyDates: [
+    { date: "Early October", label: "Plan", body: "Tracking check, offer and bundles decided, creative briefed." },
+    { date: "Late Oct – early Nov", label: "Warm up", body: "Build retargeting and email audiences while ads are cheaper." },
+    { date: "Mid November", label: "Click Frenzy", body: "Australia's big online sale event. Confirm this year's dates." },
+    { date: "27 – 30 November", label: "Black Friday to Cyber Monday", body: "Peak sale window. Retarget warm audiences hard." },
+    { date: "December", label: "Christmas push", body: "Gifting and shipping cut-off campaigns, then a results review." },
+  ],
+  sprintWeeks: [
+    { when: "Week 1", title: "Get ready", body: "Pixel and Conversions API check, break-even ROAS worked out, offer and bundle plan." },
+    { when: "Weeks 2–3", title: "Warm up", body: "Low-cost campaigns that build video, engagement and email audiences before CPMs climb." },
+    { when: "Week 4", title: "Click Frenzy", body: "Sale creative live, warm audiences retargeted, budgets stepped up." },
+    { when: "Week 5", title: "Black Friday to Cyber Monday", body: "Daily budget and creative management through the peak weekend." },
+    { when: "Week 6", title: "Wrap up", body: "Post-sale and Christmas remarketing, plus a report checked against your store data." },
+  ],
+  sprintIncludes: [
+    "Tracking and account health check",
+    "Break-even ROAS and max cost per customer for your offer",
+    "Offer and bundle recommendations that protect margin",
+    "Sale creative: hooks, statics and edits for each phase",
+    "Daily management through the peak weekend",
+    "Final report on spend, revenue, MER and new customers",
+  ],
+  faqs: [
+    {
+      q: "Is it too late to start?",
+      a: "For Black Friday, the best time to start is early October, so audiences have time to build. You can still start in November, but we'll focus on retargeting and fast creative rather than warm-up.",
+    },
+    {
+      q: "What happens after the Sprint?",
+      a: "Nothing, unless you want it to. The Sprint ends in early December. If it worked well, you can move onto a monthly plan. There's no automatic rollover.",
+    },
+    {
+      q: "Is ad spend included?",
+      a: "No. You pay Meta directly for ad spend. The Sprint fee covers strategy, creative and management.",
+    },
+    {
+      q: "Do we have to run big discounts?",
+      a: "No. Deep sitewide discounts can wipe out your margin. We often recommend bundles, gifts with purchase or spend thresholds instead, and we'll show you the numbers for each.",
+    },
+  ],
+} as const;

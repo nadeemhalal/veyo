@@ -23,5 +23,9 @@ export async function submitAudit(
     console.info("[audit request]", { ...parsed.data, email: "<redacted>" });
   }
 
-  return { status: "success", message: "Thanks! We'll send your audit within 2 business days." };
+  const message =
+    parsed.data.source === "bfcm"
+      ? "Thanks! We'll review your store and reply within one business day."
+      : "Thanks! We'll send your audit within 2 business days.";
+  return { status: "success", message };
 }
