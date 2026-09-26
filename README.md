@@ -36,6 +36,25 @@ Other scripts:
 
 `/`, `/services/meta-ads`, `/services/creative`, `/services/audit`, `/industries/{beauty-skincare,health-wellness,fashion}`, `/pricing`, `/case-studies`, `/insights`, `/about`, `/contact`, `/privacy`, `/terms`, plus `sitemap.xml` and `robots.txt`.
 
+## Adding a blog post
+
+Posts live in `content/insights/`. The file name becomes the URL, e.g. `content/insights/pdrn-ad-teardown.md` → `/insights/pdrn-ad-teardown`.
+
+```md
+---
+title: "What the top PDRN skincare ads in Australia have in common"
+date: "2026-10-01"
+tag: "Teardown"          # Teardown | How-to | Compliance | Account lessons
+excerpt: "One or two sentences shown on the list page and in Google."
+author: "Veyo Media"     # optional
+draft: false             # optional; drafts only show in npm run dev
+---
+
+Write the post in Markdown here. Tables, lists, links and images all work.
+```
+
+Commit and push to publish. The build fails with a clear message if the frontmatter is wrong.
+
 ## Before launch
 
 - [ ] **Saving leads:** the audit form validates input but does **not store leads yet**. Planned: a Supabase `audit_requests` table (company Supabase account) or an email notification. See the TODO in `src/app/actions/audit.ts`.
@@ -45,7 +64,7 @@ Other scripts:
 - [ ] Every number in `stats` must be backed by Ads Manager + store data for the same period (Australian Consumer Law).
 - [ ] Have `/privacy` and `/terms` reviewed by a lawyer. Update privacy once analytics or a Meta pixel is added.
 - [ ] Add business registration number to the footer.
-- [ ] Replace the text logo with a designed one; add an OG image and favicon.
+- [ ] Add an OG (social share) image.
 - [ ] Write the first posts for `/insights` (currently a "coming soon" list).
 
 ## Deployment
