@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 
 // The "!" mark: a bar that tapers from wide at the top to narrow at the bottom, plus a dot.
 // In the wordmark the bar uses the text colour and only the dot is Signal lime.
-// The full-lime version is reserved for the standalone icon (src/app/icon.svg).
+// The standalone icon (src/app/icon.svg) uses a white bar and lime dot on ink.
 export function VeyoMark({ className, barClassName = "fill-primary", dotClassName = "fill-brand" }: { className?: string; barClassName?: string; dotClassName?: string }) {
   return (
     <svg viewBox="0 0 10 26" className={className} aria-hidden="true" focusable="false">

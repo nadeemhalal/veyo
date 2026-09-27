@@ -1,6 +1,8 @@
 "use server";
 
 import { parseAuditForm, type AuditFormState } from "@/lib/audit-schema";
+import { saveAuditRequest } from "@/lib/audit-store";
+import { site } from "@/lib/site";
 
 export async function submitAudit(
   _prev: AuditFormState,
@@ -16,11 +18,12 @@ export async function submitAudit(
     return { status: "error", message: "Please check the highlighted fields.", fieldErrors: parsed.fieldErrors };
   }
 
-  // TODO: store the lead. Planned: insert into a Supabase `audit_requests` table
-  // (see README) and/or send a notification email. Until then, leads are only
-  // logged in development and are NOT saved anywhere.
-  if (process.env.NODE_ENV !== "production") {
-    console.info("[audit request]", { ...parsed.data, email: "<redacted>" });
+  const saved = await saveAuditRequest(parsed.data);
+  if (!saved) {
+    return {
+      status: "error",
+      message: `Sorry, something went wrong sending your request. Please try again, or email us at ${site.email}.`,
+    };
   }
 
   const message =

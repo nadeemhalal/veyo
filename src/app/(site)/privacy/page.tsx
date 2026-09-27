@@ -17,6 +17,8 @@ export default function PrivacyPage() {
           <p>When you request an audit or contact us, we collect your name, email, store URL, ad spend range and any message you send.</p>
           <h2>How we use it</h2>
           <p>Only to respond to you, prepare your audit and provide our services. We don&apos;t sell your information.</p>
+          <h2>Where it&apos;s stored</h2>
+          <p>Form submissions are stored securely in our database provider, Supabase. [Confirm the storage region before launch.] Only our team can access them.</p>
           <h2>Ad account access</h2>
           <p>We access ad accounts only through Meta Business Manager partner access that you grant and can remove at any time. We never ask for passwords.</p>
           <h2>Cookies and tracking</h2>

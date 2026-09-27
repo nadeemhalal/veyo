@@ -55,9 +55,17 @@ Write the post in Markdown here. Tables, lists, links and images all work.
 
 Commit and push to publish. The build fails with a clear message if the frontmatter is wrong.
 
+## Leads (Supabase)
+
+Audit and BFCM form submissions are saved to the `audit_requests` table in Supabase (columns: name, work_email, store_url, monthly_meta_ad_spend, additional_info, source, created_at). View them in the Supabase dashboard → Table Editor.
+
+- The site uses the **public** key only. Row Level Security allows it to **insert** rows, nothing else, so leads can't be read, changed or deleted through the website.
+- Set `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` in `.env.local` and in Vercel (Settings → Environment Variables).
+- If saving fails, visitors see an error with the contact email instead of a false success.
+- The current project is on a personal Supabase account (test only). Move to the company Supabase account before collecting real leads.
+
 ## Before launch
 
-- [ ] **Saving leads:** the audit form validates input but does **not store leads yet**. Planned: a Supabase `audit_requests` table (company Supabase account) or an email notification. See the TODO in `src/app/actions/audit.ts`.
 - [ ] Set up `hello@veyomedia.com` and `NEXT_PUBLIC_BOOKING_URL`.
 - [ ] Add founder name, photo and story on `/about`.
 - [ ] Case studies: fill in real figures in `src/lib/site.ts` and set `published: true` only with client permission and evidence.
