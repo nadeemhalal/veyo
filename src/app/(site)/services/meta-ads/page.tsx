@@ -31,7 +31,7 @@ export default function MetaAdsPage() {
     <>
       <PageHero
         eyebrow="Meta ads management"
-        title="Facebook & Instagram ads, run by a specialist"
+        title="Facebook & Instagram ads, run by someone who genuinely enjoys spreadsheets"
         intro="We plan, launch, test and scale your Meta ads, then report the results against your store data so you know what's really profitable."
       >
         <CtaLink href="/services/audit" arrow>Get a free ad audit</CtaLink>

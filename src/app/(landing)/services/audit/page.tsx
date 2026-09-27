@@ -31,7 +31,7 @@ export default function AuditPage() {
           <div>
             <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-primary">Free Meta ads audit</p>
             <h1 className="font-heading text-4xl font-bold tracking-tight sm:text-5xl">
-              Find out what your Meta ads are really costing you
+              We&apos;ll roast your ads. Nicely.
             </h1>
             <ul className="mt-8 space-y-3 text-lg">
               {youGet.map((i) => (
@@ -76,7 +76,7 @@ export default function AuditPage() {
 
       <section id="form-repeat" className="py-16">
         <div className="mx-auto max-w-xl px-4 sm:px-6">
-          <h2 className="mb-6 text-center font-heading text-3xl font-bold tracking-tight">Get your free audit</h2>
+          <h2 className="mb-6 text-center font-heading text-3xl font-bold tracking-tight">Ready for your roast?</h2>
           <AuditForm compact />
         </div>
       </section>

@@ -76,7 +76,7 @@ export function PlanCard({ plan }: { plan: Plan }) {
         ))}
       </ul>
       <CtaLink href="/services/audit" variant={plan.highlighted ? "primary" : "outline"} className="w-full">
-        Start with a free audit
+        Start with a free roast
       </CtaLink>
     </article>
   );
@@ -111,14 +111,15 @@ export function FinalCta() {
       <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
         <div className="max-w-2xl">
           <h2 className="font-heading text-3xl font-bold tracking-tight sm:text-4xl">
-            Get a free video audit of your Meta ads
+            Let us roast your ads. Nicely.
           </h2>
           <p className="mt-4 text-lg text-primary-foreground/80">
-            A 10-minute walkthrough of your account with three fixes you can use, even if you never hire us.
+            A free 10-minute video walkthrough of your account, with three fixes you can use even if you never hire
+            us. Honest, specific, and only a little bit brutal.
           </p>
         </div>
         <CtaLink href="/services/audit" variant="brand" arrow>
-          Get my free audit
+          Roast my ads (nicely)
         </CtaLink>
       </div>
     </Section>

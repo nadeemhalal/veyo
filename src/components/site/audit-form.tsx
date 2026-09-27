@@ -15,7 +15,7 @@ export function AuditForm({
   className,
   compact = false,
   source = "website",
-  submitLabel = "Get my free audit",
+  submitLabel = "Roast my ads (nicely)",
 }: {
   className?: string;
   compact?: boolean;

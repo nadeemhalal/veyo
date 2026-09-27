@@ -12,7 +12,7 @@ export default function PricingPage() {
     <>
       <PageHero
         eyebrow="Pricing"
-        title="Clear pricing. Creative included. No lock-in."
+        title="Prices you can see without booking a call."
         intro="Choose a plan based on your monthly Meta ad spend. Every plan is month-to-month with 30 days' notice."
       />
       <Section>

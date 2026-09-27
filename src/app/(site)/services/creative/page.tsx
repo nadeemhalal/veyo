@@ -20,7 +20,7 @@ export default function CreativePage() {
     <>
       <PageHero
         eyebrow="Ad creative & UGC"
-        title="Creative is the biggest lever in Meta ads"
+        title="Targeting is automated. Creative is your unfair advantage."
         intro="Targeting is mostly automated now. What you show people decides your results. Every Veyo plan includes new creative every month."
       >
         <CtaLink href="/services/audit" arrow>Get a free ad audit</CtaLink>

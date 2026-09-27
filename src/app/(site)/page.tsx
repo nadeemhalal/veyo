@@ -3,6 +3,7 @@ import { ArrowRight, Check } from "lucide-react";
 import { industries, problems, steps, services, site, trustPoints } from "@/lib/site";
 import { ComparisonTable, Faq, FinalCta, PlanGrid, StatsRow } from "@/components/site/blocks";
 import { CtaLink } from "@/components/site/cta-link";
+import { MehToVeyo } from "@/components/site/meh-to-veyo";
 import { Section } from "@/components/site/section";
 
 const jsonLd = {
@@ -29,14 +30,15 @@ export default function HomePage() {
             Meta ads specialists for Australian ecommerce
           </p>
           <h1 className="max-w-4xl font-heading text-5xl font-bold tracking-tight sm:text-6xl lg:text-7xl">
-            Meta ads that carry their weight.
+            <MehToVeyo />
           </h1>
           <p className="mt-6 max-w-2xl text-xl text-muted-foreground">
-            For Aussie ecom brands. Creative included. Reported against your P&amp;L, not vanity ROAS. Month-to-month.
+            Meta ads for Aussie ecom brands who are done shrugging at their results. Creative included. Reported against
+            your P&amp;L, not vanity ROAS. Month-to-month.
           </p>
           <div className="mt-10 flex flex-wrap gap-3">
             <CtaLink href="/services/audit" arrow>
-              Get a free ad audit
+              Roast my ads (nicely)
             </CtaLink>
             <CtaLink href="/pricing" variant="outline">
               See pricing
@@ -54,7 +56,7 @@ export default function HomePage() {
       </section>
 
       {/* Proof */}
-      <Section id="proof" eyebrow="Track record" title="Two years of profitable Meta ads for Australian brands">
+      <Section id="proof" eyebrow="Track record" title="Receipts, not vibes.">
         <StatsRow />
         <p className="mt-6 text-sm text-muted-foreground">
           Results from accounts we&apos;ve managed for Australian brands and agencies. Past results don&apos;t guarantee
@@ -63,7 +65,7 @@ export default function HomePage() {
       </Section>
 
       {/* Problem */}
-      <Section id="problem" tone="muted" eyebrow="Sound familiar?" title="Your ads worked once. Now they don't.">
+      <Section id="problem" tone="muted" eyebrow="Sound familiar?" title="Your ads used to work. Now they just… exist.">
         <div className="grid gap-6 md:grid-cols-3">
           {problems.map((p) => (
             <article key={p.title} className="rounded-xl border bg-card p-6">
@@ -75,7 +77,7 @@ export default function HomePage() {
       </Section>
 
       {/* How we work */}
-      <Section id="how-we-work" eyebrow="How we work" title="A simple system that compounds">
+      <Section id="how-we-work" eyebrow="How we work" title="No magic. Just a system that works.">
         <ol className="grid gap-6 md:grid-cols-4">
           {steps.map((s) => (
             <li key={s.step} className="rounded-xl border bg-card p-6">
@@ -88,7 +90,7 @@ export default function HomePage() {
       </Section>
 
       {/* Services */}
-      <Section id="services" tone="muted" eyebrow="Services" title="Everything your Meta ads need, in one team">
+      <Section id="services" tone="muted" eyebrow="Services" title="Everything your ads need. Nothing they don't.">
         <div className="grid gap-6 md:grid-cols-3">
           {services.map((s) => (
             <Link key={s.title} href={s.href} className="group rounded-xl border bg-card p-6 transition-shadow hover:shadow-md">
@@ -103,7 +105,7 @@ export default function HomePage() {
       </Section>
 
       {/* Industries */}
-      <Section id="industries" eyebrow="Industries" title="Built for beauty, wellness and lifestyle brands">
+      <Section id="industries" eyebrow="Industries" title="Especially good with beauty, wellness and fashion">
         <div className="grid gap-4 sm:grid-cols-3">
           {industries.map((i) => (
             <Link key={i.slug} href={`/industries/${i.slug}`} className="flex items-center justify-between rounded-xl border bg-card p-6 font-heading text-lg font-semibold hover:border-primary">
@@ -115,7 +117,7 @@ export default function HomePage() {
       </Section>
 
       {/* White label */}
-      <Section id="agencies" tone="dark" eyebrow="For agencies" title="Need a Meta ads specialist for your clients?">
+      <Section id="agencies" tone="dark" eyebrow="For agencies" title="Your logo on the report. Our hands on the keyboard.">
         <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
           <p className="text-lg text-primary-foreground/80">
             We run Meta ads for Australian agencies under their brand. You keep the client and the margin. We handle
@@ -138,17 +140,17 @@ export default function HomePage() {
       </Section>
 
       {/* Difference */}
-      <Section id="difference" tone="muted" eyebrow="The difference" title="Why brands switch to Veyo">
+      <Section id="difference" tone="muted" eyebrow="The difference" title="Why brands break up with their old agency">
         <ComparisonTable />
       </Section>
 
       {/* Pricing preview */}
-      <Section id="pricing-preview" eyebrow="Pricing" title="Clear pricing. No lock-in." intro="Pick the plan that matches your ad spend. Change or cancel with 30 days' notice.">
+      <Section id="pricing-preview" eyebrow="Pricing" title="Pricing you can see without booking a call." intro="Pick the plan that matches your ad spend. Change or cancel with 30 days' notice.">
         <PlanGrid />
       </Section>
 
       {/* FAQ */}
-      <Section id="faq" tone="muted" eyebrow="FAQ" title="Questions founders ask us">
+      <Section id="faq" tone="muted" eyebrow="FAQ" title="Questions we get (a lot)">
         <div className="max-w-3xl">
           <Faq />
         </div>

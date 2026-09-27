@@ -20,7 +20,7 @@ export default function CaseStudiesPage() {
     <>
       <PageHero
         eyebrow="Case studies"
-        title="Real accounts. Real numbers. Full context."
+        title="Receipts, with context."
         intro="Big numbers without context are easy to fake. Ours come with spend, time period and attribution, so you can judge them properly."
       />
 

@@ -29,6 +29,6 @@ export async function submitAudit(
   const message =
     parsed.data.source === "bfcm"
       ? "Thanks! We'll review your store and reply within one business day."
-      : "Thanks! We'll send your audit within 2 business days.";
+      : "Got it! Your roast (the nice kind) lands within 2 business days.";
   return { status: "success", message };
 }

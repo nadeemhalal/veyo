@@ -8,7 +8,7 @@ export const site = {
   name: "Veyo Media",
   shortName: "Veyo",
   url: "https://veyomedia.com",
-  tagline: "Ads that carry their weight.",
+  tagline: "From meh to veyo!",
   description:
     "Meta ads for Australian ecommerce brands. Creative included, reported against your P&L, month-to-month. Your accounts stay yours.",
   email: "hello@veyomedia.com", // TODO: set up once the domain is registered
@@ -45,7 +45,7 @@ export const nav = [
 
 // White-label Meta ads for Australian agencies.
 export const whiteLabel = {
-  headline: "Your agency's Meta ads team, without the hire",
+  headline: "Your agency's Meta ads team. No recruitment drama.",
   intro:
     "We run Meta ads for your ecommerce clients under your brand. You keep the client relationship and the margin. We do the media buying, testing and reporting behind the scenes.",
   benefits: [
@@ -100,23 +100,23 @@ export const stats = [
 ] as const;
 
 export const trustPoints = [
-  "Your accounts, your data",
-  "Month-to-month, no lock-in",
+  "Your accounts stay yours",
+  "Month-to-month (commitment issues are valid)",
   "Creative included",
-  "Australian business hours",
+  "Aussie business hours",
 ] as const;
 
 export const problems = [
   {
-    title: "CPMs keep climbing",
+    title: "CPMs keep climbing. Rude.",
     body: "You're paying more for the same reach, and the account that worked last year has stalled.",
   },
   {
-    title: "Creative burns out fast",
+    title: "Creative that burns out by Tuesday",
     body: "Ads fatigue in weeks. Without a steady testing pipeline, results slide and nobody knows why.",
   },
   {
-    title: "ROAS doesn't match the bank",
+    title: "Ads Manager says yes. Your bank says no.",
     body: "Ads Manager says it's working. Your Shopify and your P&L tell a different story.",
   },
 ] as const;
@@ -283,27 +283,27 @@ export const plans: Plan[] = [
 export const faqs = [
   {
     q: "Do I own my ad account?",
-    a: "Yes, always. We work through Meta Business Manager partner access. Your ad account, pixel, audiences and data stay yours, and you can remove our access at any time. We never ask for your login or password.",
+    a: "Yes, always. We work through Meta Business Manager partner access. Your ad account, pixel, audiences and data stay yours, and you can remove our access at any time. We never ask for your login or password. We're here to run your ads, not hold them hostage.",
   },
   {
     q: "Where is your team based?",
-    a: "We're based in Sri Lanka and work Australian business hours (9:30am–6pm AEST). We've been running Meta ads for Australian brands and agencies for two years, so the time zone is built into how we work.",
+    a: "We're based in Sri Lanka and work Australian business hours (9:30am–6pm AEST). We've been running Meta ads for Australian brands and agencies for two years, so the time zone is built into how we work. (Yes, we've done the time-zone maths.)",
   },
   {
     q: "What's the minimum ad spend?",
-    a: "Around A$1,000 a month. Below that, there usually isn't enough data to test properly, and we'll tell you honestly if you're better off running ads yourself for now.",
+    a: "Around A$1,000 a month. Below that, Meta doesn't get enough data to learn properly. We'll tell you honestly if you're better off running ads yourself for now.",
   },
   {
     q: "Do you make the creatives?",
-    a: "Yes. Every plan includes new ad creatives each month: scripts, hooks, statics and edits. If you want creator (UGC) videos, we can brief and manage creators for you.",
+    a: "Yes. Every plan includes new ad creatives each month: scripts, hooks, statics and edits. If you want creator (UGC) videos, we can brief and manage creators for you. No surprise \"can you just resize this\" invoices.",
   },
   {
     q: "Is there a contract?",
-    a: "No lock-in. Plans run month-to-month with 30 days' notice. We'd rather keep you with results than with paperwork.",
+    a: "No lock-in. Plans run month-to-month with 30 days' notice. If we're not earning our keep, you shouldn't be stuck with us.",
   },
   {
     q: "Do you work with agencies?",
-    a: "Yes. We already run Meta ads for Australian agencies under their brand (white-label). Get in touch if you need a specialist for your ecommerce clients.",
+    a: "Yes. We already run Meta ads for Australian agencies under their brand (white-label). Your logo on the report, our hands on the keyboard. Get in touch if you need a specialist for your ecommerce clients.",
   },
 ] as const;
 

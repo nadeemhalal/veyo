@@ -25,7 +25,7 @@ export default function InsightsPage() {
       <PageHero
         eyebrow="Insights"
         title="The Veyo Teardown"
-        intro="Breakdowns of real Meta ads, practical tactics and the rules Australian brands need to know."
+        intro="We take real Meta ads apart so you don't have to. Plus practical tactics and the rules Australian brands need to know."
       />
 
       {posts.length > 0 ? (

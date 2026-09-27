@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
-      <PageHero eyebrow="Contact" title="Let's talk about your Meta ads" intro={`We reply within one business day, ${site.hours}.`} />
+      <PageHero eyebrow="Contact" title="Let's talk ads. We'll bring the opinions." intro={`We reply within one business day, ${site.hours}.`} />
       <Section>
         <div className="grid gap-10 lg:grid-cols-2">
           <div className="space-y-6">
