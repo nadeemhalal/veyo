@@ -7,7 +7,17 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "vitest run"
+    "test": "vitest run",
+    "dev:vinext": "vite dev --port 3001",
+    "build:vinext": "vite build",
+    "start:vinext": "vite preview",
+    "deploy:vinext": "vinext-cloudflare deploy",
+    "content": "node scripts/build-content.mjs",
+    "predev": "npm run content",
+    "prebuild": "npm run content",
+    "pretest": "npm run content",
+    "predev:vinext": "npm run content",
+    "prebuild:vinext": "npm run content"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",
@@ -26,15 +36,26 @@
     "zod": "^4.6.5"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.62.5",
+    "@mdx-js/rollup": "^3.1.1",
     "@tailwindcss/postcss": "^4",
     "@tailwindcss/typography": "^0.5.20",
+    "@tailwindcss/vite": "^4.3.3",
     "@types/node": "^24.19.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vinext/cloudflare": "^1.0.1",
+    "@vitejs/plugin-react": "^6.1.1",
+    "@vitejs/plugin-rsc": "^0.5.35",
+    "cf": "^1.0.0-beta.12",
     "eslint": "^9",
     "eslint-config-next": "16.3.6",
+    "react-server-dom-webpack": "^19.2.8",
     "tailwindcss": "^4",
     "typescript": "^5",
+    "vinext": "^1.0.1",
+    "vite": "^8.3.2",
     "vitest": "^5.0.2"
-  }
+  },
+  "type": "module"
 }

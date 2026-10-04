@@ -36,6 +36,27 @@ Other scripts:
 
 `/`, `/services/meta-ads`, `/services/creative`, `/services/audit`, `/industries/{beauty-skincare,health-wellness,fashion}`, `/pricing`, `/case-studies`, `/insights`, `/about`, `/contact`, `/privacy`, `/terms`, plus `sitemap.xml` and `robots.txt`.
 
+## Cloudflare (vinext) hosting
+
+The site builds two ways: `next` (local dev, `npm run build`) and **vinext** for Cloudflare Workers.
+
+| Command | What it does |
+|---|---|
+| `npm run dev:vinext` | Runs the site on the local Cloudflare Workers engine (http://localhost:3001) |
+| `npm run build:vinext` | Cloudflare build into `dist/` |
+| `npm run deploy:vinext` | Build and deploy to Cloudflare from your computer (asks you to log in) |
+
+Dashboard (Workers & Pages → Import a repository): **Build command** `npm run build:vinext`, **Deploy command** `npx vinext-cloudflare deploy --skip-build`. Add these as **build variables**: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_SITE_URL` (and `NEXT_PUBLIC_BOOKING_URL`). Add `RESEND_API_KEY` as a **secret** and `EMAIL_FROM` as a variable at runtime.
+
+Notes:
+- Worker settings live in `cloudflare.config.ts`; `vite.config.ts` loads it with the plugin's experimental `newConfig` option.
+- Tailwind runs through `@tailwindcss/vite` for vinext (`postcss.config.mjs` is only used by `next`).
+- **Markdown is bundled at build time.** Cloudflare Workers can't read project files while running, so
+  `scripts/build-content.mjs` turns `content/**/*.md` into `src/generated/content.ts` (git-ignored). It runs
+  automatically before dev, build, test and the vinext scripts. After adding a post while a dev server is
+  running, run `npm run content`.
+- `react-server-dom-webpack` is pinned to the same minor version as React (19.2.x).
+
 ## Adding a blog post
 
 Posts live in `content/insights/`. The file name becomes the URL, e.g. `content/insights/pdrn-ad-teardown.md` → `/insights/pdrn-ad-teardown`.

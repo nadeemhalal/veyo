@@ -84,6 +84,20 @@ npm test
   Links in emails use `NEXT_PUBLIC_SITE_URL`. Marketing opt-in is optional and unticked by default (Spam Act).
 - Tests cover backend logic only (form validation, lead mapping, blog frontmatter, checklist scoring, email builder).
 
+## Cloudflare (vinext)
+
+- Planned test host: Cloudflare Workers via **vinext** (`vinext init` was run; config in `cloudflare.config.ts` + `vite.config.ts`).
+  Commands: `npm run dev:vinext` (local Workers engine, port 3001), `npm run build:vinext`, `npm run deploy:vinext`.
+- Gotchas fixed: vinext's packages had to be installed manually (React 19.2-matching `react-server-dom-webpack`);
+  Tailwind uses `@tailwindcss/vite` for vinext; the Cloudflare plugin needs `experimental: { newConfig: true }`
+  to read `cloudflare.config.ts`.
+- **No runtime file reads.** Markdown in `content/` is bundled into git-ignored `src/generated/content.ts` by
+  `scripts/build-content.mjs` (wired as pre-scripts). Never add `fs` reads to pages. Run `npm run content` after
+  editing content while a dev server is running.
+- Verified on the local Workers engine: all pages, both forms and the checklist (saving to Supabase) work.
+- Dashboard setup: build `npm run build:vinext`, deploy `npx vinext-cloudflare deploy --skip-build`; `NEXT_PUBLIC_*`
+  settings are build-time variables. Keep the deployment private (Cloudflare Access) until launch.
+
 ## Hosting and data
 
 - The Supabase project and GitHub repo are personal accounts: fine for testing. Before collecting real

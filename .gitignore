@@ -40,3 +40,12 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 !.env.example
+/dist/
+.vinext/
+.cloudflare/
+
+# Generated from content/*.md by scripts/build-content.mjs
+/src/generated/
+
+# Local Cloudflare/Miniflare state
+/.wrangler/

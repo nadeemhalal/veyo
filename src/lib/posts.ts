@@ -1,10 +1,9 @@
-import fs from "node:fs";
-import path from "node:path";
 import matter from "gray-matter";
 import { z } from "zod";
+import { insightFiles } from "@/generated/content";
 
-// Blog posts live in content/insights/<slug>.md. The file name is the URL slug.
-const POSTS_DIR = path.join(process.cwd(), "content", "insights");
+// Blog posts live in content/insights/<slug>.md (the file name is the URL slug). They are bundled into
+// src/generated/content.ts by scripts/build-content.mjs, so no files are read at runtime (Cloudflare Workers can't).
 
 export const postTags = ["Teardown", "How-to", "Compliance", "Account lessons"] as const;
 
@@ -37,13 +36,10 @@ export function parsePost(slug: string, raw: string): Post {
 
 /** All posts, newest first. Drafts are only included in development. */
 export function getAllPosts(): Post[] {
-  if (!fs.existsSync(POSTS_DIR)) return [];
   const includeDrafts = process.env.NODE_ENV === "development";
-  return fs
-    .readdirSync(POSTS_DIR)
-    .filter((f) => f.endsWith(".md"))
-    .map((f) => parsePost(f.replace(/\.md$/, ""), fs.readFileSync(path.join(POSTS_DIR, f), "utf8")))
-    .filter((p) => includeDrafts || !p.draft)
+  return Object.entries(insightFiles)
+    .map(([slug, raw]) => parsePost(slug, raw))
+    .filter((post) => includeDrafts || !post.draft)
     .sort((a, b) => b.date.getTime() - a.date.getTime());
 }
 

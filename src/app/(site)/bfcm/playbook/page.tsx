@@ -1,9 +1,8 @@
-import fs from "node:fs";
-import path from "node:path";
 import type { Metadata } from "next";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { playbookFiles } from "@/generated/content";
 import { bfcm } from "@/lib/site";
 import { CtaLink } from "@/components/site/cta-link";
 import { PrintButton } from "@/components/site/print-button";
@@ -14,7 +13,8 @@ export const metadata: Metadata = {
     "A free, practical guide to Meta ads for Click Frenzy, Black Friday and Cyber Monday: dates, break-even ROAS, offers, an 8-week timeline and checklists.",
 };
 
-const content = fs.readFileSync(path.join(process.cwd(), "content", "playbooks", `bfcm-${bfcm.year}.md`), "utf8");
+const content = playbookFiles[`bfcm-${bfcm.year}`];
+if (!content) throw new Error(`Missing content/playbooks/bfcm-${bfcm.year}.md`);
 
 function slugify(text: string) {
   return text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
