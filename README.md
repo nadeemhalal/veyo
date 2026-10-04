@@ -45,11 +45,13 @@ The site builds two ways: `next` (local dev, `npm run build`) and **vinext** for
 | `npm run dev:vinext` | Runs the site on the local Cloudflare Workers engine (http://localhost:3001) |
 | `npm run build:vinext` | Cloudflare build into `dist/` |
 | `npm run deploy:vinext` | Build and deploy to Cloudflare from your computer (asks you to log in) |
+| `npx wrangler deploy` | Deploy an existing `dist/` build (what the Cloudflare dashboard runs) |
 
-Dashboard (Workers & Pages → Import a repository): **Build command** `npm run build:vinext`, **Deploy command** `npx vinext-cloudflare deploy --skip-build`. Add these as **build variables**: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_SITE_URL` (and `NEXT_PUBLIC_BOOKING_URL`). Add `RESEND_API_KEY` as a **secret** and `EMAIL_FROM` as a variable at runtime.
+Dashboard (Workers & Pages → Import a repository): **Build command** `npm run build:vinext`, **Deploy command** `npx wrangler deploy` (the dashboard default). Add these as **build variables**: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_SITE_URL` (and `NEXT_PUBLIC_BOOKING_URL`). Add `RESEND_API_KEY` as a **secret** and `EMAIL_FROM` as a variable at runtime.
 
 Notes:
-- Worker settings live in `cloudflare.config.ts`; `vite.config.ts` loads it with the plugin's experimental `newConfig` option.
+- Worker settings live in `wrangler.jsonc` (stable `@cloudflare/vite-plugin` v1 + Wrangler). The build writes `dist/server/wrangler.json` and a `.wrangler/deploy/config.json` redirect, so plain `npx wrangler deploy` finds the right files.
+- Don't mix in the beta `cloudflare.config.ts` / `cf` setup: it needs the v2 beta plugin, which can't be combined with vinext's child environments.
 - Tailwind runs through `@tailwindcss/vite` for vinext (`postcss.config.mjs` is only used by `next`).
 - **Markdown is bundled at build time.** Cloudflare Workers can't read project files while running, so
   `scripts/build-content.mjs` turns `content/**/*.md` into `src/generated/content.ts` (git-ignored). It runs

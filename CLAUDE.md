@@ -86,16 +86,16 @@ npm test
 
 ## Cloudflare (vinext)
 
-- Planned test host: Cloudflare Workers via **vinext** (`vinext init` was run; config in `cloudflare.config.ts` + `vite.config.ts`).
+- Planned test host: Cloudflare Workers via **vinext** in **legacy Wrangler mode** (`vinext init --legacy-wrangler-cloudflare-init`): `wrangler.jsonc` + `vite.config.ts`, stable `@cloudflare/vite-plugin` v1.
   Commands: `npm run dev:vinext` (local Workers engine, port 3001), `npm run build:vinext`, `npm run deploy:vinext`.
-- Gotchas fixed: vinext's packages had to be installed manually (React 19.2-matching `react-server-dom-webpack`);
-  Tailwind uses `@tailwindcss/vite` for vinext; the Cloudflare plugin needs `experimental: { newConfig: true }`
-  to read `cloudflare.config.ts`.
+- Gotchas: the default (beta) `vinext init` mode wrote a `cloudflare.config.ts` that needs the v2 beta plugin and the `cf` deploy tool
+  (fails with "Could not read the generated Cloudflare Build Output config"); that was replaced by Wrangler mode.
+  vinext's packages had to be installed manually (React 19.2-matching `react-server-dom-webpack`); Tailwind uses `@tailwindcss/vite` for vinext.
 - **No runtime file reads.** Markdown in `content/` is bundled into git-ignored `src/generated/content.ts` by
   `scripts/build-content.mjs` (wired as pre-scripts). Never add `fs` reads to pages. Run `npm run content` after
   editing content while a dev server is running.
 - Verified on the local Workers engine: all pages, both forms and the checklist (saving to Supabase) work.
-- Dashboard setup: build `npm run build:vinext`, deploy `npx vinext-cloudflare deploy --skip-build`; `NEXT_PUBLIC_*`
+- Dashboard setup: build `npm run build:vinext`, deploy `npx wrangler deploy`; `NEXT_PUBLIC_*`
   settings are build-time variables. Keep the deployment private (Cloudflare Access) until launch.
 
 ## Hosting and data

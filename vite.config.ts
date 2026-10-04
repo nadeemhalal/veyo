@@ -10,9 +10,8 @@ export default defineConfig({
   plugins: [
     vinext(),
     tailwindcss(),
+    // Worker settings (name, entry, assets, flags) come from wrangler.jsonc.
     cloudflare({
-      // Load the Worker settings from cloudflare.config.ts (experimental in this plugin version).
-      experimental: { newConfig: true },
       viteEnvironment: {
         name: "rsc",
         childEnvironments: ["ssr"],
