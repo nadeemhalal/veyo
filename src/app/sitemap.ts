@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/services/creative",
     "/services/audit",
     "/agencies",
+    "/meta-ads-audit",
     "/bfcm",
     "/bfcm/playbook",
     "/pricing",

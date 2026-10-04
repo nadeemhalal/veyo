@@ -1,5 +1,5 @@
-import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import type { AuditInput } from "@/lib/audit-schema";
+import { getSupabase } from "@/lib/supabase";
 
 // Row shape of public.audit_requests in Supabase.
 export type AuditRow = {
@@ -22,21 +22,9 @@ export function toAuditRow(data: AuditInput): AuditRow {
   };
 }
 
-let client: SupabaseClient | null = null;
-
-// Uses the public (publishable/anon) key. Row Level Security only allows inserts
-// for this key, so leads can't be read or changed through it.
-function getClient(): SupabaseClient | null {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !key) return null;
-  client ??= createClient(url, key, { auth: { persistSession: false, autoRefreshToken: false } });
-  return client;
-}
-
 /** Saves one lead. Returns false (and logs) if Supabase isn't configured or the insert fails. */
 export async function saveAuditRequest(data: AuditInput): Promise<boolean> {
-  const supabase = getClient();
+  const supabase = getSupabase();
   if (!supabase) {
     console.error("[audit] Supabase env vars missing: NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_ANON_KEY");
     return false;

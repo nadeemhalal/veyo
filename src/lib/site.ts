@@ -25,6 +25,7 @@ export const nav = [
       { label: "Meta ads management", href: "/services/meta-ads" },
       { label: "Ad creative & UGC", href: "/services/creative" },
       { label: "Free ad account audit", href: "/services/audit" },
+      { label: "60-point audit checklist", href: "/meta-ads-audit" },
       { label: "White label for agencies", href: "/agencies" },
     ],
   },

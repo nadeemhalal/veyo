@@ -75,7 +75,14 @@ npm test
   `src/lib/audit-store.ts`. It uses the **public publishable key only**; RLS allows insert and nothing else.
   Env vars: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` (in `.env.local`, never committed).
   If saving fails, the visitor sees an error, never a false success.
-- Tests cover backend logic only (form validation, lead mapping, blog frontmatter).
+- **Audit checklist game** (`/meta-ads-audit`): 60-point checklist from `src/lib/audit-checklist.ts`
+  (7 sections; item ids like t1, s3). Flow: name/organisation/email → tick sections (live score, levels
+  Leaky/Steady/Scaling, "+1" pops) → **View result** (scored on the server, saved to `checklist_results`)
+  → **Send to email** (Resend). Max 3 emails per address per 24h via the `allow_checklist_email` function
+  and `checklist_email_log` table (migration in `supabase/migrations/`). Email needs `RESEND_API_KEY`
+  (server-only) and `EMAIL_FROM` on a domain verified in Resend; until then the button says it's not switched on.
+  Links in emails use `NEXT_PUBLIC_SITE_URL`. Marketing opt-in is optional and unticked by default (Spam Act).
+- Tests cover backend logic only (form validation, lead mapping, blog frontmatter, checklist scoring, email builder).
 
 ## Hosting and data
 

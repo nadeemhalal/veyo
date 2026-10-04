@@ -134,3 +134,12 @@
     @apply font-sans;
   }
 }
+/* "+1" pop when an audit checklist item is ticked */
+@keyframes veyo-pop {
+  0% { opacity: 0; transform: translateY(4px) scale(0.8); }
+  25% { opacity: 1; transform: translateY(-2px) scale(1.15); }
+  100% { opacity: 0; transform: translateY(-14px) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  [class*="veyo-pop"] { animation: none !important; opacity: 0; }
+}
