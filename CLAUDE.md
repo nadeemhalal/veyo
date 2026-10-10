@@ -4,7 +4,7 @@
 
 Marketing site for **Veyo Media** (brand mark: **veyo!**, said "VAY-oh"), a Meta ads specialist for
 Australian ecommerce brands, run by a solo founder based in Sri Lanka who works Australian business hours.
-Domain: **veyomedia.com** (not yet registered). Repo: personal GitHub `nadeemhalal/veyo`, branch `main`.
+Domain: **veyomedia.com** (registered at Namecheap on 2026-10-04; DNS on Cloudflare; **live and public since 2026-10-10**). Repo: personal GitHub `nadeemhalal/veyo`, branch `main`.
 
 ## The business
 
@@ -37,7 +37,7 @@ Domain: **veyomedia.com** (not yet registered). Repo: personal GitHub `nadeemhal
   The mark's bottom sits on the text baseline. Code: `src/components/site/logo.tsx`.
 - **Icon / favicon / profile picture:** white tapered "!" with lime dot on an ink square (`src/app/icon.svg`).
 - **Fonts:** Geist for the site (headings bold, tight), Geist Mono for numbers, Instrument Sans for the logo only.
-- **Assets:** `brand/` has SVG/PNG logos, icons and social banners (not committed yet).
+- **Assets:** `brand/` has SVG/PNG logos, icons and social banners. The share image `public/og.png` is built from the white logo on ink.
 - No gradients on ink backgrounds; no stock handshake/rocket imagery; use real, anonymised screenshots.
 
 ## Voice: witty, honest, plain
@@ -82,11 +82,18 @@ npm test
   and `checklist_email_log` table (migration in `supabase/migrations/`). Email needs `RESEND_API_KEY`
   (server-only) and `EMAIL_FROM` on a domain verified in Resend; until then the button says it's not switched on.
   Links in emails use `NEXT_PUBLIC_SITE_URL`. Marketing opt-in is optional and unticked by default (Spam Act).
+- **SEO:** `src/lib/seo.ts` has `pageMetadata()` (title, description, canonical, Open Graph, Twitter) and the
+  JSON-LD builders; render JSON-LD with `src/components/site/json-ld.tsx`. Every page should use `pageMetadata()`:
+  a page's `openGraph` replaces the root one wholesale, so partial metadata loses the share image.
+  Bump `siteUpdated` in `src/app/sitemap.ts` when copy changes materially.
+- **Analytics:** GA4 via `src/components/site/analytics.tsx`, on only when `NEXT_PUBLIC_GA_MEASUREMENT_ID` is set
+  at build time and never in dev. It uses plain `<script>` tags because `next/script` injects nothing under vinext.
+  Search Console is verified by DNS (domain property), so no code is involved.
 - Tests cover backend logic only (form validation, lead mapping, blog frontmatter, checklist scoring, email builder).
 
 ## Cloudflare (vinext)
 
-- Planned test host: Cloudflare Workers via **vinext** in **legacy Wrangler mode** (`vinext init --legacy-wrangler-cloudflare-init`): `wrangler.jsonc` + `vite.config.ts`, stable `@cloudflare/vite-plugin` v1.
+- Production host: Cloudflare Workers via **vinext** in **legacy Wrangler mode** (`vinext init --legacy-wrangler-cloudflare-init`): `wrangler.jsonc` + `vite.config.ts`, stable `@cloudflare/vite-plugin` v1.
   Commands: `npm run dev:vinext` (local Workers engine, port 3001), `npm run build:vinext`, `npm run deploy:vinext`.
 - Gotchas: the default (beta) `vinext init` mode wrote a `cloudflare.config.ts` that needs the v2 beta plugin and the `cf` deploy tool
   (fails with "Could not read the generated Cloudflare Build Output config"); that was replaced by Wrangler mode.
@@ -95,23 +102,30 @@ npm test
   `scripts/build-content.mjs` (wired as pre-scripts). Never add `fs` reads to pages. Run `npm run content` after
   editing content while a dev server is running.
 - Verified on the local Workers engine: all pages, both forms and the checklist (saving to Supabase) work.
-- Dashboard setup: build `npm run build:vinext`, deploy `npx wrangler deploy`; `NEXT_PUBLIC_*`
-  settings are build-time variables. Keep the deployment private (Cloudflare Access) until launch.
+- **The main line:** local `main` → GitHub `nadeemhalal/veyo` → Cloudflare Worker **`veyo`** → veyomedia.com.
+  Pushing to `main` triggers a Workers Build (build `npm run build:vinext`, deploy `npx wrangler deploy`).
+  `npm run deploy:vinext` deploys the same Worker straight from this machine, using `.env.local`.
+  The Worker name in `wrangler.jsonc` must stay `veyo`: any other name silently creates a second Worker.
+- `NEXT_PUBLIC_*` settings are build-time variables. They must be set in the `veyo` project's **build** variables
+  as well as in `.env.local`, or a git build ships without them.
+- After a push, check the commit's "Workers Builds: veyo" check on GitHub. A failed build leaves the previous
+  version live with no other warning.
 
 ## Hosting and data
 
 - The Supabase project and GitHub repo are personal accounts: fine for testing. Before collecting real
   leads or pointing veyomedia.com at the site, use hosting and a database you (the business) control and
   have reviewed, and confirm the Supabase storage region (a Sydney region suits Australian clients).
-- Keep the test deploy private (Vercel Deployment Protection) until launch.
+- The repo is also connected to Vercel, which builds every push. It is not the main line; disconnect it if unused.
 - Never commit secrets or `.env` files. Never use the Supabase secret/service_role key in this app.
 - Open item: an existing Supabase function `public.rls_auto_enable()` is executable by the public role.
   Lock it down (revoke EXECUTE from anon/authenticated) unless it's meant to be public.
 
 ## Before launch (open items)
 
-- Register veyomedia.com, `hello@veyomedia.com`, and `@veyomedia` handles; check IP Australia class 35 for "Veyo".
+- Cloudflare: redirect `www` to the apex domain and turn on "Always use HTTPS" (both still return 200).
+- Set up `hello@veyomedia.com` (Cloudflare Email Routing) and `@veyomedia` handles; check IP Australia class 35 for "Veyo".
 - Founder name, photo and story on `/about`; booking link (`NEXT_PUBLIC_BOOKING_URL`).
 - Real testimonials and case studies (with permission) in `src/lib/site.ts` (`published: true` only when ready).
 - Lawyer review of `/privacy` and `/terms`; fill in the storage region; business registration number in the footer.
-- OG (social share) image.
+- HTML is served with `Cache-Control: no-store`, so Cloudflare caches no pages. Worth fixing for speed.
