@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { formatPostDate, getAllPosts } from "@/lib/posts";
 import { FinalCta } from "@/components/site/blocks";
 import { PageHero, Section } from "@/components/site/section";
 
-export const metadata: Metadata = {
-  title: "Insights",
-  description: "Meta ads teardowns, tactics and compliance notes for Australian ecommerce brands.",
-};
+export const metadata: Metadata = pageMetadata({
+  title: "Meta ads insights for Australian ecommerce brands",
+  description:
+    "Meta ads teardowns, tactics and compliance notes for Australian ecommerce brands.",
+  path: "/insights",
+});
 
 // Shown until the first posts are published.
 const upcoming = [

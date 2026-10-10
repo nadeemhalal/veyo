@@ -1,15 +1,18 @@
 import type { Metadata } from "next";
+import { breadcrumbJsonLd, serviceJsonLd, pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/site/json-ld";
 import { Check } from "lucide-react";
 import { steps } from "@/lib/site";
 import { FinalCta, StatsRow } from "@/components/site/blocks";
 import { CtaLink } from "@/components/site/cta-link";
 import { PageHero, Section } from "@/components/site/section";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Meta ads management for Australian ecommerce brands",
   description:
     "Facebook and Instagram ads management for Australian ecom brands: structure, testing, creative and P&L reporting. Month-to-month.",
-};
+  path: "/services/meta-ads",
+});
 
 const included = [
   "Account, pixel and Conversions API health check",
@@ -29,6 +32,7 @@ const notIncluded = [
 export default function MetaAdsPage() {
   return (
     <>
+      <JsonLd data={[serviceJsonLd("Meta ads management", metadata.description as string, "/services/meta-ads"), breadcrumbJsonLd([{ name: "Meta ads management", path: "/services/meta-ads" }])]} />
       <PageHero
         eyebrow="Meta ads management"
         title="Facebook & Instagram ads, run by someone who genuinely enjoys spreadsheets"

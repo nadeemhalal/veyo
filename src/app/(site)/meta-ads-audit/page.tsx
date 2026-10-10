@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { AuditChecklistGame } from "@/components/site/audit-checklist-game";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Free Meta Ads Audit Checklist for Australian Ecommerce Brands",
   description:
     "A free 60-point self-audit of your Meta ads: tracking, structure, audiences, creative, landing pages, reporting and Australian compliance. Get your score and fix list by email.",
-};
+  path: "/meta-ads-audit",
+});
 
 export default function MetaAdsAuditPage() {
   return (

@@ -1,8 +1,15 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
 import { PageHero, Section } from "@/components/site/section";
 
-export const metadata: Metadata = { title: "Privacy policy", robots: { index: false } };
+export const metadata: Metadata = pageMetadata({
+  title: "Privacy policy",
+  description:
+    "How Veyo Media collects, uses and protects your personal information.",
+  path: "/privacy",
+  noindex: true,
+});
 
 // DRAFT: have this reviewed by a lawyer before launch. It should reflect how you
 // actually store leads (e.g. Supabase), any analytics/pixel you add, and the
@@ -22,7 +29,7 @@ export default function PrivacyPage() {
           <h2>Ad account access</h2>
           <p>We access ad accounts only through Meta Business Manager partner access that you grant and can remove at any time. We never ask for passwords.</p>
           <h2>Cookies and tracking</h2>
-          <p>[Describe any analytics or advertising pixels used on this site.]</p>
+          <p>We use Google Analytics to understand how visitors use this site (pages viewed, device type and approximate location). It uses cookies and sends this data to Google, with IP addresses anonymised. We also use Google Search Console, which reports search performance and doesn&apos;t place anything on your device. [Add any advertising pixels if you install them.]</p>
           <h2>Contact</h2>
           <p>Questions or requests to access or delete your data: {site.email}.</p>
         </div>

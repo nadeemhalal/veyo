@@ -1,12 +1,16 @@
 import type { Metadata } from "next";
+import { breadcrumbJsonLd, serviceJsonLd, pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/site/json-ld";
 import { FinalCta } from "@/components/site/blocks";
 import { CtaLink } from "@/components/site/cta-link";
 import { PageHero, Section } from "@/components/site/section";
 
-export const metadata: Metadata = {
-  title: "Ad creative & UGC for Meta ads",
-  description: "Hooks, scripts, statics and creator videos made for the Facebook and Instagram feed, with fresh creative every month.",
-};
+export const metadata: Metadata = pageMetadata({
+  title: "Ad creative & UGC for Facebook and Instagram ads",
+  description:
+    "Hooks, scripts, statics and creator videos made for the Facebook and Instagram feed, with fresh creative every month.",
+  path: "/services/creative",
+});
 
 const formats = [
   { title: "Hooks & scripts", body: "The first three seconds decide everything. We write and test hook variations for every concept." },
@@ -18,6 +22,7 @@ const formats = [
 export default function CreativePage() {
   return (
     <>
+      <JsonLd data={[serviceJsonLd("Ad creative & UGC", metadata.description as string, "/services/creative"), breadcrumbJsonLd([{ name: "Ad creative & UGC", path: "/services/creative" }])]} />
       <PageHero
         eyebrow="Ad creative & UGC"
         title="Targeting is automated. Creative is your unfair advantage."

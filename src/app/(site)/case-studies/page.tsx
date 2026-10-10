@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { publishedCaseStudies } from "@/lib/site";
 import { FinalCta, StatsRow } from "@/components/site/blocks";
 import { PageHero, Section } from "@/components/site/section";
 
-export const metadata: Metadata = {
-  title: "Case studies",
-  description: "Meta ads results for Australian ecommerce brands, with spend, revenue, time period and attribution shown.",
-};
+export const metadata: Metadata = pageMetadata({
+  title: "Meta ads case studies for Australian ecommerce brands",
+  description:
+    "Meta ads results for Australian ecommerce brands, with spend, revenue, time period and attribution shown.",
+  path: "/case-studies",
+});
 
 const howWeMeasure = [
   "Every result shows ad spend, revenue and the time period.",

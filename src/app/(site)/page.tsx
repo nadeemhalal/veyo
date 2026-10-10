@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
-import { industries, problems, steps, services, site, trustPoints } from "@/lib/site";
+import { faqs, industries, problems, steps, services, site, trustPoints } from "@/lib/site";
+import { faqJsonLd, organizationJsonLd, websiteJsonLd } from "@/lib/seo";
+import { JsonLd } from "@/components/site/json-ld";
 import { ComparisonTable, Faq, FinalCta, PlanGrid, StatsRow } from "@/components/site/blocks";
 import { CtaLink } from "@/components/site/cta-link";
 import { MehToVeyo } from "@/components/site/meh-to-veyo";
@@ -9,7 +11,9 @@ import { Section } from "@/components/site/section";
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
+  "@id": `${site.url}/#service`,
   name: site.name,
+  provider: { "@id": `${site.url}/#organization` },
   url: site.url,
   slogan: site.tagline,
   description: site.description,
@@ -20,7 +24,7 @@ const jsonLd = {
 export default function HomePage() {
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <JsonLd data={[organizationJsonLd, websiteJsonLd, jsonLd, faqJsonLd(faqs)]} />
 
       {/* Hero */}
       <section id="hero" className="relative overflow-hidden border-b">

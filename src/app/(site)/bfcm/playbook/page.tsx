@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -7,11 +8,12 @@ import { bfcm } from "@/lib/site";
 import { CtaLink } from "@/components/site/cta-link";
 import { PrintButton } from "@/components/site/print-button";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: `The Aussie BFCM Meta Ads Playbook ${bfcm.year}`,
   description:
     "A free, practical guide to Meta ads for Click Frenzy, Black Friday and Cyber Monday: dates, break-even ROAS, offers, an 8-week timeline and checklists.",
-};
+  path: "/bfcm/playbook",
+});
 
 const content = playbookFiles[`bfcm-${bfcm.year}`];
 if (!content) throw new Error(`Missing content/playbooks/bfcm-${bfcm.year}.md`);

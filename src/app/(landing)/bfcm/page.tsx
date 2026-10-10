@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { BookOpen, Check } from "lucide-react";
 import { bfcm, site } from "@/lib/site";
@@ -8,11 +9,12 @@ import { CtaLink } from "@/components/site/cta-link";
 import { Section } from "@/components/site/section";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: `Black Friday ${bfcm.year} Meta ads for Australian brands`,
   description:
     "Get your Meta ads ready for Click Frenzy, Black Friday and Cyber Monday. Free playbook, plus a fixed-fee 6-week BFCM Sprint for Australian ecommerce brands.",
-};
+  path: "/bfcm",
+});
 
 export default function BfcmPage() {
   return (

@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
 import { FinalCta, StatsRow } from "@/components/site/blocks";
 import { PageHero, Section } from "@/components/site/section";
 
-export const metadata: Metadata = {
-  title: "About",
-  description: "Veyo Media is a Meta ads specialist for Australian ecommerce brands, based in Sri Lanka and working Australian hours.",
-};
+export const metadata: Metadata = pageMetadata({
+  title: "About us: Meta ads specialists on Australian hours",
+  description:
+    "Veyo Media is a Meta ads specialist for Australian ecommerce brands, based in Sri Lanka and working Australian hours.",
+  path: "/about",
+});
 
 const values = [
   { title: "Honest numbers", body: "We report against your store data and tell you when something isn't working." },

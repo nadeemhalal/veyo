@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { Check } from "lucide-react";
 import { AuditForm } from "@/components/site/audit-form";
 import { Faq, StatsRow } from "@/components/site/blocks";
 import { Section } from "@/components/site/section";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Free Meta ads audit",
-  description: "Get a free 10-minute video audit of your Meta ads with three fixes you can use straight away.",
-};
+  description:
+    "Get a free 10-minute video audit of your Meta ads with three fixes you can use straight away.",
+  path: "/services/audit",
+});
 
 const youGet = [
   "A 10-minute personal video walkthrough of your ad account",

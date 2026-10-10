@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Check, ShieldCheck } from "lucide-react";
 import { industries } from "@/lib/site";
+import { breadcrumbJsonLd, pageMetadata, serviceJsonLd } from "@/lib/seo";
+import { JsonLd } from "@/components/site/json-ld";
 import { FinalCta, StatsRow } from "@/components/site/blocks";
 import { CtaLink } from "@/components/site/cta-link";
 import { PageHero, Section } from "@/components/site/section";
@@ -16,7 +18,7 @@ export async function generateMetadata(props: PageProps<"/industries/[slug]">): 
   const { slug } = await props.params;
   const industry = industries.find((i) => i.slug === slug);
   if (!industry) return {};
-  return { title: industry.headline, description: industry.intro };
+  return pageMetadata({ title: industry.headline, description: industry.intro, path: `/industries/${industry.slug}` });
 }
 
 export default async function IndustryPage(props: PageProps<"/industries/[slug]">) {
@@ -24,8 +26,15 @@ export default async function IndustryPage(props: PageProps<"/industries/[slug]"
   const industry = industries.find((i) => i.slug === slug);
   if (!industry) notFound();
 
+  const path = `/industries/${industry.slug}`;
   return (
     <>
+      <JsonLd
+        data={[
+          serviceJsonLd(industry.headline, industry.intro, path),
+          breadcrumbJsonLd([{ name: industry.name, path }]),
+        ]}
+      />
       <PageHero eyebrow={industry.name} title={industry.headline} intro={industry.intro}>
         <CtaLink href="/services/audit" arrow>Get a free ad audit</CtaLink>
       </PageHero>

@@ -7,6 +7,8 @@ import { ArrowLeft } from "lucide-react";
 import { site } from "@/lib/site";
 import { formatPostDate, getAllPosts, getPost } from "@/lib/posts";
 import { FinalCta } from "@/components/site/blocks";
+import { JsonLd } from "@/components/site/json-ld";
+import { breadcrumbJsonLd, ogImage, pageMetadata } from "@/lib/seo";
 
 export function generateStaticParams() {
   return getAllPosts().map((p) => ({ slug: p.slug }));
@@ -18,10 +20,10 @@ export async function generateMetadata(props: PageProps<"/insights/[slug]">): Pr
   const { slug } = await props.params;
   const post = getPost(slug);
   if (!post) return {};
+  const meta = pageMetadata({ title: post.title, description: post.excerpt, path: `/insights/${post.slug}`, type: "article" });
   return {
-    title: post.title,
-    description: post.excerpt,
-    openGraph: { type: "article", title: post.title, description: post.excerpt, publishedTime: post.date.toISOString() },
+    ...meta,
+    openGraph: { ...meta.openGraph, type: "article", publishedTime: post.date.toISOString(), tags: [post.tag] },
   };
 }
 
@@ -37,12 +39,24 @@ export default async function PostPage(props: PageProps<"/insights/[slug]">) {
     description: post.excerpt,
     datePublished: post.date.toISOString(),
     author: { "@type": "Organization", name: post.author },
-    publisher: { "@type": "Organization", name: site.name },
+    dateModified: post.date.toISOString(),
+    image: `${site.url}${ogImage.url}`,
+    mainEntityOfPage: `${site.url}/insights/${post.slug}`,
+    inLanguage: "en-AU",
+    publisher: { "@id": `${site.url}/#organization` },
   };
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <JsonLd
+        data={[
+          jsonLd,
+          breadcrumbJsonLd([
+            { name: "Insights", path: "/insights" },
+            { name: post.title, path: `/insights/${post.slug}` },
+          ]),
+        ]}
+      />
       <article className="mx-auto max-w-3xl px-4 py-14 sm:px-6 sm:py-20">
         <Link href="/insights" className="inline-flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground">
           <ArrowLeft className="size-4" aria-hidden="true" /> All insights

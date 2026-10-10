@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
 import { AuditForm } from "@/components/site/audit-form";
 import { CtaLink } from "@/components/site/cta-link";
 import { PageHero, Section } from "@/components/site/section";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description: "Book a call or request a free Meta ads audit from Veyo Media.",
-};
+export const metadata: Metadata = pageMetadata({
+  title: "Contact us for a free Meta ads audit",
+  description:
+    "Book a call or request a free Meta ads audit from Veyo Media.",
+  path: "/contact",
+});
 
 export default function ContactPage() {
   return (

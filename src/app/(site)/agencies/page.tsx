@@ -1,19 +1,23 @@
 import type { Metadata } from "next";
+import { breadcrumbJsonLd, serviceJsonLd, pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/site/json-ld";
 import { Check, ShieldCheck } from "lucide-react";
 import { site, whiteLabel } from "@/lib/site";
 import { StatsRow } from "@/components/site/blocks";
 import { CtaLink } from "@/components/site/cta-link";
 import { PageHero, Section } from "@/components/site/section";
 
-export const metadata: Metadata = {
-  title: "White-label Meta ads for agencies",
+export const metadata: Metadata = pageMetadata({
+  title: "White-label Meta ads for Australian agencies",
   description:
     "White-label Meta ads management for Australian agencies. We run your ecommerce clients' Facebook and Instagram ads under your brand.",
-};
+  path: "/agencies",
+});
 
 export default function AgenciesPage() {
   return (
     <>
+      <JsonLd data={[serviceJsonLd("White-label Meta ads for agencies", metadata.description as string, "/agencies"), breadcrumbJsonLd([{ name: "Agencies", path: "/agencies" }])]} />
       <PageHero eyebrow="White label for agencies" title={whiteLabel.headline} intro={whiteLabel.intro}>
         <CtaLink href={site.bookingUrl} arrow>Book a partner call</CtaLink>
         <CtaLink href="#pricing" variant="outline">See partner pricing</CtaLink>

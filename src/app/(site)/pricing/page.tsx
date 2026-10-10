@@ -1,15 +1,21 @@
 import type { Metadata } from "next";
+import { faqs } from "@/lib/site";
+import { breadcrumbJsonLd, faqJsonLd, pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/site/json-ld";
 import { Faq, FinalCta, PlanGrid } from "@/components/site/blocks";
 import { PageHero, Section } from "@/components/site/section";
 
-export const metadata: Metadata = {
-  title: "Pricing",
-  description: "Transparent Meta ads management pricing for Australian ecommerce brands. Creative included, month-to-month.",
-};
+export const metadata: Metadata = pageMetadata({
+  title: "Meta ads management pricing for Australian ecommerce brands",
+  description:
+    "Transparent Meta ads management pricing for Australian ecommerce brands. Creative included, month-to-month.",
+  path: "/pricing",
+});
 
 export default function PricingPage() {
   return (
     <>
+      <JsonLd data={[faqJsonLd(faqs), breadcrumbJsonLd([{ name: "Pricing", path: "/pricing" }])]} />
       <PageHero
         eyebrow="Pricing"
         title="Prices you can see without booking a call."

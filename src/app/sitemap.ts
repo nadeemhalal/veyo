@@ -3,7 +3,10 @@ import { industries, site } from "@/lib/site";
 import { getAllPosts } from "@/lib/posts";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const paths = [
+  // Bump this when site copy changes materially. Posts use their own date.
+  const siteUpdated = new Date("2026-10-10");
+  const posts = getAllPosts();
+  const pages = [
     "",
     "/services/meta-ads",
     "/services/creative",
@@ -18,7 +21,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/about",
     "/contact",
     ...industries.map((i) => `/industries/${i.slug}`),
-    ...getAllPosts().map((p) => `/insights/${p.slug}`),
-  ];
-  return paths.map((p) => ({ url: `${site.url}${p}`, changeFrequency: "monthly", priority: p === "" ? 1 : 0.7 }));
+  ].map((p) => ({
+    url: `${site.url}${p}`,
+    lastModified: siteUpdated,
+    changeFrequency: "monthly" as const,
+    priority: p === "" ? 1 : 0.7,
+  }));
+  const postEntries = posts.map((p) => ({
+    url: `${site.url}/insights/${p.slug}`,
+    lastModified: p.date,
+    changeFrequency: "yearly" as const,
+    priority: 0.6,
+  }));
+  return [...pages, ...postEntries];
 }

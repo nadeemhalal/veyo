@@ -1,7 +1,14 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { PageHero, Section } from "@/components/site/section";
 
-export const metadata: Metadata = { title: "Terms", robots: { index: false } };
+export const metadata: Metadata = pageMetadata({
+  title: "Terms",
+  description:
+    "The terms that apply when you use the Veyo Media website and services.",
+  path: "/terms",
+  noindex: true,
+});
 
 // DRAFT: have this reviewed by a lawyer before launch.
 export default function TermsPage() {
