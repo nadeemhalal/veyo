@@ -126,7 +126,10 @@ npm test
 ## Before launch (open items)
 
 - Cloudflare: redirect `www` to the apex domain and turn on "Always use HTTPS" (both still return 200).
-- Set up `hello@veyomedia.com` (Cloudflare Email Routing) and `@veyomedia` handles; check IP Australia class 35 for "Veyo".
+- Email is on **Zoho Mail (free plan)**, set up Oct 2026: MX and SPF point to Zoho, so don't add Cloudflare Email Routing.
+  Mailbox `nads@veyomedia.com` (alias `nadeem@`) is the address on the site; the free plan wouldn't take a `hello@` alias.
+  The plan is to move to Google Workspace later (switch MX/SPF to Google then).
+- Set up `@veyomedia` handles; check IP Australia class 35 for "Veyo".
 - Founder name, photo and story on `/about`; booking link (`NEXT_PUBLIC_BOOKING_URL`).
 - Real testimonials and case studies (with permission) in `src/lib/site.ts` (`published: true` only when ready).
 - Lawyer review of `/privacy` and `/terms`; fill in the storage region; business registration number in the footer.

@@ -89,7 +89,7 @@ Audit and BFCM form submissions are saved to the `audit_requests` table in Supab
 
 ## Before launch
 
-- [ ] Set up `hello@veyomedia.com` and `NEXT_PUBLIC_BOOKING_URL`.
+- [ ] Set `NEXT_PUBLIC_BOOKING_URL`.
 - [ ] Add founder name, photo and story on `/about`.
 - [ ] Case studies: fill in real figures in `src/lib/site.ts` and set `published: true` only with client permission and evidence.
 - [ ] Every number in `stats` must be backed by Ads Manager + store data for the same period (Australian Consumer Law).

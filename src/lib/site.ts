@@ -11,7 +11,7 @@ export const site = {
   tagline: "From meh to veyo!",
   description:
     "Meta ads for Australian ecommerce brands. Creative included, reported against your P&L, month-to-month. Your accounts stay yours.",
-  email: "hello@veyomedia.com", // TODO: set up once the domain is registered
+  email: "nads@veyomedia.com",
   bookingUrl: process.env.NEXT_PUBLIC_BOOKING_URL ?? "/contact",
   hours: "Mon–Fri, 9:30am–6pm AEST",
   base: "Colombo, Sri Lanka",

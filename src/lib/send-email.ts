@@ -1,5 +1,5 @@
 // Sends transactional email through Resend's HTTP API (https://resend.com/docs/api-reference/emails/send-email).
-// Needs RESEND_API_KEY (server-only, never NEXT_PUBLIC_) and EMAIL_FROM, e.g. "Veyo Media <hello@veyomedia.com>",
+// Needs RESEND_API_KEY (server-only, never NEXT_PUBLIC_) and EMAIL_FROM, e.g. "Veyo Media <nads@veyomedia.com>",
 // on a domain verified in Resend.
 
 export type SendResult = { ok: true } | { ok: false; reason: "not_configured" | "failed" };
