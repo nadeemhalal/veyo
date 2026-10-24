@@ -29,7 +29,7 @@ export default function PrivacyPage() {
           <h2>Ad account access</h2>
           <p>We access ad accounts only through Meta Business Manager partner access that you grant and can remove at any time. We never ask for passwords.</p>
           <h2>Cookies and tracking</h2>
-          <p>We use Google Analytics to understand how visitors use this site (pages viewed, device type and approximate location). It uses cookies and sends this data to Google, with IP addresses anonymised. We also use Google Search Console, which reports search performance and doesn&apos;t place anything on your device. [Add any advertising pixels if you install them.]</p>
+          <p>We use Google Analytics to understand how visitors use this site (pages viewed, device type and approximate location). It uses cookies and sends this data to Google, with IP addresses anonymised. We also use Google Search Console, which reports search performance and doesn&apos;t place anything on your device. We use Hotjar (part of Contentsquare) to see how visitors move through our pages, through heatmaps and recordings of clicks, taps and scrolling. It uses cookies, and text typed into forms is hidden from the recordings. [Add any advertising pixels if you install them.]</p>
           <h2>Contact</h2>
           <p>Questions or requests to access or delete your data: {site.email}.</p>
         </div>
