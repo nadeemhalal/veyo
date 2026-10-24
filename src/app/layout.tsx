@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Instrument_Sans } from "next/font/google";
 import { site } from "@/lib/site";
 import { ogImage } from "@/lib/seo";
-import { Analytics } from "@/components/site/analytics";
+import { Analytics, TagManagerNoScript } from "@/components/site/analytics";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -55,6 +55,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en-AU" className={`${geistSans.variable} ${geistMono.variable} ${logoFont.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
+        <TagManagerNoScript />
         {children}
         <Analytics />
       </body>

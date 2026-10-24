@@ -88,7 +88,8 @@ npm test
   Bump `siteUpdated` in `src/app/sitemap.ts` when copy changes materially.
 - **Analytics:** GA4 via `src/components/site/analytics.tsx`, on only when `NEXT_PUBLIC_GA_MEASUREMENT_ID` is set
   at build time and never in dev. It uses plain `<script>` tags because `next/script` injects nothing under vinext.
-  Hotjar (Contentsquare tag `ccc990384f471`) loads from the same component, production only.
+  Hotjar (Contentsquare tag `ccc990384f471`) and Google Tag Manager (`GTM-PPW69ZKV`) load from the same component,
+  production only. GA4 is loaded directly, so never add a GA4 tag inside GTM (it would double-count).
   Search Console is verified by DNS (domain property), so no code is involved.
 - Tests cover backend logic only (form validation, lead mapping, blog frontmatter, checklist scoring, email builder).
 
