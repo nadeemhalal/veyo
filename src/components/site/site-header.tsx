@@ -2,13 +2,18 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ChevronDown, Menu, X } from "lucide-react";
-import { nav } from "@/lib/site";
+import { nav, sriLankaNav, type NavItem } from "@/lib/site";
 import { Logo } from "./logo";
 import { CtaLink } from "./cta-link";
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  // Sri Lankan pages have their own review form (rupee budgets), so the button points there.
+  const sriLanka = usePathname().startsWith("/sri-lanka");
+  const items: readonly NavItem[] = sriLanka ? sriLankaNav : nav;
+  const cta = sriLanka ? { href: "#review", label: "Get a free ad review" } : { href: "/services/audit", label: "Get a free ad audit" };
 
   return (
     <header className="sticky top-0 z-40 border-b bg-background/90 backdrop-blur">
@@ -17,16 +22,16 @@ export function SiteHeader() {
 
         <nav aria-label="Main" className="hidden lg:block">
           <ul className="flex items-center gap-1">
-            {nav.map((item) => (
+            {items.map((item) => (
               <li key={item.label} className="group relative">
                 <Link
                   href={item.href}
                   className="inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium text-foreground/80 hover:text-foreground"
                 >
                   {item.label}
-                  {"children" in item && <ChevronDown className="size-3.5" aria-hidden="true" />}
+                  {item.children && <ChevronDown className="size-3.5" aria-hidden="true" />}
                 </Link>
-                {"children" in item && (
+                {item.children && (
                   <ul className="invisible absolute left-0 top-full min-w-56 rounded-lg border bg-popover p-2 opacity-0 shadow-lg transition group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
                     {item.children.map((child) => (
                       <li key={child.href}>
@@ -43,8 +48,8 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <CtaLink href="/services/audit" className="hidden h-10 sm:inline-flex">
-            Get a free ad audit
+          <CtaLink href={cta.href} className="hidden h-10 sm:inline-flex">
+            {cta.label}
           </CtaLink>
           <button
             type="button"
@@ -62,12 +67,12 @@ export function SiteHeader() {
       {open && (
         <nav id="mobile-nav" aria-label="Mobile" className="border-t lg:hidden">
           <ul className="mx-auto max-w-6xl space-y-1 px-4 py-4 sm:px-6">
-            {nav.map((item) => (
+            {items.map((item) => (
               <li key={item.label}>
                 <Link href={item.href} className="block rounded-md px-3 py-2 font-medium hover:bg-muted" onClick={() => setOpen(false)}>
                   {item.label}
                 </Link>
-                {"children" in item && (
+                {item.children && (
                   <ul className="ml-3 border-l pl-3">
                     {item.children.map((child) => (
                       <li key={child.href}>
@@ -81,8 +86,8 @@ export function SiteHeader() {
               </li>
             ))}
             <li className="pt-2">
-              <CtaLink href="/services/audit" className="w-full">
-                Get a free ad audit
+              <CtaLink href={cta.href} className="w-full">
+                {cta.label}
               </CtaLink>
             </li>
           </ul>

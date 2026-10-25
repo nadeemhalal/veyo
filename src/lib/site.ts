@@ -19,6 +19,8 @@ export const site = {
   whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "",
 } as const;
 
+export type NavItem = { label: string; href: string; children?: readonly { label: string; href: string }[] };
+
 export const nav = [
   {
     label: "Services",
@@ -45,6 +47,15 @@ export const nav = [
   { label: "Case studies", href: "/case-studies" },
   { label: "About", href: "/about" },
 ] as const;
+
+// Menu on the Sri Lankan pages: local links instead of the Australian services and A$ pricing.
+export const sriLankaNav: readonly NavItem[] = [
+  { label: "Online stores", href: "/sri-lanka" },
+  { label: "Tourism", href: "/sri-lanka/tourism" },
+  { label: "Pricing", href: "/sri-lanka#pricing" },
+  { label: "FAQ", href: "#faq" },
+  { label: "About", href: "/about" },
+];
 
 // White-label Meta ads for Australian agencies.
 export const whiteLabel = {
@@ -696,6 +707,8 @@ export const sriLankaEcom = {
     },
   ],
   trustPoints: ["Meta ads only", "Price on the page", "Month-to-month", "Your ad account stays yours"],
+  // The first-month creatives offer. Must stay true: 3 free in month one, then 1 a month included.
+  firstMonthOffer: "First month: 3 ad creatives free",
   // What we saw on Sri Lankan agency pages that rank for "Meta ads Sri Lanka" (October 2026).
   // Keep the "typical" column fair and hedged: it describes common patterns, not every agency.
   comparison: [
@@ -713,7 +726,8 @@ export const sriLankaEcom = {
     includes: [
       "Meta pixel and Conversions API set up to count real orders",
       "Campaign structure, audiences and budgets",
-      "3 new ad creatives every month, in English",
+      "3 ad creatives free in your first month, then 1 included every month (in English)",
+      "Need more? Add extra creatives, or send us your own photos and videos",
       "Weekly checks and optimisation",
       "Monthly report on spend, orders and cost per paid order, plus a call",
       "Month-to-month, 30 days' notice",
@@ -748,7 +762,11 @@ export const sriLankaEcom = {
     },
     {
       q: "What's in the first-time client price?",
-      a: "Everything in the Starter pack. You pay Rs 35,000 setup instead of Rs 50,000, and Rs 35,000 a month instead of Rs 45,000 for your first 3 months. From month four it's the regular Rs 45,000 a month. No lock-in either way.",
+      a: "Everything in the Starter pack. You pay Rs 35,000 setup instead of Rs 50,000, and Rs 35,000 a month instead of Rs 45,000 for your first 3 months. From month four it's the regular Rs 45,000 a month. Your first month also comes with 3 ad creatives free; after that, 1 a month is included. No lock-in either way.",
+    },
+    {
+      q: "Do you make the ad creatives?",
+      a: "Yes. Your first month comes with 3 ad creatives free, and after that 1 new creative a month is included. Want more? Extra creatives are an add-on, or you can send us your own product photos and videos and we'll turn them into ads.",
     },
     {
       q: "Do you make ads in Sinhala or Tamil?",

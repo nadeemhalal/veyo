@@ -2,19 +2,21 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import { bfcm } from "@/lib/site";
 
 // Site-wide BFCM bar. Hides itself after the campaign ends, even without a redeploy.
 export function AnnouncementBar() {
   const [expired, setExpired] = useState(false);
+  const sriLanka = usePathname().startsWith("/sri-lanka");
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- date check must run on the client
     setExpired(Date.now() >= new Date(bfcm.endsAt).getTime());
   }, []);
 
-  if (expired) return null;
+  if (expired || sriLanka) return null;
 
   return (
     <div className="bg-primary text-primary-foreground print:hidden">

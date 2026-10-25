@@ -19,6 +19,13 @@ const groups = [
     links: industries.map((i) => ({ label: i.name, href: `/industries/${i.slug}` })),
   },
   {
+    title: "Sri Lanka",
+    links: [
+      { label: "Meta ads for online stores", href: "/sri-lanka" },
+      { label: "Meta ads for tourism", href: "/sri-lanka/tourism" },
+    ],
+  },
+  {
     title: "Company",
     links: [
       { label: "About", href: "/about" },
@@ -32,7 +39,7 @@ const groups = [
 export function SiteFooter() {
   return (
     <footer className="border-t bg-muted/40">
-      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-4">
+      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-3 lg:grid-cols-5">
         <div className="space-y-3">
           <Logo />
           <p className="text-sm text-muted-foreground">{site.tagline} Meta ads for Australian ecommerce brands.</p>

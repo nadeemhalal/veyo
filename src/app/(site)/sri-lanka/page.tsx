@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Check, Globe, MapPin, X } from "lucide-react";
+import { Check, Gift, Globe, MapPin, X } from "lucide-react";
 import { faqJsonLd, pageMetadata } from "@/lib/seo";
 import { site, sriLankaEcom } from "@/lib/site";
 import { lkrSpendOptions } from "@/lib/audit-schema";
@@ -18,7 +18,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 export const metadata: Metadata = pageMetadata({
   title: "Meta ads in Sri Lanka for online stores",
   description:
-    "Facebook and Instagram ads (Meta ads) for Sri Lankan online stores selling islandwide or overseas. Click-to-WhatsApp, Pixel and Conversions API, counted on paid orders. Price on the page: Starter from Rs 35,000 a month.",
+    "Facebook and Instagram ads (Meta ads) for Sri Lankan online stores selling islandwide or overseas. From Rs 35,000 a month for new clients, month-to-month, with 3 ad creatives free in your first month.",
   path: "/sri-lanka",
 });
 
@@ -38,11 +38,16 @@ export default function SriLankaPage() {
               Meta ads for Sri Lankan online stores
             </p>
             <h1 className="font-heading text-4xl font-bold tracking-tight sm:text-6xl">
-              Islandwide delivery. Worldwide ambition.
+              Facebook and Instagram ads that bring orders, not just likes.
             </h1>
             <p className="mt-6 max-w-xl text-lg text-primary-foreground/80">
-              Facebook and Instagram ads for Sri Lankan brands selling across the island or overseas. Run from{" "}
-              {site.base.split(",")[0]} by a Meta ads specialist who&apos;s spent two years selling to Australian shoppers.
+              We run Meta ads for Sri Lankan online stores, selling islandwide or overseas.{" "}
+              <strong className="font-semibold text-primary-foreground">From {starter.monthly.firstTime} a month for new clients.</strong>{" "}
+              No contract.
+            </p>
+            <p className="mt-5 inline-flex items-center gap-2 rounded-lg border border-brand/40 bg-white/5 px-4 py-2.5 text-sm font-semibold">
+              <Gift className="size-4 text-brand" aria-hidden="true" />
+              {sriLankaEcom.firstMonthOffer}
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <CtaLink href="#review" variant="brand" arrow>
@@ -94,7 +99,7 @@ export default function SriLankaPage() {
       </Section>
 
       {/* Local and overseas */}
-      <Section id="markets" tone="muted" eyebrow="Two kinds of store" title="Selling here, selling abroad, or both">
+      <Section id="markets" tone="muted" eyebrow="Selling here, abroad, or both" title="Islandwide delivery. Worldwide ambition.">
         <div className="grid gap-6 lg:grid-cols-2">
           {sriLankaEcom.markets.map((m) => {
             const Icon = marketIcons[m.id];

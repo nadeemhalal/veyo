@@ -62,10 +62,10 @@ npm test
 
 - **All site copy lives in `src/lib/site.ts`** (stats, services, industries, plans, FAQs, white label, BFCM).
 - Route groups: `src/app/(site)/` has the full header/footer; `src/app/(landing)/` is minimal (no nav) for
-  ad landing pages: `/services/audit` and `/bfcm`. `src/app/(landing-lk)/` is the same minimal layout for Sri Lankan
-  businesses (shows "Colombo, Sri Lanka" instead of AEST hours): `/sri-lanka` (online stores, local and export, copy in
-  `sriLankaEcom`, Starter pack in LKR) and `/sri-lanka/tourism` (hotels, villas, tours, copy in `sriLankaTourism`).
-  Both are live (Oct 2026) but not in the main nav. The Starter first-time price must stay genuine (ACL / honest claims).
+  ad landing pages: `/services/audit` and `/bfcm`. The Sri Lanka pages live in `(site)` with the full nav (the header button and BFCM bar switch for
+  `/sri-lanka*` paths): `/sri-lanka` (online stores, local and export, copy in `sriLankaEcom`, Starter pack in LKR,
+  first month 3 creatives free then 1 a month included) and `/sri-lanka/tourism` (copy in `sriLankaTourism`).
+  The Starter first-time price and creatives offer must stay genuine (ACL / honest claims).
 - **Blog:** Markdown in `content/insights/*.md` with frontmatter (title, date, tag, excerpt, optional
   author/draft). Tags: Teardown, How-to, Compliance, Account lessons. Drafts only show in dev.
   The founder pastes posts in chat; Claude formats them into this folder, then commits and pushes.
