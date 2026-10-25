@@ -3,6 +3,8 @@
 import { scoreChecklist, type ChecklistResult } from "@/lib/audit-checklist";
 import { buildChecklistEmail } from "@/lib/checklist-email";
 import { checklistSubmissionSchema } from "@/lib/checklist-input";
+import { leadRequestContext } from "@/lib/lead-request";
+import { safeEventId, sendMetaLead } from "@/lib/meta-capi";
 import { emailConfigured, sendEmail } from "@/lib/send-email";
 import { site } from "@/lib/site";
 import { getSupabase } from "@/lib/supabase";
@@ -35,6 +37,13 @@ export async function viewChecklistResult(input: unknown): Promise<ViewResultSta
     } else {
       console.error("[checklist] Supabase env vars missing; result not saved");
     }
+    await sendMetaLead({
+      eventId: safeEventId(data.eventId),
+      email: data.email,
+      name: data.name,
+      source: "checklist",
+      ...(await leadRequestContext()),
+    });
   }
   return { ok: true, result };
 }

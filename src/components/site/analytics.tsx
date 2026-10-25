@@ -1,8 +1,13 @@
-// Site analytics: Hotjar and Google Tag Manager always, Google Analytics 4 once NEXT_PUBLIC_GA_MEASUREMENT_ID
-// is set (a build-time variable). None of them load in development, so local traffic stays out of the reports.
+// Site analytics: Hotjar and Google Tag Manager always; Google Analytics 4 and the Meta pixel once
+// NEXT_PUBLIC_GA_MEASUREMENT_ID / NEXT_PUBLIC_META_PIXEL_ID are set (build-time variables).
+// None of them load in development, so local traffic stays out of the reports.
 //
 // Plain <script> tags on purpose: next/script injected nothing under vinext on Cloudflare Workers.
 const measurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+
+// Meta pixel. Leads are also sent server-side (src/lib/meta-capi.ts) with the same event id, so don't add
+// a Meta pixel tag in GTM as well.
+const pixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID;
 
 // Google Tag Manager container. GA4 is loaded directly below, so don't also add a GA4 tag inside GTM
 // or every page view is counted twice.
@@ -23,8 +28,15 @@ export function Analytics() {
       />
       <script defer src={contentsquareTag} />
       <GoogleAnalytics />
+      <MetaPixel />
     </>
   );
+}
+
+function MetaPixel() {
+  if (!pixelId) return null;
+  const init = `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','${pixelId}');fbq('track','PageView');`;
+  return <script dangerouslySetInnerHTML={{ __html: init }} />;
 }
 
 function GoogleAnalytics() {

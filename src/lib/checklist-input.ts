@@ -18,6 +18,8 @@ export const checklistSubmissionSchema = checklistContactSchema.extend({
   marketingOptIn: z.boolean().default(false),
   // Honeypot: bots fill it, people don't.
   company: z.string().max(200).optional(),
+  // Shared with the browser pixel so Meta counts the lead once. Checked again before sending.
+  eventId: z.string().max(64).optional().catch(undefined),
 });
 
 export type ChecklistSubmission = z.infer<typeof checklistSubmissionSchema>;

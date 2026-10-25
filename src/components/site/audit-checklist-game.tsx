@@ -9,6 +9,7 @@ import { contactFieldErrors, type ChecklistContact } from "@/lib/checklist-input
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+import { newEventId, trackLead } from "@/lib/track";
 
 type Step = "contact" | "audit" | "results";
 const STORAGE_KEY = "veyo-audit-progress-v1";
@@ -93,9 +94,11 @@ export function AuditChecklistGame() {
   function viewResults() {
     setViewError(null);
     startViewing(async () => {
-      const res = await viewChecklistResult(payload());
+      const eventId = newEventId();
+      const res = await viewChecklistResult({ ...payload(), eventId });
       if (res.ok) {
         setResult(res.result);
+        trackLead("checklist", eventId);
         setEmailState(null);
         setStep("results");
         document.getElementById("audit-top")?.scrollIntoView({ behavior: "smooth", block: "start" });
