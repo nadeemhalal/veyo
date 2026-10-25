@@ -2,6 +2,8 @@
 
 import { parseAuditForm, type AuditFormState } from "@/lib/audit-schema";
 import { saveAuditRequest } from "@/lib/audit-store";
+import { leadRequestContext } from "@/lib/lead-request";
+import { safeEventId, sendMetaLead } from "@/lib/meta-capi";
 import { site } from "@/lib/site";
 
 export async function submitAudit(
@@ -26,9 +28,19 @@ export async function submitAudit(
     };
   }
 
+  await sendMetaLead({
+    eventId: safeEventId(parsed.data.eventId),
+    email: parsed.data.email,
+    name: parsed.data.name,
+    source: parsed.data.source,
+    ...(await leadRequestContext()),
+  });
+
   const message =
     parsed.data.source === "bfcm"
       ? "Thanks! We'll review your store and reply within one business day."
-      : "Got it! Your roast (the nice kind) lands within 2 business days.";
+      : parsed.data.source.startsWith("sri-lanka")
+        ? "Thank you! Your free ad review will reach you within 2 business days."
+        : "Got it! Your roast (the nice kind) lands within 2 business days.";
   return { status: "success", message };
 }

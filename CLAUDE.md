@@ -62,7 +62,10 @@ npm test
 
 - **All site copy lives in `src/lib/site.ts`** (stats, services, industries, plans, FAQs, white label, BFCM).
 - Route groups: `src/app/(site)/` has the full header/footer; `src/app/(landing)/` is minimal (no nav) for
-  ad landing pages: `/services/audit` and `/bfcm`.
+  ad landing pages: `/services/audit` and `/bfcm`. `src/app/(landing-lk)/` is the same minimal layout for Sri Lankan
+  businesses (shows "Colombo, Sri Lanka" instead of AEST hours): `/sri-lanka` (online stores, local and export, copy in
+  `sriLankaEcom`, Starter pack in LKR) and `/sri-lanka/tourism` (hotels, villas, tours, copy in `sriLankaTourism`).
+  Both are live (Oct 2026) but not in the main nav. The Starter first-time price must stay genuine (ACL / honest claims).
 - **Blog:** Markdown in `content/insights/*.md` with frontmatter (title, date, tag, excerpt, optional
   author/draft). Tags: Teardown, How-to, Compliance, Account lessons. Drafts only show in dev.
   The founder pastes posts in chat; Claude formats them into this folder, then commits and pushes.
@@ -90,6 +93,11 @@ npm test
   at build time and never in dev. It uses plain `<script>` tags because `next/script` injects nothing under vinext.
   Hotjar (Contentsquare tag `ccc990384f471`) and Google Tag Manager (`GTM-PPW69ZKV`) load from the same component,
   production only. GA4 is loaded directly, so never add a GA4 tag inside GTM (it would double-count).
+- **Meta tracking:** the pixel loads from the same component once `NEXT_PUBLIC_META_PIXEL_ID` is set (PageView on
+  every page). Each lead (audit/BFCM/Sri Lanka form, checklist "View result") fires `trackLead()` in
+  `src/lib/track.ts` (pixel `Lead` + GA4 `generate_lead` + dataLayer), and the server sends the same `Lead` through
+  the Conversions API (`src/lib/meta-capi.ts`, token `META_CAPI_TOKEN` as a Worker secret) with the same event id,
+  so Meta deduplicates. Never add a Meta pixel tag inside GTM.
   Search Console is verified by DNS (domain property), so no code is involved.
 - Tests cover backend logic only (form validation, lead mapping, blog frontmatter, checklist scoring, email builder).
 

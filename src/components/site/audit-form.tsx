@@ -1,12 +1,13 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useRef } from "react";
 import { CheckCircle2 } from "lucide-react";
 import { submitAudit } from "@/app/actions/audit";
 import { spendOptions, type AuditFormState } from "@/lib/audit-schema";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { newEventId, trackLead } from "@/lib/track";
 import { cn } from "@/lib/utils";
 
 const initialState: AuditFormState = { status: "idle", message: "" };
@@ -16,14 +17,26 @@ export function AuditForm({
   compact = false,
   source = "website",
   submitLabel = "Roast my ads (nicely)",
+  urlLabel = "Store URL",
+  urlPlaceholder = "yourbrand.com.au",
+  spendChoices = spendOptions,
 }: {
   className?: string;
   compact?: boolean;
   source?: string;
   submitLabel?: string;
+  urlLabel?: string;
+  urlPlaceholder?: string;
+  spendChoices?: readonly string[];
 }) {
   const [state, formAction, pending] = useActionState(submitAudit, initialState);
   const err = state.fieldErrors ?? {};
+  // A fresh id per send, shared by the browser pixel and the server's Conversions API call.
+  const eventId = useRef("");
+
+  useEffect(() => {
+    if (state.status === "success") trackLead(source, eventId.current);
+  }, [state, source]);
 
   if (state.status === "success") {
     return (
@@ -38,15 +51,22 @@ export function AuditForm({
   }
 
   return (
-    <form action={formAction} noValidate className={cn("space-y-4 rounded-xl border bg-card p-6 text-card-foreground shadow-sm sm:p-8", className)}>
+    <form
+      action={formAction}
+      onSubmit={(e) => {
+        // Runs before React reads the form data, so the server gets the same id.
+        eventId.current = newEventId();
+        (e.currentTarget.elements.namedItem("eventId") as HTMLInputElement).value = eventId.current;
+      }}
+      noValidate className={cn("space-y-4 rounded-xl border bg-card p-6 text-card-foreground shadow-sm sm:p-8", className)}>
       <Field id="name" label="Your name" error={err.name}>
         <Input id="name" name="name" autoComplete="name" required aria-invalid={!!err.name} className="h-11" />
       </Field>
       <Field id="email" label="Work email" error={err.email}>
         <Input id="email" name="email" type="email" autoComplete="email" required aria-invalid={!!err.email} className="h-11" />
       </Field>
-      <Field id="storeUrl" label="Store URL" error={err.storeUrl}>
-        <Input id="storeUrl" name="storeUrl" inputMode="url" placeholder="yourbrand.com.au" required aria-invalid={!!err.storeUrl} className="h-11" />
+      <Field id="storeUrl" label={urlLabel} error={err.storeUrl}>
+        <Input id="storeUrl" name="storeUrl" inputMode="url" placeholder={urlPlaceholder} required aria-invalid={!!err.storeUrl} className="h-11" />
       </Field>
       <Field id="spend" label="Monthly Meta ad spend" error={err.spend}>
         <select
@@ -60,7 +80,7 @@ export function AuditForm({
           <option value="" disabled>
             Choose one
           </option>
-          {spendOptions.map((o) => (
+          {spendChoices.map((o) => (
             <option key={o} value={o}>
               {o}
             </option>
@@ -74,6 +94,7 @@ export function AuditForm({
       )}
 
       <input type="hidden" name="source" value={source} />
+      <input type="hidden" name="eventId" defaultValue="" />
 
       {/* Honeypot: hidden from people, filled by bots */}
       <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">

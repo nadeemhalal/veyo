@@ -8,6 +8,24 @@ export const spendOptions = [
   "Not running ads yet",
 ] as const;
 
+// Sri Lankan tourism businesses (/sri-lanka) think about ad spend in US dollars.
+export const tourismSpendOptions = [
+  "Under US$300/month",
+  "US$300–1,000/month",
+  "US$1,000–5,000/month",
+  "US$5,000+/month",
+  "Not running ads yet",
+] as const;
+
+// Sri Lankan online stores (/sri-lanka) spend in rupees.
+export const lkrSpendOptions = [
+  "Under Rs 50,000/month",
+  "Rs 50,000–150,000/month",
+  "Rs 150,000–500,000/month",
+  "Rs 500,000+/month",
+  "Not running ads yet",
+] as const;
+
 export const auditSchema = z.object({
   name: z.string().trim().min(2, "Please enter your name").max(100),
   email: z.email("Please enter a valid email").max(200),
@@ -18,7 +36,7 @@ export const auditSchema = z.object({
     .max(300)
     .transform((v) => (/^https?:\/\//i.test(v) ? v : `https://${v}`))
     .pipe(z.url("Please enter a valid URL")),
-  spend: z.enum(spendOptions, { error: "Please choose your monthly ad spend" }),
+  spend: z.enum([...spendOptions, ...tourismSpendOptions, ...lkrSpendOptions], { error: "Please choose your monthly ad spend" }),
   message: z.string().trim().max(2000).optional().default(""),
   // Which page or campaign the lead came from, e.g. "audit" or "bfcm".
   source: z
@@ -27,6 +45,8 @@ export const auditSchema = z.object({
     .regex(/^[a-z0-9-]{1,40}$/)
     .catch("website")
     .default("website"),
+  // Shared with the browser pixel so Meta counts the lead once. Checked again before sending.
+  eventId: z.string().max(64).optional().catch(undefined),
 });
 
 export type AuditInput = z.infer<typeof auditSchema>;
