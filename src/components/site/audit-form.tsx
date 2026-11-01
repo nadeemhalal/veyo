@@ -20,6 +20,8 @@ export function AuditForm({
   urlLabel = "Store URL",
   urlPlaceholder = "yourbrand.com.au",
   spendChoices = spendOptions,
+  askWhatsapp = false,
+  success,
 }: {
   className?: string;
   compact?: boolean;
@@ -28,6 +30,10 @@ export function AuditForm({
   urlLabel?: string;
   urlPlaceholder?: string;
   spendChoices?: readonly string[];
+  /** Ask for a WhatsApp number (required), for pages where we follow up on WhatsApp. */
+  askWhatsapp?: boolean;
+  /** Shown under the thank-you line instead of the default note, e.g. next steps for a booking. */
+  success?: React.ReactNode;
 }) {
   const [state, formAction, pending] = useActionState(submitAudit, initialState);
   const err = state.fieldErrors ?? {};
@@ -40,12 +46,14 @@ export function AuditForm({
 
   if (state.status === "success") {
     return (
-      <div className={cn("rounded-xl border bg-card p-8 text-center", className)} role="status">
-        <CheckCircle2 className="mx-auto mb-3 size-10 text-primary" aria-hidden="true" />
+      <div className={cn("rounded-xl border bg-card p-8", success ? "text-left" : "text-center", className)} role="status">
+        <CheckCircle2 className={cn("mb-3 size-10 text-primary", !success && "mx-auto")} aria-hidden="true" />
         <p className="text-lg font-semibold">{state.message}</p>
-        <p className="mt-2 text-sm text-muted-foreground">
-          We&apos;ll email you to set up Business Manager partner access. We never ask for passwords.
-        </p>
+        {success ?? (
+          <p className="mt-2 text-sm text-muted-foreground">
+            We&apos;ll email you to set up Business Manager partner access. We never ask for passwords.
+          </p>
+        )}
       </div>
     );
   }
@@ -65,6 +73,21 @@ export function AuditForm({
       <Field id="email" label="Work email" error={err.email}>
         <Input id="email" name="email" type="email" autoComplete="email" required aria-invalid={!!err.email} className="h-11" />
       </Field>
+      {askWhatsapp && (
+        <Field id="whatsapp" label="WhatsApp number" error={err.whatsapp}>
+          <Input
+            id="whatsapp"
+            name="whatsapp"
+            type="tel"
+            inputMode="tel"
+            autoComplete="tel"
+            placeholder="07X XXX XXXX"
+            required
+            aria-invalid={!!err.whatsapp}
+            className="h-11"
+          />
+        </Field>
+      )}
       <Field id="storeUrl" label={urlLabel} error={err.storeUrl}>
         <Input id="storeUrl" name="storeUrl" inputMode="url" placeholder={urlPlaceholder} required aria-invalid={!!err.storeUrl} className="h-11" />
       </Field>

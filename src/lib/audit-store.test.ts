@@ -8,6 +8,7 @@ const data = {
   spend: "A$1k–5k/month" as const,
   message: "",
   source: "bfcm",
+  whatsapp: "",
 };
 
 describe("toAuditRow", () => {
@@ -24,6 +25,11 @@ describe("toAuditRow", () => {
 
   it("keeps a non-empty message", () => {
     expect(toAuditRow({ ...data, message: "Hi" }).additional_info).toBe("Hi");
+  });
+
+  it("puts the WhatsApp number at the top of additional_info", () => {
+    expect(toAuditRow({ ...data, whatsapp: "077 123 4567" }).additional_info).toBe("WhatsApp: 077 123 4567");
+    expect(toAuditRow({ ...data, whatsapp: "077 123 4567", message: "Hi" }).additional_info).toBe("WhatsApp: 077 123 4567\n\nHi");
   });
 });
 

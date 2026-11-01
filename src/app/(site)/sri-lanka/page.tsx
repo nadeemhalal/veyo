@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Check, Gift, Globe, MapPin, X } from "lucide-react";
+import { Check, Gift, Globe, MapPin, MessageCircle, X } from "lucide-react";
 import { faqJsonLd, pageMetadata } from "@/lib/seo";
-import { site, sriLankaEcom } from "@/lib/site";
+import { q4Sprint, site, sriLankaEcom } from "@/lib/site";
 import { lkrSpendOptions } from "@/lib/audit-schema";
 import { AdMakeover } from "@/components/site/ad-makeover";
+import { BlackFridayBanner } from "@/components/site/black-friday-banner";
 import { AuditForm } from "@/components/site/audit-form";
 import { StatsRow } from "@/components/site/blocks";
 import { CodCalculator } from "@/components/site/cod-calculator";
@@ -18,75 +19,28 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 export const metadata: Metadata = pageMetadata({
   title: "Meta ads in Sri Lanka for online stores",
   description:
-    "Facebook and Instagram ads (Meta ads) for Sri Lankan online stores selling islandwide or overseas. From Rs 35,000 a month for new clients, month-to-month, with 3 ad creatives free in your first month.",
+    "Facebook and Instagram ads (Meta ads) for Sri Lankan online stores. Q4 Sprint for Black Friday and Christmas: live in 24 hours, 3 ad creatives free, 3 weeks for Rs 75,000. Or the Starter plan from Rs 35,000 a month.",
   path: "/sri-lanka",
 });
 
 const marketIcons = { local: MapPin, overseas: Globe };
 const { starter, custom } = sriLankaEcom;
 
+// The Q4 offer shows until bookings close, then the page falls back to the everyday hero.
+// Pages are rendered per request, so this flips on its own without a redeploy.
+function sprintBookingsOpen() {
+  return Date.now() < Date.parse(q4Sprint.bookingClosesAt);
+}
+
 export default function SriLankaPage() {
+  const sprintOn = sprintBookingsOpen();
+
   return (
     <>
       <JsonLd data={faqJsonLd(sriLankaEcom.faqs)} />
 
-      {/* Hero */}
-      <section id="hero" className="border-b bg-primary text-primary-foreground">
-        <div className="mx-auto grid max-w-6xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1.2fr_1fr] lg:items-center lg:py-24">
-          <div>
-            <p className="mb-4 inline-flex rounded-full bg-brand px-3 py-1 text-sm font-semibold text-brand-foreground">
-              Meta ads for Sri Lankan online stores
-            </p>
-            <h1 className="font-heading text-4xl font-bold tracking-tight sm:text-6xl">
-              Facebook and Instagram ads that bring orders, not just likes.
-            </h1>
-            <p className="mt-6 max-w-xl text-lg text-primary-foreground/80">
-              We run Meta ads for Sri Lankan online stores, selling islandwide or overseas.{" "}
-              <strong className="font-semibold text-primary-foreground">From {starter.monthly.firstTime} a month for new clients.</strong>{" "}
-              No contract.
-            </p>
-            <p className="mt-5 inline-flex items-center gap-2 rounded-lg border border-brand/40 bg-white/5 px-4 py-2.5 text-sm font-semibold">
-              <Gift className="size-4 text-brand" aria-hidden="true" />
-              {sriLankaEcom.firstMonthOffer}
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <CtaLink href="#review" variant="brand" arrow>
-                Get my free ad review
-              </CtaLink>
-              <a
-                href="#pricing"
-                className="inline-flex h-11 items-center rounded-lg border border-white/30 px-5 text-sm font-semibold hover:bg-white/10"
-              >
-                See the Starter pack
-              </a>
-            </div>
-            <ul className="mt-8 flex flex-wrap gap-x-5 gap-y-2 text-sm text-primary-foreground/80">
-              {sriLankaEcom.trustPoints.map((t) => (
-                <li key={t} className="flex items-center gap-1.5">
-                  <Check className="size-4 text-brand" aria-hidden="true" />
-                  {t}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <ul className="space-y-3">
-            {sriLankaEcom.markets.map((m) => {
-              const Icon = marketIcons[m.id];
-              return (
-                <li key={m.id}>
-                  <a href={`#${m.id}`} className="flex gap-4 rounded-2xl border border-white/15 bg-white/5 p-5 transition-colors hover:bg-white/10">
-                    <Icon className="mt-0.5 size-6 shrink-0 text-brand" aria-hidden="true" />
-                    <div>
-                      <p className="font-heading font-semibold">{m.title}</p>
-                      <p className="mt-1 text-sm text-primary-foreground/80">{m.body}</p>
-                    </div>
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      </section>
+      {sprintOn ? <BlackFridayBanner /> : <EverydayHero />}
+      {sprintOn && <SprintDetails />}
 
       {/* Makeover */}
       <Section
@@ -331,21 +285,25 @@ export default function SriLankaPage() {
       </Section>
 
       {/* Review form */}
-      <section id="review" className="border-t py-16 sm:py-20">
+      <section id="review" className="scroll-mt-16 border-t py-16 sm:py-20">
         <div className="mx-auto max-w-xl px-4 sm:px-6">
-          <h2 className="text-center font-heading text-3xl font-bold tracking-tight">Get a free review of your ads</h2>
+          <h2 className="text-center font-heading text-3xl font-bold tracking-tight">
+            {sprintOn ? `Book your ${q4Sprint.name}` : "Get a free review of your ads"}
+          </h2>
           <p className="mt-3 text-center text-muted-foreground">
-            A free video walkthrough of your ads and the page they lead to, with three fixes you can use even if you never
-            hire us. Not running ads yet? We&apos;ll look at your store and where to start. Want a quote instead? Say so in
-            the notes.
+            {sprintOn
+              ? `${q4Sprint.replyPromise} Book by ${q4Sprint.bookBy}. Rather start with the free ad review, or the Starter plan? Say so in the notes.`
+              : "A free video walkthrough of your ads and the page they lead to, with three fixes you can use even if you never hire us. Not running ads yet? We'll look at your store and where to start. Want a quote instead? Say so in the notes."}
           </p>
           <AuditForm
             className="mt-8"
-            source="sri-lanka"
-            submitLabel="Get my free ad review"
+            source={sprintOn ? "sri-lanka-q4" : "sri-lanka"}
+            submitLabel={sprintOn ? `Book my ${q4Sprint.name}` : "Get my free ad review"}
             urlLabel="Website, Facebook or Instagram page"
             urlPlaceholder="yourstore.lk"
             spendChoices={lkrSpendOptions}
+            askWhatsapp={sprintOn}
+            success={sprintOn ? <SprintNextSteps /> : undefined}
           />
           {site.whatsapp && (
             <p className="mt-6 text-center text-sm text-muted-foreground">
@@ -364,5 +322,147 @@ export default function SriLankaPage() {
         </div>
       </section>
     </>
+  );
+}
+
+function EverydayHero() {
+  return (
+      <section id="hero" className="border-b bg-primary text-primary-foreground">
+        <div className="mx-auto grid max-w-6xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1.2fr_1fr] lg:items-center lg:py-24">
+          <div>
+            <p className="mb-4 inline-flex rounded-full bg-brand px-3 py-1 text-sm font-semibold text-brand-foreground">
+              Meta ads for Sri Lankan online stores
+            </p>
+            <h1 className="font-heading text-4xl font-bold tracking-tight sm:text-6xl">
+              Facebook and Instagram ads that bring orders, not just likes.
+            </h1>
+            <p className="mt-6 max-w-xl text-lg text-primary-foreground/80">
+              We run Meta ads for Sri Lankan online stores, selling islandwide or overseas.{" "}
+              <strong className="font-semibold text-primary-foreground">From {starter.monthly.firstTime} a month for new clients.</strong>{" "}
+              No contract.
+            </p>
+            <p className="mt-5 inline-flex items-center gap-2 rounded-lg border border-brand/40 bg-white/5 px-4 py-2.5 text-sm font-semibold">
+              <Gift className="size-4 text-brand" aria-hidden="true" />
+              {sriLankaEcom.firstMonthOffer}
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <CtaLink href="#review" variant="brand" arrow>
+                Get my free ad review
+              </CtaLink>
+              <a
+                href="#pricing"
+                className="inline-flex h-11 items-center rounded-lg border border-white/30 px-5 text-sm font-semibold hover:bg-white/10"
+              >
+                See the Starter pack
+              </a>
+            </div>
+            <ul className="mt-8 flex flex-wrap gap-x-5 gap-y-2 text-sm text-primary-foreground/80">
+              {sriLankaEcom.trustPoints.map((t) => (
+                <li key={t} className="flex items-center gap-1.5">
+                  <Check className="size-4 text-brand" aria-hidden="true" />
+                  {t}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <ul className="space-y-3">
+            {sriLankaEcom.markets.map((m) => {
+              const Icon = marketIcons[m.id];
+              return (
+                <li key={m.id}>
+                  <a href={`#${m.id}`} className="flex gap-4 rounded-2xl border border-white/15 bg-white/5 p-5 transition-colors hover:bg-white/10">
+                    <Icon className="mt-0.5 size-6 shrink-0 text-brand" aria-hidden="true" />
+                    <div>
+                      <p className="font-heading font-semibold">{m.title}</p>
+                      <p className="mt-1 text-sm text-primary-foreground/80">{m.body}</p>
+                    </div>
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </section>
+  );
+}
+
+function SprintDetails() {
+  return (
+    <Section
+      id="sprint"
+      eyebrow={`${q4Sprint.name}: three weeks, one price, Black Friday covered`}
+      title={q4Sprint.headline}
+    >
+      <div className="grid gap-10 lg:grid-cols-[1.3fr_1fr]">
+        <ol className="space-y-4">
+          {q4Sprint.timeline.map((t) => (
+            <li key={t.when} className="flex gap-4 rounded-xl border bg-card p-5">
+              <span className="w-28 shrink-0 font-mono text-sm font-semibold text-primary">{t.when}</span>
+              <div>
+                <h3 className="font-heading font-semibold">{t.title}</h3>
+                <p className="mt-1 text-sm text-muted-foreground">{t.body}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+        <div className="h-fit rounded-xl border-2 border-primary bg-card p-6 sm:p-8">
+          <p className="text-sm font-semibold text-muted-foreground">{q4Sprint.name}</p>
+          <p className="mt-2 font-mono text-4xl font-bold tracking-tight">{q4Sprint.price}</p>
+          <p className="text-sm text-muted-foreground">{q4Sprint.priceNote}</p>
+          <ul className="my-6 space-y-3 text-sm">
+            {q4Sprint.includes.map((i) => (
+              <li key={i} className="flex gap-2">
+                <Check className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />
+                {i}
+              </li>
+            ))}
+          </ul>
+          <CtaLink href="#review" className="w-full" arrow>
+            Book my {q4Sprint.name}
+          </CtaLink>
+        </div>
+      </div>
+      <div id="terms" className="mt-8 scroll-mt-20 rounded-xl bg-muted/60 p-5 text-sm text-muted-foreground">
+        <p className="font-semibold text-foreground">T&amp;Cs</p>
+        <ul className="mt-2 space-y-1.5">
+          {q4Sprint.terms.map((t) => (
+            <li key={t}>{t}</li>
+          ))}
+        </ul>
+      </div>
+    </Section>
+  );
+}
+
+// Thank-you screen after a Q4 Sprint booking: what happens next, and a quick way to message us.
+function SprintNextSteps() {
+  return (
+    <div className="mt-4">
+      <p className="text-sm font-semibold">What happens next</p>
+      <ol className="mt-3 space-y-3 text-sm">
+        {q4Sprint.nextSteps.map((step, i) => (
+          <li key={step} className="flex gap-3">
+            <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-primary font-mono text-xs font-semibold text-primary-foreground">
+              {i + 1}
+            </span>
+            <span className="pt-0.5">{step}</span>
+          </li>
+        ))}
+      </ol>
+      <p className="mt-4 text-xs text-muted-foreground">
+        {q4Sprint.lateNote} *See the <a href="#terms" className="underline underline-offset-2">T&amp;Cs</a> for when the 24 hours start.
+      </p>
+      {site.whatsapp && (
+        <a
+          href={`https://wa.me/${site.whatsapp}?text=${encodeURIComponent(q4Sprint.whatsappText)}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-5 inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#25D366] px-5 text-sm font-semibold text-[#08311a] hover:bg-[#25D366]/90"
+        >
+          <MessageCircle className="size-4" aria-hidden="true" />
+          Message us on WhatsApp now
+        </a>
+      )}
+    </div>
   );
 }

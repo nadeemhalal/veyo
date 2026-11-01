@@ -15,8 +15,10 @@ export const site = {
   bookingUrl: process.env.NEXT_PUBLIC_BOOKING_URL ?? "/contact",
   hours: "Mon–Fri, 9:30am–6pm AEST",
   base: "Colombo, Sri Lanka",
-  // Digits only, with country code (e.g. 9477xxxxxxx). The WhatsApp button on /sri-lanka shows only when set.
-  whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "",
+  // Veyo's WhatsApp Business number: digits only, with country code. Used on the Sri Lanka pages.
+  whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "94785556938",
+  // Veyo's Meta Business ID. Clients add it as a partner to give us access to their ad account and page.
+  metaBusinessId: "1585080676272311",
 } as const;
 
 export type NavItem = { label: string; href: string; children?: readonly { label: string; href: string }[] };
@@ -792,5 +794,61 @@ export const sriLankaEcom = {
       q: "Who owns the ad account?",
       a: "You do, always. We work through Meta Business Manager partner access and never ask for your login or password.",
     },
+  ],
+} as const;
+
+// Q4 Sprint for Sri Lankan online stores (/sri-lanka). Fixed fee, 3 weeks from launch, covering Black Friday.
+// The page switches back to the normal hero after `bookingClosesAt`. Everything here must stay true:
+// the price, the free creatives, the booking deadline and the 24-hour promise (with its conditions).
+export const q4Sprint = {
+  name: "Q4 Sprint",
+  price: "Rs 75,000",
+  priceNote: "fixed fee for the 3 weeks",
+  bookBy: "14 November",
+  // End of 14 November, Sri Lanka time.
+  bookingClosesAt: "2026-11-15T00:00:00+05:30",
+  headline: "Let's make Q4 your biggest quarter ever.",
+  // The Black Friday banner (founder's design). The CTA wording is the founder's choice; "today" sits next to the
+  // 24-hour asterisk and the T&Cs, so keep both visible.
+  bannerLabel: "Facebook + Instagram ads",
+  bannerEnds: "Ends 14 Nov",
+  bannerHeadline: "Get your Black Friday ads live in 24 hours",
+  bannerCta: "Run your ad today",
+  // After booking: shown on the thank-you screen. Reply-time promise: within 2 hours, 9am–9pm Sri Lanka time.
+  replyPromise: "We'll WhatsApp you within 2 hours (9am–9pm, Sri Lanka time) to confirm your spot.",
+  nextSteps: [
+    "We'll WhatsApp you within 2 hours (9am–9pm, Sri Lanka time) to confirm your spot.",
+    "Pay the Rs 75,000 fixed fee to lock it in. We'll send the payment details on WhatsApp.",
+    `Add Veyo Media as a partner in your Meta Business Manager using our Business ID, ${site.metaBusinessId} (Business settings → Partners → Add), and check your ad account has a payment method.`,
+    "Send us your product photos and your sale offer.",
+    "Your ads go live within 24 hours.*",
+  ],
+  lateNote: "Booked after 9pm? We'll message you from 9am.",
+  whatsappText: "Hi Veyo! I've just booked the Q4 Sprint for my store.",
+  intro:
+    "Facebook and Instagram ads for your Black Friday and Christmas sales. Live in 24 hours*, 3 ad creatives free, and 3 weeks of hands-on management for one fixed price.",
+  badges: ["Live in 24 hours*", "3 ad creatives free", "Runs for 3 weeks"],
+  includes: [
+    "Your sale plan in 24 hours: offer, audiences and budget split",
+    "Campaign live within 24 hours*",
+    "3 ad creatives free",
+    "Meta pixel and Conversions API set up, so sales are counted",
+    "3 weeks of management, with daily checks over Black Friday weekend",
+    "Final report on spend, orders and cost per paid order",
+    "Carry on with the Starter plan afterwards, with no setup fee",
+  ],
+  timeline: [
+    { when: "Day 1", title: "Book, pay and give us access", body: "Pay the fixed fee, then give us access to your Business Manager, Facebook page and Instagram, with a payment method on your ad account." },
+    { when: "Within 24 hours", title: "Plan and launch*", body: "Your sale plan, 3 free creatives and the campaign live." },
+    { when: "Week 1", title: "Warm up", body: "Build audiences of people who know your store before the sale starts." },
+    { when: "27–30 November", title: "Black Friday weekend", body: "Daily checks on budgets and ads while it matters most." },
+    { when: "End of week 3", title: "Report", body: "Spend, orders and cost per paid order, plus what to do next." },
+  ],
+  terms: [
+    "*The 24 hours start once we've received your payment and have access to your Business Manager, Facebook page and Instagram, a payment method on your ad account, and your product photos and sale offer.",
+    "The fixed fee is paid before your ads go live.",
+    "Meta's ad review usually takes minutes but can occasionally take longer. That time isn't counted.",
+    "Ad spend is paid directly to Meta and isn't included in the fee. We suggest at least Rs 75,000 over the 3 weeks.",
+    "Book by 14 November so the 3 weeks cover Black Friday (27 November).",
   ],
 } as const;

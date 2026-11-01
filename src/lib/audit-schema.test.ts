@@ -57,4 +57,19 @@ describe("parseAuditForm", () => {
       expect(Object.keys(result.fieldErrors).sort()).toEqual(["email", "name", "spend", "storeUrl"]);
     }
   });
+
+  it("requires a WhatsApp number on the Q4 booking form", () => {
+    const missing = parseAuditForm({ ...valid, spend: "Rs 50,000–150,000/month", source: "sri-lanka-q4" });
+    expect(missing.ok).toBe(false);
+    if (!missing.ok) expect(missing.fieldErrors.whatsapp).toBe("Please enter your WhatsApp number");
+
+    const ok = parseAuditForm({ ...valid, spend: "Rs 50,000–150,000/month", source: "sri-lanka-q4", whatsapp: "+94 77 123 4567" });
+    expect(ok.ok && ok.data.whatsapp).toBe("+94 77 123 4567");
+  });
+
+  it("doesn't ask for WhatsApp elsewhere, but checks it if given", () => {
+    expect(parseAuditForm(valid).ok).toBe(true);
+    const bad = parseAuditForm({ ...valid, whatsapp: "call me" });
+    expect(!bad.ok && bad.fieldErrors.whatsapp).toBe("Please check your WhatsApp number");
+  });
 });

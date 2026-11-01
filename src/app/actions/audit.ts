@@ -39,8 +39,10 @@ export async function submitAudit(
   const message =
     parsed.data.source === "bfcm"
       ? "Thanks! We'll review your store and reply within one business day."
-      : parsed.data.source.startsWith("sri-lanka")
-        ? "Thank you! Your free ad review will reach you within 2 business days."
-        : "Got it! Your roast (the nice kind) lands within 2 business days.";
+      : parsed.data.source === "sri-lanka-q4"
+        ? "Got it! Your Q4 Sprint booking is in."
+        : parsed.data.source.startsWith("sri-lanka")
+          ? "Thank you! Your free ad review will reach you within 2 business days."
+          : "Got it! Your roast (the nice kind) lands within 2 business days.";
   return { status: "success", message };
 }

@@ -47,6 +47,15 @@ export const auditSchema = z.object({
     .default("website"),
   // Shared with the browser pixel so Meta counts the lead once. Checked again before sending.
   eventId: z.string().max(64).optional().catch(undefined),
+  // WhatsApp number. Asked for (and required) on the Sri Lanka Q4 booking form, where we reply on WhatsApp.
+  whatsapp: z.string().trim().max(30).optional().default(""),
+}).superRefine((d, ctx) => {
+  const ok = /^\+?[\d\s()-]{7,20}$/.test(d.whatsapp);
+  if (d.source === "sri-lanka-q4" && !ok) {
+    ctx.addIssue({ code: "custom", path: ["whatsapp"], message: "Please enter your WhatsApp number" });
+  } else if (d.whatsapp && !ok) {
+    ctx.addIssue({ code: "custom", path: ["whatsapp"], message: "Please check your WhatsApp number" });
+  }
 });
 
 export type AuditInput = z.infer<typeof auditSchema>;

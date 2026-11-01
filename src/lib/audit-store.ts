@@ -17,7 +17,8 @@ export function toAuditRow(data: AuditInput): AuditRow {
     work_email: data.email,
     store_url: data.storeUrl,
     monthly_meta_ad_spend: data.spend,
-    additional_info: data.message ? data.message : null,
+    // The WhatsApp number rides in additional_info so the table needs no new column.
+    additional_info: [data.whatsapp && `WhatsApp: ${data.whatsapp}`, data.message].filter(Boolean).join("\n\n") || null,
     source: data.source,
   };
 }
