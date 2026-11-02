@@ -4,7 +4,7 @@ import { scoreChecklist, type ChecklistResult } from "@/lib/audit-checklist";
 import { buildChecklistEmail } from "@/lib/checklist-email";
 import { checklistSubmissionSchema } from "@/lib/checklist-input";
 import { leadRequestContext } from "@/lib/lead-request";
-import { safeEventId, sendMetaLead } from "@/lib/meta-capi";
+import { safeEventId, safePageUrl, sendMetaLead } from "@/lib/meta-capi";
 import { emailConfigured, sendEmail } from "@/lib/send-email";
 import { site } from "@/lib/site";
 import { getSupabase } from "@/lib/supabase";
@@ -43,6 +43,7 @@ export async function viewChecklistResult(input: unknown): Promise<ViewResultSta
       name: data.name,
       source: "checklist",
       ...(await leadRequestContext()),
+      ...(safePageUrl(data.pageUrl) ? { sourceUrl: safePageUrl(data.pageUrl) } : {}),
     });
   }
   return { ok: true, result };

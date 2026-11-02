@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { buildLeadEvent, normalisePhone, safeEventId, sendMetaLead, sha256, splitName } from "./meta-capi";
+import { buildLeadEvent, normalisePhone, safeEventId, safePageUrl, sendMetaLead, sha256, splitName } from "./meta-capi";
 import { parseAuditForm } from "./audit-schema";
 
 const nodeSha = (v: string) => createHash("sha256").update(v).digest("hex");
@@ -71,6 +71,20 @@ describe("normalisePhone", () => {
     expect(e.user_data.ph).toEqual([nodeSha("94771234567")]);
     const none = await buildLeadEvent(lead);
     expect(none.user_data).not.toHaveProperty("ph");
+  });
+});
+
+describe("safePageUrl", () => {
+  it("keeps our own pages without query string or hash", () => {
+    expect(safePageUrl("https://veyomedia.com/sri-lanka?utm_source=fb#review")).toBe("https://veyomedia.com/sri-lanka");
+    expect(safePageUrl("http://localhost:3000/services/audit")).toBe("http://localhost:3000/services/audit");
+  });
+
+  it("rejects other sites and junk", () => {
+    expect(safePageUrl("https://evil.example/veyomedia.com")).toBeUndefined();
+    expect(safePageUrl("javascript:alert(1)")).toBeUndefined();
+    expect(safePageUrl("not a url")).toBeUndefined();
+    expect(safePageUrl(undefined)).toBeUndefined();
   });
 });
 

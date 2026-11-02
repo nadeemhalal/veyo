@@ -3,7 +3,7 @@
 import { parseAuditForm, type AuditFormState } from "@/lib/audit-schema";
 import { saveAuditRequest } from "@/lib/audit-store";
 import { leadRequestContext } from "@/lib/lead-request";
-import { safeEventId, sendMetaLead } from "@/lib/meta-capi";
+import { safeEventId, safePageUrl, sendMetaLead } from "@/lib/meta-capi";
 import { site } from "@/lib/site";
 
 export async function submitAudit(
@@ -36,6 +36,8 @@ export async function submitAudit(
     phone: parsed.data.whatsapp || undefined,
     source: parsed.data.source,
     ...(await leadRequestContext()),
+    // The exact page beats the referer, which browsers often cut down to just the domain.
+    ...withPageUrl(parsed.data.pageUrl),
   });
 
   const message =
@@ -47,4 +49,9 @@ export async function submitAudit(
           ? "Thank you! Your free ad review will reach you within 2 business days."
           : "Got it! Your roast (the nice kind) lands within 2 business days.";
   return { status: "success", message };
+}
+
+function withPageUrl(pageUrl: string | undefined) {
+  const sourceUrl = safePageUrl(pageUrl);
+  return sourceUrl ? { sourceUrl } : {};
 }

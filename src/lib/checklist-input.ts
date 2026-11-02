@@ -20,6 +20,8 @@ export const checklistSubmissionSchema = checklistContactSchema.extend({
   company: z.string().max(200).optional(),
   // Shared with the browser pixel so Meta counts the lead once. Checked again before sending.
   eventId: z.string().max(64).optional().catch(undefined),
+  // The page the result was viewed on, for Meta's event_source_url. Checked again before use.
+  pageUrl: z.string().max(500).optional().catch(undefined),
 });
 
 export type ChecklistSubmission = z.infer<typeof checklistSubmissionSchema>;

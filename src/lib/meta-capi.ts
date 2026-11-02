@@ -108,6 +108,21 @@ export async function sendMetaLead(c: LeadContext): Promise<boolean> {
   }
 }
 
+/**
+ * The page a lead came from, as sent by the browser. Only veyomedia.com (or localhost in development) is
+ * accepted, without query string or hash; anything else returns undefined so the request's referer is used.
+ */
+export function safePageUrl(url: string | undefined): string | undefined {
+  if (!url) return undefined;
+  try {
+    const u = new URL(url);
+    const ok = ["veyomedia.com", "www.veyomedia.com", "localhost"].includes(u.hostname);
+    return ok && /^https?:$/.test(u.protocol) ? `${u.origin}${u.pathname}` : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 /** Event ids come from the browser; anything odd is replaced so a bad value can't break the request. */
 export function safeEventId(id: string | undefined): string {
   return id && /^[A-Za-z0-9-]{8,64}$/.test(id) ? id : crypto.randomUUID();

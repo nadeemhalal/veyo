@@ -72,6 +72,7 @@ export function AuditForm({
         eventId.current = newEventId();
         (e.currentTarget.elements.namedItem("eventId") as HTMLInputElement).value = eventId.current;
         leadEmail.current = (e.currentTarget.elements.namedItem("email") as HTMLInputElement).value.trim();
+        (e.currentTarget.elements.namedItem("pageUrl") as HTMLInputElement).value = window.location.origin + window.location.pathname;
       }}
       noValidate className={cn("space-y-4 rounded-xl border bg-card p-6 text-card-foreground shadow-sm sm:p-8", className)}>
       <Field id="name" label="Your name" error={err.name}>
@@ -142,6 +143,7 @@ export function AuditForm({
 
       <input type="hidden" name="source" value={source} />
       <input type="hidden" name="eventId" defaultValue="" />
+      <input type="hidden" name="pageUrl" defaultValue="" />
 
       {/* Honeypot: hidden from people, filled by bots */}
       <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">

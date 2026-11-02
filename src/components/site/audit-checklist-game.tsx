@@ -95,7 +95,7 @@ export function AuditChecklistGame() {
     setViewError(null);
     startViewing(async () => {
       const eventId = newEventId();
-      const res = await viewChecklistResult({ ...payload(), eventId });
+      const res = await viewChecklistResult({ ...payload(), eventId, pageUrl: window.location.origin + window.location.pathname });
       if (res.ok) {
         setResult(res.result);
         trackLead("checklist", eventId, contact.email);

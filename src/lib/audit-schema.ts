@@ -49,6 +49,8 @@ export const auditSchema = z.object({
   eventId: z.string().max(64).optional().catch(undefined),
   // WhatsApp number. Asked for (and required) on the Sri Lanka Q4 booking form, where we reply on WhatsApp.
   whatsapp: z.string().trim().max(30).optional().default(""),
+  // The page the form was sent from, for Meta's event_source_url. Checked again before use.
+  pageUrl: z.string().max(500).optional().catch(undefined),
   // Problems the visitor tapped on the form's last question.
   problems: z.array(z.string().trim().max(120)).max(10).optional().default([]).transform((ps) => ps.filter(Boolean)),
 }).superRefine((d, ctx) => {
