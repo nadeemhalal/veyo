@@ -19,6 +19,8 @@ export const site = {
   whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "94785556938",
   // Veyo's Meta Business ID. Clients add it as a partner to give us access to their ad account and page.
   metaBusinessId: "1585080676272311",
+  // Veyo's Meta pixel (dataset "Veyo Media Website"). Public; NEXT_PUBLIC_META_PIXEL_ID overrides it.
+  metaPixelId: "2063404087648938",
 } as const;
 
 export type NavItem = { label: string; href: string; children?: readonly { label: string; href: string }[] };

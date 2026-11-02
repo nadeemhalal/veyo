@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { buildLeadEvent, safeEventId, sendMetaLead, sha256, splitName } from "./meta-capi";
+import { buildLeadEvent, normalisePhone, safeEventId, sendMetaLead, sha256, splitName } from "./meta-capi";
 import { parseAuditForm } from "./audit-schema";
 
 const nodeSha = (v: string) => createHash("sha256").update(v).digest("hex");
@@ -58,6 +58,22 @@ describe("buildLeadEvent", () => {
   });
 });
 
+describe("normalisePhone", () => {
+  it("adds 94 to Sri Lankan local numbers and keeps digits only", () => {
+    expect(normalisePhone("077 123 4567")).toBe("94771234567");
+    expect(normalisePhone("+94 78 555 6938")).toBe("94785556938");
+    expect(normalisePhone("+61 412 345 678")).toBe("61412345678");
+    expect(normalisePhone("call me")).toBeUndefined();
+  });
+
+  it("is hashed into the lead when given", async () => {
+    const e = await buildLeadEvent({ ...lead, phone: "077 123 4567" });
+    expect(e.user_data.ph).toEqual([nodeSha("94771234567")]);
+    const none = await buildLeadEvent(lead);
+    expect(none.user_data).not.toHaveProperty("ph");
+  });
+});
+
 describe("safeEventId", () => {
   it("keeps a valid id and replaces anything else", () => {
     expect(safeEventId(lead.eventId)).toBe(lead.eventId);
@@ -72,7 +88,7 @@ describe("sendMetaLead", () => {
     vi.unstubAllGlobals();
   });
 
-  it("does nothing until the pixel id and token are set", async () => {
+  it("does nothing until the Conversions API token is set", async () => {
     vi.stubEnv("NEXT_PUBLIC_META_PIXEL_ID", "");
     vi.stubEnv("META_CAPI_TOKEN", "");
     const fetchMock = vi.fn();

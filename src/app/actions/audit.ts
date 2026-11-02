@@ -33,6 +33,7 @@ export async function submitAudit(
     eventId: safeEventId(parsed.data.eventId),
     email: parsed.data.email,
     name: parsed.data.name,
+    phone: parsed.data.whatsapp || undefined,
     source: parsed.data.source,
     ...(await leadRequestContext()),
   });

@@ -1,3 +1,5 @@
+import { site } from "@/lib/site";
+
 // Site analytics: Hotjar and Google Tag Manager always; Google Analytics 4, the Google Ads tag and the Meta pixel
 // once NEXT_PUBLIC_GA_MEASUREMENT_ID / NEXT_PUBLIC_GOOGLE_ADS_ID / NEXT_PUBLIC_META_PIXEL_ID are set (build-time).
 // None of them load in development, so local traffic stays out of the reports.
@@ -10,7 +12,7 @@ const googleAdsId = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID;
 
 // Meta pixel. Leads are also sent server-side (src/lib/meta-capi.ts) with the same event id, so don't add
 // a Meta pixel tag in GTM as well.
-const pixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID;
+const pixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID || site.metaPixelId;
 
 // Google Tag Manager container. GA4 is loaded directly below, so don't also add a GA4 tag inside GTM
 // or every page view is counted twice.
