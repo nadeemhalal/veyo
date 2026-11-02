@@ -10,7 +10,8 @@ export async function submitAudit(
   _prev: AuditFormState,
   formData: FormData,
 ): Promise<AuditFormState> {
-  const parsed = parseAuditForm(Object.fromEntries(formData));
+  // "problems" can repeat (one per tapped answer); Object.fromEntries would keep only the last.
+  const parsed = parseAuditForm({ ...Object.fromEntries(formData), problems: formData.getAll("problems") });
 
   // Pretend success for bots so they don't retry.
   if (!parsed.ok && parsed.bot) {

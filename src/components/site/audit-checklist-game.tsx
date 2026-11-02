@@ -98,7 +98,7 @@ export function AuditChecklistGame() {
       const res = await viewChecklistResult({ ...payload(), eventId });
       if (res.ok) {
         setResult(res.result);
-        trackLead("checklist", eventId);
+        trackLead("checklist", eventId, contact.email);
         setEmailState(null);
         setStep("results");
         document.getElementById("audit-top")?.scrollIntoView({ behavior: "smooth", block: "start" });

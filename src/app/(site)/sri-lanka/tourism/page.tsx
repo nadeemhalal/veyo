@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Check, Compass, Hotel, House, X } from "lucide-react";
 import { faqJsonLd, pageMetadata } from "@/lib/seo";
-import { site, sriLankaTourism } from "@/lib/site";
+import { leadQuestions, site, sriLankaTourism } from "@/lib/site";
 import { tourismSpendOptions } from "@/lib/audit-schema";
 import { AuditForm } from "@/components/site/audit-form";
 import { StatsRow } from "@/components/site/blocks";
@@ -221,6 +221,7 @@ export default function SriLankaTourismPage() {
           <AuditForm
             className="mt-8"
             source="sri-lanka-tourism"
+            question={leadQuestions.tourism}
             submitLabel="Get my free ad review"
             urlLabel="Website, booking page or Instagram"
             urlPlaceholder="yourvilla.com"

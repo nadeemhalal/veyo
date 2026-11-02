@@ -9,6 +9,7 @@ const data = {
   message: "",
   source: "bfcm",
   whatsapp: "",
+  problems: [] as string[],
 };
 
 describe("toAuditRow", () => {
@@ -25,6 +26,13 @@ describe("toAuditRow", () => {
 
   it("keeps a non-empty message", () => {
     expect(toAuditRow({ ...data, message: "Hi" }).additional_info).toBe("Hi");
+  });
+
+  it("records the tapped problems between the WhatsApp number and the note", () => {
+    const row = toAuditRow({ ...data, whatsapp: "077 123 4567", problems: ["Ad costs keep going up", "Not happy with our current agency"], message: "Hi" });
+    expect(row.additional_info).toBe(
+      "WhatsApp: 077 123 4567\n\nProblem: Ad costs keep going up; Not happy with our current agency\n\nHi",
+    );
   });
 
   it("puts the WhatsApp number at the top of additional_info", () => {

@@ -4,6 +4,7 @@ import { useActionState, useEffect, useRef } from "react";
 import { CheckCircle2 } from "lucide-react";
 import { submitAudit } from "@/app/actions/audit";
 import { spendOptions, type AuditFormState } from "@/lib/audit-schema";
+import { leadQuestions, type LeadQuestion } from "@/lib/site";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -22,6 +23,7 @@ export function AuditForm({
   spendChoices = spendOptions,
   askWhatsapp = false,
   success,
+  question = leadQuestions.au,
 }: {
   className?: string;
   compact?: boolean;
@@ -34,14 +36,18 @@ export function AuditForm({
   askWhatsapp?: boolean;
   /** Shown under the thank-you line instead of the default note, e.g. next steps for a booking. */
   success?: React.ReactNode;
+  /** The last question: problems to tap, and the example shown in the note box. */
+  question?: LeadQuestion;
 }) {
   const [state, formAction, pending] = useActionState(submitAudit, initialState);
   const err = state.fieldErrors ?? {};
   // A fresh id per send, shared by the browser pixel and the server's Conversions API call.
   const eventId = useRef("");
+  // The email from the last send, for Google Ads enhanced conversions.
+  const leadEmail = useRef("");
 
   useEffect(() => {
-    if (state.status === "success") trackLead(source, eventId.current);
+    if (state.status === "success") trackLead(source, eventId.current, leadEmail.current);
   }, [state, source]);
 
   if (state.status === "success") {
@@ -65,6 +71,7 @@ export function AuditForm({
         // Runs before React reads the form data, so the server gets the same id.
         eventId.current = newEventId();
         (e.currentTarget.elements.namedItem("eventId") as HTMLInputElement).value = eventId.current;
+        leadEmail.current = (e.currentTarget.elements.namedItem("email") as HTMLInputElement).value.trim();
       }}
       noValidate className={cn("space-y-4 rounded-xl border bg-card p-6 text-card-foreground shadow-sm sm:p-8", className)}>
       <Field id="name" label="Your name" error={err.name}>
@@ -111,9 +118,26 @@ export function AuditForm({
         </select>
       </Field>
       {!compact && (
-        <Field id="message" label="Anything we should know? (optional)" error={err.message}>
-          <Textarea id="message" name="message" rows={3} />
-        </Field>
+        <>
+          <fieldset className="space-y-2">
+            <legend className="text-sm font-medium">
+              What&apos;s your biggest problem right now? <span className="font-normal text-muted-foreground">(tap any)</span>
+            </legend>
+            <div className="flex flex-wrap gap-2 pt-1">
+              {question.problems.map((p) => (
+                <label key={p} className="cursor-pointer">
+                  <input type="checkbox" name="problems" value={p} className="peer sr-only" />
+                  <span className="inline-block rounded-full border px-3 py-1.5 text-sm transition-colors hover:bg-muted peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground peer-focus-visible:ring-3 peer-focus-visible:ring-ring/50">
+                    {p}
+                  </span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+          <Field id="message" label="Anything else? (optional)" error={err.message}>
+            <Textarea id="message" name="message" rows={2} placeholder={question.notePlaceholder} />
+          </Field>
+        </>
       )}
 
       <input type="hidden" name="source" value={source} />

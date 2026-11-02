@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Instrument_Sans } from "next/font/google";
 import { site } from "@/lib/site";
 import { ogImage } from "@/lib/seo";
 import { Analytics, TagManagerNoScript } from "@/components/site/analytics";
+import { ContactTracking } from "@/components/site/contact-tracking";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -58,6 +59,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <TagManagerNoScript />
         {children}
         <Analytics />
+        <ContactTracking />
       </body>
     </html>
   );

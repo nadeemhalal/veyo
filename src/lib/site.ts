@@ -852,3 +852,40 @@ export const q4Sprint = {
     "Book by 14 November so the 3 weeks cover Black Friday (27 November).",
   ],
 } as const;
+
+// The last question on the lead forms: tap the problems that fit, then an optional note.
+// One set per audience; the answers are saved with the lead ("Problem: ...").
+export type LeadQuestion = { problems: readonly string[]; notePlaceholder: string };
+
+export const leadQuestions = {
+  au: {
+    problems: [
+      "Ad costs keep going up",
+      "Ads stop working after a week or two",
+      "Ads Manager says it's working, but sales don't match",
+      "Can't scale past our current spend",
+      "Not happy with our current agency",
+    ],
+    notePlaceholder: "e.g. We spend about A$8k a month on Meta and sales have stalled since July.",
+  },
+  lk: {
+    problems: [
+      "Our ads get likes and messages, not orders",
+      "Too many \"PM price?\" messages that go nowhere",
+      "Too many cash-on-delivery orders get refused",
+      "Not sure what to run for Black Friday or Christmas",
+      "We've never run ads properly",
+    ],
+    notePlaceholder: "e.g. We spend about Rs 100,000 a month and get lots of messages but few orders.",
+  },
+  tourism: {
+    problems: [
+      "Most bookings come through booking sites, and their commission",
+      "Our ads get likes, not bookings",
+      "WhatsApp enquiries don't turn into bookings",
+      "Quiet in the off-season",
+      "We've never run ads properly",
+    ],
+    notePlaceholder: "e.g. We have 6 rooms in Ella and most bookings come from Booking.com.",
+  },
+} as const satisfies Record<string, LeadQuestion>;

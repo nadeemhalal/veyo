@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Check, Gift, Globe, MapPin, MessageCircle, X } from "lucide-react";
 import { faqJsonLd, pageMetadata } from "@/lib/seo";
-import { q4Sprint, site, sriLankaEcom } from "@/lib/site";
+import { leadQuestions, q4Sprint, site, sriLankaEcom } from "@/lib/site";
 import { lkrSpendOptions } from "@/lib/audit-schema";
 import { AdMakeover } from "@/components/site/ad-makeover";
 import { BlackFridayBanner } from "@/components/site/black-friday-banner";
@@ -303,6 +303,7 @@ export default function SriLankaPage() {
             urlPlaceholder="yourstore.lk"
             spendChoices={lkrSpendOptions}
             askWhatsapp={sprintOn}
+            question={leadQuestions.lk}
             success={sprintOn ? <SprintNextSteps /> : undefined}
           />
           {site.whatsapp && (

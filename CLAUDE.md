@@ -98,6 +98,11 @@ npm test
   `src/lib/track.ts` (pixel `Lead` + GA4 `generate_lead` + dataLayer), and the server sends the same `Lead` through
   the Conversions API (`src/lib/meta-capi.ts`, token `META_CAPI_TOKEN` as a Worker secret) with the same event id,
   so Meta deduplicates. Never add a Meta pixel tag inside GTM.
+- **Google Ads:** the AW tag shares gtag.js with GA4 (`NEXT_PUBLIC_GOOGLE_ADS_ID`); `trackLead()` sends a conversion to
+  `NEXT_PUBLIC_GOOGLE_ADS_LEAD_LABEL` with the event id as transaction id and the email for enhanced conversions.
+  Never add a Google Ads tag inside GTM. Clicks on WhatsApp/email/phone links anywhere on the site fire `trackContact()`
+  (`src/components/site/contact-tracking.tsx`): Meta `Contact`, GA4 `contact`, and a Google Ads conversion to
+  `NEXT_PUBLIC_GOOGLE_ADS_CONTACT_LABEL`.
   Search Console is verified by DNS (domain property), so no code is involved.
 - Tests cover backend logic only (form validation, lead mapping, blog frontmatter, checklist scoring, email builder).
 

@@ -49,6 +49,8 @@ export const auditSchema = z.object({
   eventId: z.string().max(64).optional().catch(undefined),
   // WhatsApp number. Asked for (and required) on the Sri Lanka Q4 booking form, where we reply on WhatsApp.
   whatsapp: z.string().trim().max(30).optional().default(""),
+  // Problems the visitor tapped on the form's last question.
+  problems: z.array(z.string().trim().max(120)).max(10).optional().default([]).transform((ps) => ps.filter(Boolean)),
 }).superRefine((d, ctx) => {
   const ok = /^\+?[\d\s()-]{7,20}$/.test(d.whatsapp);
   if (d.source === "sri-lanka-q4" && !ok) {

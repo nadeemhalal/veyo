@@ -72,4 +72,11 @@ describe("parseAuditForm", () => {
     const bad = parseAuditForm({ ...valid, whatsapp: "call me" });
     expect(!bad.ok && bad.fieldErrors.whatsapp).toBe("Please check your WhatsApp number");
   });
+
+  it("keeps the tapped problems and drops empty ones", () => {
+    const ok = parseAuditForm({ ...valid, problems: ["Ad costs keep going up", ""] });
+    expect(ok.ok && ok.data.problems).toEqual(["Ad costs keep going up"]);
+    const none = parseAuditForm(valid);
+    expect(none.ok && none.data.problems).toEqual([]);
+  });
 });
