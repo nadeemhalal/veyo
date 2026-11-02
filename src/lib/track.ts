@@ -8,6 +8,8 @@
 // and a separate Google Ads conversion once NEXT_PUBLIC_GOOGLE_ADS_CONTACT_LABEL is set).
 // Each is skipped when it isn't loaded, e.g. in development.
 
+import { site } from "@/lib/site";
+
 type TrackingWindow = Window & {
   dataLayer?: unknown[];
   fbq?: (...args: unknown[]) => void;
@@ -18,9 +20,9 @@ export function newEventId(): string {
   return crypto.randomUUID();
 }
 
-const googleAdsId = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID;
-const googleAdsLeadLabel = process.env.NEXT_PUBLIC_GOOGLE_ADS_LEAD_LABEL;
-const googleAdsContactLabel = process.env.NEXT_PUBLIC_GOOGLE_ADS_CONTACT_LABEL;
+const googleAdsId = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID || site.googleAdsId;
+const googleAdsLeadLabel = process.env.NEXT_PUBLIC_GOOGLE_ADS_LEAD_LABEL || site.googleAdsLeadLabel;
+const googleAdsContactLabel = process.env.NEXT_PUBLIC_GOOGLE_ADS_CONTACT_LABEL || site.googleAdsContactLabel;
 
 export type ContactMethod = "whatsapp" | "email" | "phone";
 

@@ -8,7 +8,7 @@ import { site } from "@/lib/site";
 const measurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
 // Google Ads tag (AW-...). Shares gtag.js with GA4. Leads are reported as a conversion from trackLead().
-const googleAdsId = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID;
+const googleAdsId = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID || site.googleAdsId;
 
 // Meta pixel. Leads are also sent server-side (src/lib/meta-capi.ts) with the same event id, so don't add
 // a Meta pixel tag in GTM as well.

@@ -21,6 +21,10 @@ export const site = {
   metaBusinessId: "1585080676272311",
   // Veyo's Meta pixel (dataset "Veyo Media Website"). Public; NEXT_PUBLIC_META_PIXEL_ID overrides it.
   metaPixelId: "2063404087648938",
+  // Google Ads tag and conversion labels. Public; the NEXT_PUBLIC_GOOGLE_ADS_* variables override them.
+  googleAdsId: "AW-18552229575",
+  googleAdsLeadLabel: "rHOUCMeY57AdEMedso5F", // "Submit lead form" conversion action
+  googleAdsContactLabel: "", // set once the "Contact" conversion action exists
 } as const;
 
 export type NavItem = { label: string; href: string; children?: readonly { label: string; href: string }[] };
