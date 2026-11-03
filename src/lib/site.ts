@@ -884,6 +884,17 @@ export const leadQuestions = {
     ],
     notePlaceholder: "e.g. We spend about Rs 100,000 a month and get lots of messages but few orders.",
   },
+  // LinkedIn outreach page (/hello): brands and agencies.
+  linkedin: {
+    problems: [
+      "Ad costs keep going up",
+      "Ads stop working after a week or two",
+      "Ads Manager says it's working, but sales don't match",
+      "Can't scale past our current spend",
+      "We're an agency and need Meta ads capacity",
+    ],
+    notePlaceholder: "e.g. We spend about A$8k a month on Meta, or: we're an agency with 4 ecom clients on Meta.",
+  },
   tourism: {
     problems: [
       "Most bookings come through booking sites, and their commission",
@@ -895,3 +906,56 @@ export const leadQuestions = {
     notePlaceholder: "e.g. We have 6 rooms in Ella and most bookings come from Booking.com.",
   },
 } as const satisfies Record<string, LeadQuestion>;
+
+// LinkedIn outreach landing page (/hello). Kept out of search; links in messages can add ?for=Brand Name.
+// Uses only the published track record in `stats` (with the past-results line) and current plan prices.
+export const linkedinIntro = {
+  headline: "You opened a LinkedIn message. Here's the 60-second version.",
+  // The founder, who sends the outreach messages. Portrait: public/images/nads.webp (illustrated).
+  founder: {
+    name: "Nads",
+    hello: "Hi, I'm Nads. I sent you that message, and I'm the one who'd run your ads.",
+    bio: [
+      "I'm the founder of Veyo Media. For the last two years I've run Facebook and Instagram ads for Australian ecommerce brands and agencies.",
+      "I'm based in Colombo and work Australian business hours, so I'm online when you are. You deal with me directly: no account managers, no hand-offs to a junior.",
+    ],
+  },
+  intro:
+    "Veyo Media runs Facebook and Instagram ads for Australian ecommerce brands, and white-label Meta ads for Australian agencies. The easiest way to see if we're any good: a free video audit of your ads.",
+  paths: [
+    {
+      id: "brands",
+      title: "For ecommerce brands",
+      body: "Meta ads run by the specialist you talk to, creative included, reported against your P&L. Month-to-month, and your ad account stays yours.",
+      price: "Plans from A$1,190/month",
+      href: "/pricing",
+      linkLabel: "See plans",
+    },
+    {
+      id: "agencies",
+      title: "For agencies",
+      body: "We run Meta ads for your ecommerce clients under your brand. NDA and non-solicitation signed before we see an account.",
+      price: "From A$790 per client account/month",
+      href: "/agencies",
+      linkLabel: "How white label works",
+    },
+  ],
+  auditGets: [
+    "A 10-minute personal video walkthrough of your ad account",
+    "Three specific fixes, ranked by impact",
+    "An honest view on whether you need outside help at all",
+  ],
+  auditSteps: [
+    { step: "1", title: "Tell us about your store", body: "Two minutes, below. Agencies: tell us about one client account." },
+    { step: "2", title: "Give partner access", body: "Through Meta Business Manager. Never your login or password, and you can remove it anytime." },
+    { step: "3", title: "Get your video", body: "Within 2 business days, in Australian business hours." },
+  ],
+  why: [
+    "The specialist you message is the one who runs your ads",
+    "New creative every month, included",
+    "Reported on MER and new-customer cost, checked against your store data",
+    "Month-to-month, 30 days' notice",
+    "Your ad account, pixel and data always stay yours",
+    "Working Australian business hours (AEST)",
+  ],
+} as const;

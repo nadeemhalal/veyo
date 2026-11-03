@@ -8,6 +8,8 @@ Domain: **veyomedia.com** (registered at Namecheap on 2026-10-04; DNS on Cloudfl
 
 ## The business
 
+- **Founder:** goes by **Nads** on the site and in outreach (illustrated portrait: `public/images/nads.webp`).
+
 - **Positioning:** Meta (Facebook & Instagram) ads for Aussie ecom brands doing ~A$20k–300k/month.
   Creative included, reported against the client's P&L (MER, new-customer cost), month-to-month, and
   clients always own their ad accounts.
@@ -62,7 +64,8 @@ npm test
 
 - **All site copy lives in `src/lib/site.ts`** (stats, services, industries, plans, FAQs, white label, BFCM).
 - Route groups: `src/app/(site)/` has the full header/footer; `src/app/(landing)/` is minimal (no nav) for
-  ad landing pages: `/services/audit` and `/bfcm`. The Sri Lanka pages live in `(site)` with the full nav (the header button and BFCM bar switch for
+  ad landing pages: `/services/audit`, `/bfcm`, and `/hello` (LinkedIn outreach page for Australian brands and
+  agencies: noindex, not in the sitemap, `?for=Brand` shows "Prepared for Brand", leads tagged `linkedin`). The Sri Lanka pages live in `(site)` with the full nav (the header button and BFCM bar switch for
   `/sri-lanka*` paths): `/sri-lanka` (online stores, local and export, copy in `sriLankaEcom`, Starter pack in LKR,
   first month 3 creatives free then 1 a month included) and `/sri-lanka/tourism` (copy in `sriLankaTourism`).
   The Starter first-time price and creatives offer must stay genuine (ACL / honest claims).

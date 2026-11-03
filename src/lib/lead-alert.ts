@@ -11,6 +11,7 @@ const sourceLabels: Record<string, string> = {
   "sri-lanka-tourism": "Free ad review (Sri Lanka tourism)",
   audit: "Free ad audit (Australia)",
   bfcm: "BFCM Sprint application (Australia)",
+  linkedin: "Free audit (LinkedIn outreach, Australia)",
   website: "Website form",
 };
 
