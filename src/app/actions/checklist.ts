@@ -1,8 +1,9 @@
 "use server";
 
-import { scoreChecklist, type ChecklistResult } from "@/lib/audit-checklist";
+import { checklistMax, scoreChecklist, type ChecklistResult } from "@/lib/audit-checklist";
 import { buildChecklistEmail } from "@/lib/checklist-email";
 import { checklistSubmissionSchema } from "@/lib/checklist-input";
+import { buildChecklistAlert, sendLeadAlert } from "@/lib/lead-alert";
 import { leadRequestContext } from "@/lib/lead-request";
 import { safeEventId, safePageUrl, sendMetaLead } from "@/lib/meta-capi";
 import { emailConfigured, sendEmail } from "@/lib/send-email";
@@ -37,14 +38,27 @@ export async function viewChecklistResult(input: unknown): Promise<ViewResultSta
     } else {
       console.error("[checklist] Supabase env vars missing; result not saved");
     }
-    await sendMetaLead({
-      eventId: safeEventId(data.eventId),
-      email: data.email,
-      name: data.name,
-      source: "checklist",
-      ...(await leadRequestContext()),
-      ...(safePageUrl(data.pageUrl) ? { sourceUrl: safePageUrl(data.pageUrl) } : {}),
-    });
+    const pageUrl = safePageUrl(data.pageUrl);
+    await Promise.all([
+      sendMetaLead({
+        eventId: safeEventId(data.eventId),
+        email: data.email,
+        name: data.name,
+        source: "checklist",
+        ...(await leadRequestContext()),
+        ...(pageUrl ? { sourceUrl: pageUrl } : {}),
+      }),
+      sendLeadAlert(
+        buildChecklistAlert({
+          name: data.name,
+          organisation: data.organisation,
+          email: data.email,
+          score: result.total,
+          max: checklistMax,
+          marketingOptIn: data.marketingOptIn,
+        }),
+      ),
+    ]);
   }
   return { ok: true, result };
 }

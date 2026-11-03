@@ -17,7 +17,8 @@
     "prebuild": "npm run content",
     "pretest": "npm run content",
     "predev:vinext": "npm run content",
-    "prebuild:vinext": "npm run content"
+    "prebuild:vinext": "npm run content",
+    "telegram:chat-id": "node scripts/telegram-chat-id.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",

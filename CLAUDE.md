@@ -104,6 +104,11 @@ npm test
   (`src/components/site/contact-tracking.tsx`): Meta `Contact`, GA4 `contact`, and a Google Ads conversion to
   `NEXT_PUBLIC_GOOGLE_ADS_CONTACT_LABEL`.
   Search Console is verified by DNS (domain property), so no code is involved.
+- **Lead alerts:** every saved form lead and completed checklist sends a Telegram message to the founder's phone
+  (`src/lib/lead-alert.ts`, with a one-tap WhatsApp reply link). Needs Worker secrets `TELEGRAM_BOT_TOKEN` and
+  `TELEGRAM_CHAT_ID` (`npm run telegram:chat-id` finds the chat id). Best effort: never blocks the form.
+- **Keep-awake:** `/api/keep-awake` does one Supabase read; `.github/workflows/keep-awake.yml` calls it daily so the
+  free project doesn't pause (a failed run emails the repo owner).
 - Tests cover backend logic only (form validation, lead mapping, blog frontmatter, checklist scoring, email builder).
 
 ## Cloudflare (vinext)

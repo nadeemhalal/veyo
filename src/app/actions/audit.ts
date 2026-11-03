@@ -2,6 +2,7 @@
 
 import { parseAuditForm, type AuditFormState } from "@/lib/audit-schema";
 import { saveAuditRequest } from "@/lib/audit-store";
+import { buildFormLeadAlert, sendLeadAlert } from "@/lib/lead-alert";
 import { leadRequestContext } from "@/lib/lead-request";
 import { safeEventId, safePageUrl, sendMetaLead } from "@/lib/meta-capi";
 import { site } from "@/lib/site";
@@ -29,16 +30,32 @@ export async function submitAudit(
     };
   }
 
-  await sendMetaLead({
-    eventId: safeEventId(parsed.data.eventId),
-    email: parsed.data.email,
-    name: parsed.data.name,
-    phone: parsed.data.whatsapp || undefined,
-    source: parsed.data.source,
-    ...(await leadRequestContext()),
-    // The exact page beats the referer, which browsers often cut down to just the domain.
-    ...withPageUrl(parsed.data.pageUrl),
-  });
+  const lead = parsed.data;
+  // Both are best effort and run side by side: the lead is already saved.
+  await Promise.all([
+    sendMetaLead({
+      eventId: safeEventId(lead.eventId),
+      email: lead.email,
+      name: lead.name,
+      phone: lead.whatsapp || undefined,
+      source: lead.source,
+      ...(await leadRequestContext()),
+      // The exact page beats the referer, which browsers often cut down to just the domain.
+      ...withPageUrl(lead.pageUrl),
+    }),
+    sendLeadAlert(
+      buildFormLeadAlert({
+        source: lead.source,
+        name: lead.name,
+        email: lead.email,
+        storeUrl: lead.storeUrl,
+        spend: lead.spend,
+        whatsapp: lead.whatsapp,
+        problems: lead.problems,
+        message: lead.message,
+      }),
+    ),
+  ]);
 
   const message =
     parsed.data.source === "bfcm"
