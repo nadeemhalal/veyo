@@ -54,13 +54,18 @@ export const auditSchema = z.object({
   // Problems the visitor tapped on the form's last question.
   problems: z.array(z.string().trim().max(120)).max(10).optional().default([]).transform((ps) => ps.filter(Boolean)),
 }).superRefine((d, ctx) => {
-  const ok = /^\+?[\d\s()-]{7,20}$/.test(d.whatsapp);
-  if (d.source === "sri-lanka-q4" && !ok) {
-    ctx.addIssue({ code: "custom", path: ["whatsapp"], message: "Please enter your WhatsApp number" });
-  } else if (d.whatsapp && !ok) {
-    ctx.addIssue({ code: "custom", path: ["whatsapp"], message: "Please check your WhatsApp number" });
-  }
+  const message = whatsappError(d.source, d.whatsapp);
+  if (message) ctx.addIssue({ code: "custom", path: ["whatsapp"], message });
 });
+
+/** Required on the Sri Lanka Q4 booking form; checked for format anywhere it's given. */
+function whatsappError(source: unknown, whatsapp: unknown): string | undefined {
+  const value = typeof whatsapp === "string" ? whatsapp.trim() : "";
+  const ok = /^\+?[\d\s()-]{7,20}$/.test(value);
+  if (source === "sri-lanka-q4" && !ok) return "Please enter your WhatsApp number";
+  if (value && !ok) return "Please check your WhatsApp number";
+  return undefined;
+}
 
 export type AuditInput = z.infer<typeof auditSchema>;
 
@@ -85,6 +90,11 @@ export function parseAuditForm(raw: Record<string, unknown>):
   for (const issue of result.error.issues) {
     const key = issue.path[0] as keyof AuditInput;
     if (key && !fieldErrors[key]) fieldErrors[key] = issue.message;
+  }
+  // The WhatsApp check only runs once the other fields pass, so add it here too: every missing field shows at once.
+  if (!fieldErrors.whatsapp) {
+    const whatsapp = whatsappError(raw.source, raw.whatsapp);
+    if (whatsapp) fieldErrors.whatsapp = whatsapp;
   }
   return { ok: false, bot: false, fieldErrors };
 }

@@ -79,4 +79,13 @@ describe("parseAuditForm", () => {
     const none = parseAuditForm(valid);
     expect(none.ok && none.data.problems).toEqual([]);
   });
+
+  it("shows the missing WhatsApp number alongside other missing fields", () => {
+    const r = parseAuditForm({ ...valid, spend: "", source: "sri-lanka-q4" });
+    expect(r.ok).toBe(false);
+    if (!r.ok) {
+      expect(r.fieldErrors.spend).toBeDefined();
+      expect(r.fieldErrors.whatsapp).toBe("Please enter your WhatsApp number");
+    }
+  });
 });

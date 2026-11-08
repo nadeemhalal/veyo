@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useRef } from "react";
+import { startTransition, useActionState, useEffect, useRef } from "react";
 import { CheckCircle2 } from "lucide-react";
 import { submitAudit } from "@/app/actions/audit";
 import { spendOptions, type AuditFormState } from "@/lib/audit-schema";
@@ -66,13 +66,19 @@ export function AuditForm({
 
   return (
     <form
+      // Without JavaScript the browser posts to the action directly. With it, onSubmit sends the data itself:
+      // React's automatic form reset would otherwise wipe everything the visitor typed whenever a field is
+      // missing. On success the form is replaced by the thank-you message anyway.
       action={formAction}
       onSubmit={(e) => {
-        // Runs before React reads the form data, so the server gets the same id.
+        e.preventDefault();
+        const form = e.currentTarget;
         eventId.current = newEventId();
-        (e.currentTarget.elements.namedItem("eventId") as HTMLInputElement).value = eventId.current;
-        leadEmail.current = (e.currentTarget.elements.namedItem("email") as HTMLInputElement).value.trim();
-        (e.currentTarget.elements.namedItem("pageUrl") as HTMLInputElement).value = window.location.origin + window.location.pathname;
+        (form.elements.namedItem("eventId") as HTMLInputElement).value = eventId.current;
+        leadEmail.current = (form.elements.namedItem("email") as HTMLInputElement).value.trim();
+        (form.elements.namedItem("pageUrl") as HTMLInputElement).value = window.location.origin + window.location.pathname;
+        const data = new FormData(form);
+        startTransition(() => formAction(data));
       }}
       noValidate className={cn("space-y-4 rounded-xl border bg-card p-6 text-card-foreground shadow-sm sm:p-8", className)}>
       <Field id="name" label="Your name" error={err.name}>
