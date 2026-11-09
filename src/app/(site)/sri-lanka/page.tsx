@@ -390,7 +390,7 @@ function SprintDetails() {
   return (
     <Section
       id="sprint"
-      eyebrow={`${q4Sprint.name}: three weeks, one price, Black Friday covered`}
+      eyebrow={`${q4Sprint.name}: Get started in minutes`}
       title={q4Sprint.headline}
     >
       <div className="grid gap-10 lg:grid-cols-[1.3fr_1fr]">
