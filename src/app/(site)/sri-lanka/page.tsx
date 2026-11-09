@@ -45,7 +45,7 @@ export default function SriLankaPage() {
       <Section
         id="proof"
         className="py-12 sm:py-16"
-        title="Our work is proven"
+        title="Here's what we achieved over the last 2 years"
         intro="From Meta ads we've run for brands and agencies in Sri Lanka and Australia."
       >
         <StatsRow items={sriLankaStats} />

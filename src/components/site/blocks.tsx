@@ -15,7 +15,7 @@ export function StatsRow({
   items?: readonly { value: string; label: string }[];
 }) {
   return (
-    <dl className="grid gap-6 sm:grid-cols-3">
+    <dl className={cn("grid gap-6", items.length === 2 ? "sm:grid-cols-2" : "sm:grid-cols-3")}>
       {items.map((s) => (
         <div key={s.label} className={cn("rounded-xl border p-6", tone === "dark" ? "border-white/15 bg-white/5" : "bg-card")}>
           <dt className={cn("text-sm", tone === "dark" ? "text-primary-foreground/75" : "text-muted-foreground")}>{s.label}</dt>

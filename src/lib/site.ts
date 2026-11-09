@@ -121,12 +121,8 @@ export const stats = [
   { value: "A$40–50k", label: "monthly revenue driven from ~A$5k/month spend" },
 ] as const;
 
-// The same track record for /sri-lanka, where the founder has also run ads for Sri Lankan brands and agencies.
-export const sriLankaStats = [
-  { value: "2 years", label: "running Meta ads for brands & agencies" },
-  stats[1],
-  stats[2],
-] as const;
+// The track record for /sri-lanka. The "2 years" sits in the section heading there instead of a card.
+export const sriLankaStats = [stats[1], stats[2]] as const;
 
 export const trustPoints = [
   "Your accounts stay yours",
