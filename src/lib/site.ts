@@ -810,14 +810,14 @@ export const q4Sprint = {
   name: "Q4 Sprint",
   price: "Rs 75,000",
   priceNote: "fixed fee for the 3 weeks",
-  bookBy: "14 November",
-  // End of 14 November, Sri Lanka time.
-  bookingClosesAt: "2026-11-15T00:00:00+05:30",
+  bookBy: "25 November",
+  // End of 25 November, Sri Lanka time.
+  bookingClosesAt: "2026-11-26T00:00:00+05:30",
   headline: "Let's make Q4 your biggest quarter ever.",
   // The Black Friday banner (founder's design). The CTA wording is the founder's choice; "today" sits next to the
   // 24-hour asterisk and the T&Cs, so keep both visible.
   bannerLabel: "Facebook + Instagram ads",
-  bannerEnds: "Ends 14 Nov",
+  bannerEnds: "Ends 25 Nov",
   bannerHeadline: "Get your Black Friday ads live in 24 hours",
   bannerCta: "Run your ad today",
   // After booking: shown on the thank-you screen. Reply-time promise: within 2 hours, 9am–9pm Sri Lanka time.
@@ -846,7 +846,7 @@ export const q4Sprint = {
   timeline: [
     { when: "Day 1", title: "Book, pay and give us access", body: "Pay the fixed fee, then give us access to your Business Manager, Facebook page and Instagram, with a payment method on your ad account." },
     { when: "Within 24 hours", title: "Plan and launch*", body: "Your sale plan, 3 free creatives and the campaign live." },
-    { when: "Week 1", title: "Warm up", body: "Build audiences of people who know your store before the sale starts." },
+    { when: "Week 1", title: "Warm up", body: "Build audiences of people who know your store. The earlier you book, the more warm-up before Black Friday." },
     { when: "27–30 November", title: "Black Friday weekend", body: "Daily checks on budgets and ads while it matters most." },
     { when: "End of week 3", title: "Report", body: "Spend, orders and cost per paid order, plus what to do next." },
   ],
@@ -855,7 +855,7 @@ export const q4Sprint = {
     "The fixed fee is paid before your ads go live.",
     "Meta's ad review usually takes minutes but can occasionally take longer. That time isn't counted.",
     "Ad spend is paid directly to Meta and isn't included in the fee. We suggest at least Rs 75,000 over the 3 weeks.",
-    "Book by 14 November so the 3 weeks cover Black Friday (27 November).",
+    "Book by 25 November so your ads are live before Black Friday (27 November). Book earlier for more warm-up time.",
   ],
 } as const;
 
