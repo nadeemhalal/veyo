@@ -121,6 +121,13 @@ export const stats = [
   { value: "A$40–50k", label: "monthly revenue driven from ~A$5k/month spend" },
 ] as const;
 
+// The same track record for /sri-lanka, where the founder has also run ads for Sri Lankan brands and agencies.
+export const sriLankaStats = [
+  { value: "2 years", label: "running Meta ads for brands & agencies" },
+  stats[1],
+  stats[2],
+] as const;
+
 export const trustPoints = [
   "Your accounts stay yours",
   "Month-to-month (commitment issues are valid)",
@@ -754,7 +761,7 @@ export const sriLankaEcom = {
   faqs: [
     {
       q: "Have you run ads for Sri Lankan stores before?",
-      a: "Not as clients of Veyo yet, and we'd rather say so. We've spent two years running Meta ads for Australian online stores and agencies. Selling overseas is home ground. Selling in Sri Lanka adds cash on delivery and WhatsApp orders, which we plan and track for from day one.",
+      a: "Yes. We've spent two years running Meta ads for brands and agencies in Sri Lanka and Australia. Selling overseas is home ground. Selling in Sri Lanka adds cash on delivery and WhatsApp orders, which we plan and track for from day one.",
     },
     {
       q: "We sell through Facebook and Instagram, with no website. Can you still help?",

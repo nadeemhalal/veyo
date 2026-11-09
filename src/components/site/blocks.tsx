@@ -6,10 +6,17 @@ import { cn } from "@/lib/utils";
 import { CtaLink } from "./cta-link";
 import { Section } from "./section";
 
-export function StatsRow({ tone = "default" }: { tone?: "default" | "dark" }) {
+export function StatsRow({
+  tone = "default",
+  items = stats,
+}: {
+  tone?: "default" | "dark";
+  /** Defaults to the main track record; a page can pass its own wording of the same numbers. */
+  items?: readonly { value: string; label: string }[];
+}) {
   return (
     <dl className="grid gap-6 sm:grid-cols-3">
-      {stats.map((s) => (
+      {items.map((s) => (
         <div key={s.label} className={cn("rounded-xl border p-6", tone === "dark" ? "border-white/15 bg-white/5" : "bg-card")}>
           <dt className={cn("text-sm", tone === "dark" ? "text-primary-foreground/75" : "text-muted-foreground")}>{s.label}</dt>
           <dd className="order-first mb-2 font-heading text-4xl font-bold tracking-tight">{s.value}</dd>

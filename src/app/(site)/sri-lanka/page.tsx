@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Check, Gift, Globe, MapPin, MessageCircle, X } from "lucide-react";
 import { faqJsonLd, pageMetadata } from "@/lib/seo";
-import { leadQuestions, q4Sprint, site, sriLankaEcom } from "@/lib/site";
+import { leadQuestions, q4Sprint, site, sriLankaEcom, sriLankaStats } from "@/lib/site";
 import { lkrSpendOptions } from "@/lib/audit-schema";
 import { AdMakeover } from "@/components/site/ad-makeover";
 import { BlackFridayBanner } from "@/components/site/black-friday-banner";
@@ -40,6 +40,18 @@ export default function SriLankaPage() {
       <JsonLd data={faqJsonLd(sriLankaEcom.faqs)} />
 
       {sprintOn ? <BlackFridayBanner /> : <EverydayHero />}
+
+      {/* Proof, straight after the hero */}
+      <Section
+        id="proof"
+        className="py-12 sm:py-16"
+        title="Our work is proven"
+        intro="From Meta ads we've run for brands and agencies in Sri Lanka and Australia."
+      >
+        <StatsRow items={sriLankaStats} />
+        <p className="mt-4 text-sm text-muted-foreground">Past results don&apos;t guarantee future performance.</p>
+      </Section>
+
       {sprintOn && <SprintDetails />}
 
       {/* Makeover */}
@@ -255,19 +267,6 @@ export default function SriLankaPage() {
             <p className="mt-3 text-center text-xs text-muted-foreground">Tell us what you sell and where in the form below.</p>
           </article>
         </div>
-      </Section>
-
-      {/* Proof, stated honestly */}
-      <Section
-        id="proof"
-        eyebrow="The honest bit"
-        title="New to Sri Lankan stores. Not new to selling online."
-        intro={`We're based in ${site.base}, and for two years we've run Meta ads for Australian online stores and agencies. We haven't run ads for a Sri Lankan store as Veyo yet, so you won't find a local case study here.`}
-      >
-        <StatsRow />
-        <p className="mt-4 text-sm text-muted-foreground">
-          These numbers are from Australian online stores. Past results don&apos;t guarantee future performance.
-        </p>
       </Section>
 
       {/* FAQ */}
