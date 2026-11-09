@@ -305,6 +305,14 @@ export const plans: Plan[] = [
   },
 ];
 
+// New-client offer for Australian plans. It's quoted in Meta ads, so keep it genuine (ACL):
+// if it ends or changes, update this and stop the ads that mention it.
+export const newClientOffer = {
+  title: "3 extra creatives free in your first month",
+  body: "New clients get 3 extra ad creatives (statics or short videos) in their first month, on top of the creatives their plan already includes.",
+  terms: "New clients only, on any monthly plan. Delivered during your first month. No cash value.",
+} as const;
+
 export const faqs = [
   {
     q: "Do I own my ad account?",
@@ -320,7 +328,7 @@ export const faqs = [
   },
   {
     q: "Do you make the creatives?",
-    a: "Yes. Every plan includes new ad creatives each month: scripts, hooks, statics and edits. If you want creator (UGC) videos, we can brief and manage creators for you. No surprise \"can you just resize this\" invoices.",
+    a: "Yes. Every plan includes new ad creatives each month: scripts, hooks, statics and edits. New clients also get 3 extra creatives free in their first month. If you want creator (UGC) videos, we can brief and manage creators for you. No surprise \"can you just resize this\" invoices.",
   },
   {
     q: "Is there a contract?",

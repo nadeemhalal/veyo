@@ -4,6 +4,7 @@ import { Check } from "lucide-react";
 import { AuditForm } from "@/components/site/audit-form";
 import { Faq, StatsRow } from "@/components/site/blocks";
 import { Section } from "@/components/site/section";
+import { newClientOffer } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
   title: "Free Meta ads audit",
@@ -47,6 +48,10 @@ export default function AuditPage() {
             <p className="mt-8 text-sm text-muted-foreground">
               We only ask for Business Manager partner access. Never your login or password. Limited to 5 audits a month.
             </p>
+            <div id="new-client-offer" className="mt-6 rounded-xl border bg-card p-4">
+              <p className="font-medium">Decide to work with us? {newClientOffer.title}.</p>
+              <p className="mt-1 text-sm text-muted-foreground">{newClientOffer.terms}</p>
+            </div>
           </div>
           <AuditForm />
         </div>

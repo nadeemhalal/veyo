@@ -24,7 +24,79 @@ Rules for every ad: no "Meta Partner" or Meta logos, no "guaranteed" or "#1"; an
 | **CTA button** | Apply now (→ `/services/audit`) | Learn more (→ `/services/audit`) / Get offer (→ `/meta-ads-audit`) |
 | **Formats** | Founder talking-head video, P&L-vs-Ads-Manager static, comparison-table static | Ad-roast video (bad ad → fixed ad), price static, checklist screenshot carousel |
 
-## New · HV ads
+## The three angles
+
+| Angle | Message | Offer |
+|---|---|---|
+| **A. Expert help + 3 free creatives** | Get a specialist running your Meta ads | 3 extra creatives free in the first month (new clients) |
+| **B. Industry** | We know your category: beauty & skincare, wellness, fashion | Free audit (HV) / price up front (LV) |
+| **C. We do the heavy lifting** | Hand the ads over and get your time back | Free audit (HV) / price up front (LV) |
+
+**The 3 free creatives offer** is on `/pricing` and `/services/audit` (copy in `newClientOffer`,
+`src/lib/site.ts`). Terms: "New clients only, on any monthly plan. Delivered during your first month.
+No cash value." It must stay genuine while ads quote it (Australian Consumer Law): if it ends or
+changes, update the site and stop these ads.
+
+## A. Expert help + 3 free creatives
+
+**A-HV**
+- Primary text: Your Meta ads deserve more than a spare hour on a Friday. Get a specialist running your Facebook and Instagram ads, with new creative every month and reporting against your store data, not just Ads Manager. New clients get 3 extra creatives free in the first month. Month-to-month, and your ad account stays yours.
+- Headline: Expert Meta ads + 3 free creatives
+- Description: New clients · Month-to-month
+- CTA: Apply now (→ `/services/audit`)
+
+**A-LV**
+- Primary text: Doing your own Meta ads? Get an expert on it. From A$1,190/month with 6 new ads a month included, plus 3 more free in your first month. Setup, testing and a fortnightly report, all done for you. No lock-in.
+- Headline: Get expert help with your Meta ads
+- Description: 3 free creatives for new clients
+- CTA: Learn more (→ `/pricing`)
+
+## B. Industry
+
+Run each as its own ad, aimed at that industry page's visitors (`/industries/<slug>`) plus the
+general BOF audience. HV and LV share the body; only the last line and CTA change.
+
+**B1: Beauty & skincare**
+- Primary text: Skincare sells on texture, routine and trust, and a pretty flat-lay shows none of them. We make Meta ads for Australian beauty brands that show the product working, from creator videos to before-the-mirror routines, with claims kept cosmetic so your ads stay approved.
+  - HV last line: Book a free audit of your account with the specialist who'd run it.
+  - LV last line: From A$1,190/month, creative included. Month-to-month.
+- Headline: Meta ads for Aussie skincare brands
+- Description: Creative included · No lock-in
+- CTA: HV Apply now (→ `/services/audit`) · LV Learn more (→ `/industries/beauty-skincare`)
+
+**B2: Health & wellness**
+- Primary text: Wellness ads have more rules than most: Meta's policies and the TGA both care what you claim. We write ads that sell the routine and the result people can see, without promising cures, so your account stays in good standing while it grows.
+  - HV / LV last lines as B1.
+- Headline: Meta ads for Aussie wellness brands
+- Description: Compliant creative included
+- CTA: as B1 (→ `/industries/health-wellness`)
+
+**B3: Fashion**
+- Primary text: Fashion lives on new drops, and most brands only sell when there's a discount. We turn launches, catalogues and creator content into Meta ads that sell at full price, with fresh creative for every drop.
+  - HV / LV last lines as B1.
+- Headline: Meta ads for Aussie fashion brands
+- Description: New creative every drop
+- CTA: as B1 (→ `/industries/fashion`)
+
+## C. We do the heavy lifting
+
+**C-HV**
+- Primary text: Briefing creators, testing hooks, checking CPMs at 11pm, explaining ROAS to your accountant. Hand it over. We plan, make and run your Meta ads every week, and report against your store data. You keep the decisions; we do the work.
+- Headline: You run the brand. We'll run the ads.
+- Description: Free audit · Month-to-month
+- CTA: Apply now (→ `/services/audit`)
+
+**C-LV**
+- Primary text: Packing orders by day, fiddling with Ads Manager by night? Hand the ads to us. Campaign setup, 6 new creatives a month, fortnightly optimisation and a report in plain English. From A$1,190/month, month-to-month.
+- Headline: Hand over your Meta ads
+- Description: Creative included · No lock-in
+- CTA: Learn more (→ `/pricing`)
+
+---
+
+## Earlier angles (keep for testing later)
+
+### New · HV
 
 **HV1: P&L, not platform**
 - Primary text: Ads Manager says 4x. Your bank account says "are you sure?" We report your Meta ads against your store data: MER, new-customer cost and margin. If it doesn't show up in Shopify, it doesn't count. Book a free audit with the specialist who'd run your account.
@@ -50,7 +122,7 @@ Rules for every ad: no "Meta Partner" or Meta logos, no "guaranteed" or "#1"; an
 - Description: From A$790/month per account
 - CTA: Learn more (→ `/agencies`)
 
-## New · LV ads
+### New · LV
 
 **LV1: Roast my ads (nicely)**
 - Primary text: Running your own Meta ads between packing orders? Send them over. We'll roast them (nicely) for free: what's wasting spend, what to fix first, and whether you even need an agency yet. Sometimes the answer is no, and we'll say so.

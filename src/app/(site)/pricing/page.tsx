@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { faqs } from "@/lib/site";
+import { faqs, newClientOffer } from "@/lib/site";
 import { breadcrumbJsonLd, faqJsonLd, pageMetadata } from "@/lib/seo";
 import { JsonLd } from "@/components/site/json-ld";
 import { Faq, FinalCta, PlanGrid } from "@/components/site/blocks";
@@ -23,7 +23,12 @@ export default function PricingPage() {
       />
       <Section>
         <PlanGrid />
-        <div className="mt-10 rounded-xl border bg-muted/50 p-6">
+        <div id="new-client-offer" className="mt-10 rounded-xl border border-primary/30 bg-card p-6">
+          <h2 className="font-heading text-lg font-semibold">New clients: {newClientOffer.title}</h2>
+          <p className="mt-2 text-muted-foreground">{newClientOffer.body}</p>
+          <p className="mt-3 text-sm text-muted-foreground">{newClientOffer.terms}</p>
+        </div>
+        <div className="mt-6 rounded-xl border bg-muted/50 p-6">
           <h2 className="font-heading text-lg font-semibold">Start with a 30-day pilot</h2>
           <p className="mt-2 text-muted-foreground">
             Not sure yet? Start with a one-month pilot on any plan. If it&apos;s not working for you, you walk away with
