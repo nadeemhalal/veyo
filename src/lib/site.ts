@@ -820,7 +820,7 @@ export const q4Sprint = {
   bookBy: "25 November",
   // End of 25 November, Sri Lanka time.
   bookingClosesAt: "2026-11-26T00:00:00+05:30",
-  headline: "Let's make Q4 your biggest quarter ever.",
+  headline: "Run Black Friday ads early. Capture more sales before others.",
   // The Black Friday banner (founder's design). The CTA wording is the founder's choice; "today" sits next to the
   // 24-hour asterisk and the T&Cs, so keep both visible.
   bannerLabel: "Facebook + Instagram ads",
