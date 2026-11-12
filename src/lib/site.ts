@@ -831,6 +831,8 @@ export const q4Sprint = {
   bannerEnds: "Ends 25 Nov",
   bannerHeadline: "Get your Black Friday ads live in 24 hours",
   bannerCta: "Run your ad today",
+  // Matches the "More WhatsApp orders this December" ads, so the page answers what the ad said.
+  bannerOrders: "More WhatsApp orders",
   // After booking: shown on the thank-you screen. Reply-time promise: within 2 hours, 9am–9pm Sri Lanka time.
   replyPromise: "We'll WhatsApp you within 2 hours (9am–9pm, Sri Lanka time) to confirm your spot.",
   nextSteps: [

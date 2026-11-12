@@ -1,5 +1,5 @@
 import { Archivo, Caveat_Brush } from "next/font/google";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, MessageCircle } from "lucide-react";
 import { q4Sprint } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -83,7 +83,7 @@ export function BlackFridayBanner() {
 
         {/* Phone visual */}
         <div
-          className="mx-auto mt-4 w-full max-w-sm lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mt-0 lg:max-w-none"
+          className="relative mx-auto mt-4 w-full max-w-sm lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mt-0 lg:max-w-none"
           style={{ backgroundImage: "radial-gradient(closest-side, rgba(84,33,119,0.6), transparent)" }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element -- next/image is untested under vinext; the file is already a 46 KB webp */}
@@ -101,6 +101,16 @@ export function BlackFridayBanner() {
               WebkitMaskComposite: "source-in",
             }}
           />
+          {/* Tag on the phone, matching the "More WhatsApp orders" ads */}
+          <p
+            className="absolute bottom-[9%] left-1/2 inline-flex -translate-x-1/2 -rotate-3 items-center gap-2 whitespace-nowrap rounded-full bg-[#25d366] py-1.5 pl-1.5 pr-4 text-sm font-extrabold uppercase tracking-wide text-[#07060d] shadow-[0_0_28px_rgba(37,211,102,0.55)] sm:gap-2.5 sm:py-2 sm:pl-2 sm:pr-5 sm:text-lg"
+            style={{ fontFamily: "var(--font-bf-display)" }}
+          >
+            <span className="flex size-7 items-center justify-center rounded-full bg-[#07060d] text-[#25d366] sm:size-8">
+              <MessageCircle className="size-4" aria-hidden="true" />
+            </span>
+            {q4Sprint.bannerOrders} <span aria-hidden="true">🚀</span>
+          </p>
         </div>
 
         {/* Bottom: badges, button, conditions */}
