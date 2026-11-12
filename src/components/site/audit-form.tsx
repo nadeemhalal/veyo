@@ -134,7 +134,7 @@ export function AuditForm({
               {question.problems.map((p) => (
                 <label key={p} className="cursor-pointer">
                   <input type="checkbox" name="problems" value={p} className="peer sr-only" />
-                  <span className="inline-block rounded-full border px-3 py-1.5 text-sm transition-colors hover:bg-muted peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground peer-focus-visible:ring-3 peer-focus-visible:ring-ring/50">
+                  <span className="inline-block rounded-full border px-3 py-1.5 text-sm transition-colors hover:bg-muted peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground peer-checked:hover:bg-primary/90 peer-focus-visible:ring-3 peer-focus-visible:ring-ring/50">
                     {p}
                   </span>
                 </label>
