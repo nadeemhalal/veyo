@@ -889,11 +889,14 @@ export const leadQuestions = {
   },
   lk: {
     problems: [
-      "Our ads get likes and messages, not orders",
-      "Too many \"PM price?\" messages that go nowhere",
-      "Too many cash-on-delivery orders get refused",
-      "Not sure what to run for Black Friday or Christmas",
-      "We've never run ads properly",
+      // Kept short so they can be scanned in a second.
+      "Not enough orders",
+      "Cost per order going up",
+      "No Black Friday plan",
+      "Ads get no results",
+      "No tracking set up",
+      "Never run ads",
+      "Other",
     ],
     notePlaceholder: "e.g. We spend about Rs 100,000 a month and get lots of messages but few orders.",
   },
