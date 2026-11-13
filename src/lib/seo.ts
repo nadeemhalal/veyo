@@ -95,7 +95,7 @@ export function breadcrumbJsonLd(trail: { name: string; path: string }[]) {
   };
 }
 
-export function serviceJsonLd(name: string, description: string, path: string) {
+export function serviceJsonLd(name: string, description: string, path: string, country = "Australia") {
   return {
     "@context": "https://schema.org",
     "@type": "Service",
@@ -103,6 +103,6 @@ export function serviceJsonLd(name: string, description: string, path: string) {
     description,
     url: `${site.url}${path}`,
     provider: { "@id": `${site.url}/#organization` },
-    areaServed: { "@type": "Country", name: "Australia" },
+    areaServed: { "@type": "Country", name: country },
   };
 }

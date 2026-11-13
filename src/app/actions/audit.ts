@@ -61,6 +61,8 @@ export async function submitAudit(
     bfcm: "Thanks! We'll review your store and reply within one business day.",
     linkedin: "Got it! Your free video audit lands within 2 business days.",
     "sri-lanka-q4": "Got it! Your Q4 Sprint booking is in.",
+    websites: "Got it! We'll reply with a quote within 1 business day.",
+    "sri-lanka-websites": "Thank you! We'll reply with a quote within 1 business day.",
   };
   const message =
     messages[parsed.data.source] ??

@@ -4,12 +4,13 @@ import { getAllPosts } from "@/lib/posts";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   // Bump this when site copy changes materially. Posts use their own date.
-  const siteUpdated = new Date("2026-10-11");
+  const siteUpdated = new Date("2026-11-13");
   const posts = getAllPosts();
   const pages = [
     "",
     "/services/meta-ads",
     "/services/creative",
+    "/services/websites",
     "/services/audit",
     "/agencies",
     "/meta-ads-audit",
@@ -17,6 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/bfcm/playbook",
     "/sri-lanka",
     "/sri-lanka/tourism",
+    "/sri-lanka/websites",
     "/pricing",
     "/case-studies",
     "/insights",

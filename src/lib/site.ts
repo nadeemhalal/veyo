@@ -36,6 +36,7 @@ export const nav = [
     children: [
       { label: "Meta ads management", href: "/services/meta-ads" },
       { label: "Ad creative & UGC", href: "/services/creative" },
+      { label: "Websites & landing pages", href: "/services/websites" },
       { label: "Free ad account audit", href: "/services/audit" },
       { label: "60-point audit checklist", href: "/meta-ads-audit" },
       { label: "White label for agencies", href: "/agencies" },
@@ -60,6 +61,7 @@ export const nav = [
 export const sriLankaNav: readonly NavItem[] = [
   { label: "Online stores", href: "/sri-lanka" },
   { label: "Tourism", href: "/sri-lanka/tourism" },
+  { label: "Websites", href: "/sri-lanka/websites" },
   { label: "Pricing", href: "/sri-lanka#pricing" },
   { label: "FAQ", href: "#faq" },
   { label: "About", href: "/about" },
@@ -725,13 +727,13 @@ export const sriLankaEcom = {
       ],
     },
   ],
-  trustPoints: ["Meta ads only", "Price on the page", "Month-to-month", "Your ad account stays yours"],
+  trustPoints: ["Meta ads specialists", "Price on the page", "Month-to-month", "Your ad account stays yours"],
   // The first-month creatives offer. Must stay true: 3 free in month one, then 1 a month included.
   firstMonthOffer: "First month: 3 ad creatives free",
   // What we saw on Sri Lankan agency pages that rank for "Meta ads Sri Lanka" (October 2026).
   // Keep the "typical" column fair and hedged: it describes common patterns, not every agency.
   comparison: [
-    { label: "What they do", typical: "Websites, SEO, social posting, apps, and ads", veyo: "Facebook and Instagram ads. Nothing else." },
+    { label: "What they do", typical: "A bit of everything: social posting, apps, ads, and more", veyo: "Facebook and Instagram ads, plus the pages they send people to" },
     { label: "Price", typical: "Usually \"contact us for a quote\"", veyo: "On this page" },
     { label: "Contract", typical: "Sometimes a 6-month minimum", veyo: "Month-to-month, 30 days' notice" },
     { label: "Reported on", typical: "Often reach, likes and messages", veyo: "Cost per paid order" },
@@ -874,7 +876,12 @@ export const q4Sprint = {
 
 // The last question on the lead forms: tap the problems that fit, then an optional note.
 // One set per audience; the answers are saved with the lead ("Problem: ...").
-export type LeadQuestion = { problems: readonly string[]; notePlaceholder: string };
+export type LeadQuestion = {
+  problems: readonly string[];
+  notePlaceholder: string;
+  /** The question above the chips. Defaults to "What's your biggest problem right now?". */
+  legend?: string;
+};
 
 export const leadQuestions = {
   au: {
@@ -920,6 +927,17 @@ export const leadQuestions = {
       "We've never run ads properly",
     ],
     notePlaceholder: "e.g. We have 6 rooms in Ella and most bookings come from Booking.com.",
+  },
+  // Websites & landing pages (/services/websites and /sri-lanka/websites): what they need.
+  websitesAu: {
+    legend: "What do you need?",
+    problems: ["Landing page for Meta ads", "Landing page for other ads or email", "Full business website", "SEO & GEO optimisation", "Not sure yet"],
+    notePlaceholder: "e.g. We're launching a new serum in March and need a page for our Meta ads.",
+  },
+  websitesLk: {
+    legend: "What do you need?",
+    problems: ["Landing page for Meta ads", "Landing page for other ads", "Full business website", "SEO & GEO optimisation", "Not sure yet"],
+    notePlaceholder: "e.g. We need a website for our hotel in Galle, with WhatsApp booking.",
   },
 } as const satisfies Record<string, LeadQuestion>;
 
@@ -974,4 +992,253 @@ export const linkedinIntro = {
     "Your ad account, pixel and data always stay yours",
     "Working Australian business hours (AEST)",
   ],
+} as const;
+
+// Websites & landing pages: /services/websites (Australia, A$) and /sri-lanka/websites (Sri Lanka, Rs).
+// Suggested pricing. Confirm before launch: prices on the page must be the prices you charge (ACL).
+// Never promise rankings, page one or AI mentions: nobody controls those.
+export type WebsitePackage = {
+  name: string;
+  fit: string;
+  price: string;
+  cadence: string;
+  features: readonly string[];
+  addOn?: boolean;
+  highlighted?: boolean;
+};
+
+const websitePackageCopy = {
+  landing: {
+    name: "Landing page",
+    fit: "One page for one offer: a Meta ads campaign, a launch, a sale, or Google and email traffic.",
+  },
+  website: {
+    name: "Business website",
+    fit: "The full picture for a brand, clinic, studio, hotel or service business.",
+  },
+  seo: {
+    name: "SEO & GEO optimisation",
+    fit: "Add it to either. Get found on Google, and quoted when people ask ChatGPT and Google's AI.",
+  },
+};
+
+const seoFeatures = [
+  "Research into what your buyers actually search for",
+  "Titles, headings and copy written around those searches",
+  "Schema markup, so search engines and AI tools understand who you are and what you sell",
+  "Answers to the questions people ask ChatGPT and Google, written into your pages",
+  "Google Search Console, sitemap and Google Business Profile checked and set up",
+  "A check 30 days after launch: what's indexed and what's showing up",
+];
+
+const ownershipFaq = {
+  q: "Who owns the website?",
+  a: "You do. The domain and hosting accounts are in your name, and the site is yours. If we stop working together, everything stays with you.",
+};
+const hostingFaq = {
+  q: "What does hosting cost?",
+  a: "It depends on the site. Hosting and the domain are paid directly to the provider, and we'll tell you the cost before you start. Many landing pages cost little or nothing to host.",
+};
+const guaranteeFaq = {
+  q: "Can you guarantee page one, or that ChatGPT will mention us?",
+  a: "No, and be wary of anyone who does. Google and the AI companies decide what they show. We do the work that makes you easy to find and easy to quote, and show you what changed.",
+};
+
+export const websites = {
+  eyebrow: "Websites & landing pages",
+  headline: "Your ad did its job. Then the page loaded.",
+  // The "Build your page" game on both websites pages. Meter points show what each choice sets the page up
+  // for. They are not predicted results, and the page says so.
+  builder: {
+    builds: [
+      { id: "landing", name: "Landing page", blurb: "One page, one offer, built for ad clicks", answer: "Landing page for Meta ads" },
+      { id: "website", name: "Business website", blurb: "Up to 8 pages for the whole business", answer: "Full business website" },
+    ],
+    traffic: [
+      { id: "meta", label: "Meta ads", needsSeo: false },
+      { id: "google", label: "Google ads", needsSeo: false },
+      { id: "email", label: "Email & SMS", needsSeo: false },
+      { id: "search", label: "Google search", needsSeo: true },
+      { id: "ai", label: "ChatGPT & AI answers", needsSeo: true },
+    ],
+    meters: [
+      { id: "converts", label: "Turns clicks into leads" },
+      { id: "tracks", label: "Tracks every result" },
+      { id: "google", label: "Ready for Google" },
+      { id: "ai", label: "Ready for AI answers" },
+    ],
+    // Points per meter for each choice, out of 100.
+    points: {
+      none: { converts: 10, tracks: 5, google: 10, ai: 5 },
+      landing: { converts: 90, tracks: 100, google: 35, ai: 20 },
+      website: { converts: 70, tracks: 100, google: 50, ai: 35 },
+      seo: { converts: 5, tracks: 0, google: 45, ai: 60 },
+    },
+    levels: [
+      { min: 0, name: "meh", note: "Pick a build to get started." },
+      { min: 50, name: "Getting there", note: "Good for ads. Add SEO & GEO if you want people to find you without them." },
+      { min: 80, name: "veyo!", note: "Built for ads, Google and AI answers." },
+    ],
+    disclaimer: "The meters show what each build is set up to do, not a prediction of results.",
+  },
+  // GEO, explained once and plainly.
+  searchTypes: [
+    {
+      title: "SEO",
+      where: "Google and Bing results",
+      body: "Pages built around what people type into search, fast on a phone, and easy for Google to read.",
+    },
+    {
+      title: "GEO",
+      where: "ChatGPT, Gemini, Perplexity and Google's AI answers",
+      body: "Generative engine optimisation. Clear answers, structured data and facts about your business that AI tools can find and quote.",
+    },
+    {
+      title: "What nobody can promise",
+      where: "Including us",
+      body: "Page one, or a mention in ChatGPT. Google and the AI companies decide that. We do the work that makes you easy to find and easy to quote, and show you what changed.",
+    },
+  ],
+  why: [
+    { title: "Built by the people who run the ads", body: "We watch what people do after the click every day. Pages are planned around the ad that sends them there." },
+    { title: "Tracking that tells the truth", body: "Meta pixel, Conversions API and Google Analytics set up and tested before launch, so your ad results are real." },
+    { title: "Fast on a phone", body: "Most ad clicks happen on a phone. We build for small screens and slow connections first." },
+    { title: "Yours to keep", body: "Your domain, your hosting account, your website. If we part ways, everything stays with you." },
+  ],
+  steps: [
+    { title: "A short call", body: "Your offer, your buyers, and where the traffic will come from." },
+    { title: "Words first", body: "We write the copy and you approve it before anything gets designed." },
+    { title: "Build and test", body: "Design, build, then tracking, speed and forms checked on real phones." },
+    { title: "Launch and check", body: "We go live, then check in after 30 days with what's working." },
+  ],
+  au: {
+    path: "/services/websites",
+    country: "Australia",
+    // Numbers for the builder's running total. Keep in step with the package prices below.
+    prices: { currency: "A$", landing: 1490, website: 4490, seo: 990 },
+    title: "Landing pages and websites built for ads, SEO and GEO",
+    description:
+      "Landing pages for Meta ads and business websites for Australian brands, with SEO and GEO (AI search) optimisation. Built by Meta ads specialists, prices on the page, and you own everything.",
+    intro:
+      "Landing pages for Meta ads (and Google, and email), and full business websites. Built by the people who run the ads, ready for Google and AI search, and yours to keep.",
+    taxNote: "+ GST where applicable. Hosting and domain are paid directly to the provider.",
+    packages: [
+      {
+        ...websitePackageCopy.landing,
+        price: "A$1,490",
+        cadence: "one-off",
+        highlighted: true,
+        features: [
+          "One page, written and designed for one offer",
+          "Copy that matches your ads, so clicks don't bounce",
+          "Form, checkout or booking button sent where you want it",
+          "Meta pixel, Conversions API and GA4 set up and tested",
+          "Basic SEO: titles, descriptions and share image",
+          "2 rounds of changes",
+          "Ready in about 7 business days once we have your content",
+        ],
+      },
+      {
+        ...websitePackageCopy.website,
+        price: "From A$4,490",
+        cadence: "one-off",
+        features: [
+          "Up to 8 pages: home, about, services, contact and more",
+          "Copy written with you, from a short call",
+          "Contact forms, maps and booking links",
+          "Analytics and ad tracking set up and tested",
+          "Basic SEO: titles, descriptions, sitemap",
+          "3 rounds of changes, plus small text edits for 30 days after launch",
+          "Ready in about 3–4 weeks",
+        ],
+      },
+      { ...websitePackageCopy.seo, price: "+ A$990", cadence: "one-off", addOn: true, features: seoFeatures },
+    ] satisfies WebsitePackage[],
+    faqs: [
+      {
+        q: "How long does it take?",
+        a: "A landing page takes about 7 business days and a business website about 3–4 weeks, once we have your content (logo, photos, product details). We'll give you a date on the first call.",
+      },
+      {
+        q: "Do I have to write the words?",
+        a: "No. We write them from a short call and anything you already have, like reviews and product pages. You approve the copy before we design anything.",
+      },
+      ownershipFaq,
+      hostingFaq,
+      {
+        q: "What's GEO?",
+        a: "Generative engine optimisation. More people now ask ChatGPT, Gemini or Google's AI answers instead of scrolling search results. GEO means writing and structuring your pages so those tools can find, understand and quote your business.",
+      },
+      guaranteeFaq,
+      {
+        q: "Can you run the Meta ads too?",
+        a: "Yes, and it works best that way: the page and the ads are planned together. Our Meta ads plans are on the pricing page.",
+      },
+    ],
+  },
+  lk: {
+    path: "/sri-lanka/websites",
+    country: "Sri Lanka",
+    // Numbers for the builder's running total. Keep in step with the package prices below.
+    prices: { currency: "Rs ", landing: 45000, website: 125000, seo: 40000 },
+    title: "Landing pages and websites in Sri Lanka, with SEO and GEO",
+    description:
+      "Landing pages for Meta ads and business websites for Sri Lankan online stores, hotels and service businesses, with SEO and GEO (AI search) optimisation. Prices in rupees, and you own everything.",
+    intro:
+      "Landing pages for your Meta ads, and full websites for stores, hotels and service businesses. Built by the people who run the ads, ready for Google and AI search, with WhatsApp built in.",
+    taxNote: "Hosting and domain are paid directly to the provider.",
+    packages: [
+      {
+        ...websitePackageCopy.landing,
+        price: "Rs 45,000",
+        cadence: "one-off",
+        highlighted: true,
+        features: [
+          "One page, written and designed for one offer",
+          "Copy that matches your ads, with the price on the page",
+          "WhatsApp order button, form or checkout",
+          "Meta pixel, Conversions API and Google Analytics set up and tested",
+          "Basic SEO: titles, descriptions and share image",
+          "2 rounds of changes",
+          "Ready in about 7 working days once we have your content",
+        ],
+      },
+      {
+        ...websitePackageCopy.website,
+        price: "From Rs 125,000",
+        cadence: "one-off",
+        features: [
+          "Up to 8 pages: home, about, products or rooms, contact and more",
+          "Copy written with you, in English",
+          "WhatsApp, contact forms, maps and booking links",
+          "Analytics and ad tracking set up and tested",
+          "Basic SEO: titles, descriptions, sitemap",
+          "3 rounds of changes, plus small text edits for 30 days after launch",
+          "Ready in about 3–4 weeks",
+        ],
+      },
+      { ...websitePackageCopy.seo, price: "+ Rs 40,000", cadence: "one-off", addOn: true, features: seoFeatures },
+    ] satisfies WebsitePackage[],
+    faqs: [
+      {
+        q: "How long does it take?",
+        a: "A landing page takes about 7 working days and a business website about 3–4 weeks, once we have your content (logo, photos, product or room details). We'll give you a date on the first call.",
+      },
+      {
+        q: "We sell on Facebook and WhatsApp. Do we need a website?",
+        a: "Not always. A landing page with a WhatsApp button is often enough to start: it gives your ads one clear place to send people, with the price and delivery details up front. We'll tell you honestly which one you need.",
+      },
+      ownershipFaq,
+      hostingFaq,
+      {
+        q: "What's GEO?",
+        a: "Generative engine optimisation. More people, including tourists planning trips, now ask ChatGPT, Gemini or Google's AI answers instead of scrolling search results. GEO means writing and structuring your pages so those tools can find, understand and quote your business.",
+      },
+      guaranteeFaq,
+      {
+        q: "Can you run the Meta ads too?",
+        a: "Yes, and it works best that way: the page and the ads are planned together. See the Starter plan for online stores.",
+      },
+    ],
+  },
 } as const;

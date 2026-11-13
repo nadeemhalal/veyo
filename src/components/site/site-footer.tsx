@@ -8,6 +8,7 @@ const groups = [
     links: [
       { label: "Meta ads management", href: "/services/meta-ads" },
       { label: "Ad creative & UGC", href: "/services/creative" },
+      { label: "Websites & landing pages", href: "/services/websites" },
       { label: "Free ad audit", href: "/services/audit" },
       { label: "60-point audit checklist", href: "/meta-ads-audit" },
       { label: "White label for agencies", href: "/agencies" },
@@ -23,6 +24,7 @@ const groups = [
     links: [
       { label: "Meta ads for online stores", href: "/sri-lanka" },
       { label: "Meta ads for tourism", href: "/sri-lanka/tourism" },
+      { label: "Websites & landing pages", href: "/sri-lanka/websites" },
     ],
   },
   {

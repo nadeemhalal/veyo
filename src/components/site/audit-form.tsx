@@ -24,6 +24,7 @@ export function AuditForm({
   askWhatsapp = false,
   success,
   question = leadQuestions.au,
+  spendLabel = "Monthly Meta ad spend",
 }: {
   className?: string;
   compact?: boolean;
@@ -38,6 +39,8 @@ export function AuditForm({
   success?: React.ReactNode;
   /** The last question: problems to tap, and the example shown in the note box. */
   question?: LeadQuestion;
+  /** Label for the ad spend question. */
+  spendLabel?: string;
 }) {
   const [state, formAction, pending] = useActionState(submitAudit, initialState);
   const err = state.fieldErrors ?? {};
@@ -105,7 +108,7 @@ export function AuditForm({
       <Field id="storeUrl" label={urlLabel} error={err.storeUrl}>
         <Input id="storeUrl" name="storeUrl" inputMode="url" placeholder={urlPlaceholder} required aria-invalid={!!err.storeUrl} className="h-11" />
       </Field>
-      <Field id="spend" label="Monthly Meta ad spend" error={err.spend}>
+      <Field id="spend" label={spendLabel} error={err.spend}>
         <select
           id="spend"
           name="spend"
@@ -128,7 +131,7 @@ export function AuditForm({
         <>
           <fieldset className="space-y-2">
             <legend className="text-sm font-medium">
-              What&apos;s your biggest problem right now? <span className="font-normal text-muted-foreground">(tap any)</span>
+              {question.legend ?? "What's your biggest problem right now?"} <span className="font-normal text-muted-foreground">(tap any)</span>
             </legend>
             <div className="flex flex-wrap gap-2 pt-1">
               {question.problems.map((p) => (
