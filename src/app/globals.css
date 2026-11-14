@@ -140,6 +140,11 @@
   25% { opacity: 1; transform: translateY(-2px) scale(1.15); }
   100% { opacity: 0; transform: translateY(-14px) scale(1); }
 }
+/* Slow idle sway for the 3D phone on the websites pages */
+@keyframes veyo-sway {
+  0%, 100% { transform: rotateX(8deg) rotateY(-18deg); }
+  50% { transform: rotateX(4deg) rotateY(18deg); }
+}
 @media (prefers-reduced-motion: reduce) {
   [class*="veyo-pop"] { animation: none !important; opacity: 0; }
 }

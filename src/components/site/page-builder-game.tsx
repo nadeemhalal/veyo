@@ -186,7 +186,7 @@ export function PageBuilderGame({ region }: { region: "au" | "lk" }) {
       {/* Live preview and score */}
       <div className="lg:sticky lg:top-24 lg:self-start">
         <Phone build={build} seo={seo} lk={lk} traffic={builder.traffic.filter((t) => traffic.includes(t.id)).map((t) => t.label)} />
-        <p className="mt-2 text-center text-xs text-muted-foreground">Example page, for illustration</p>
+        <p className="text-center text-xs text-muted-foreground">Example page, for illustration. Tilt it.</p>
 
         <div className="mt-6 rounded-xl border bg-card p-5" aria-live="polite">
           <div className="flex items-baseline justify-between">
@@ -291,106 +291,168 @@ function Meter({ label, value }: { label: string; value: number }) {
   );
 }
 
-/** The phone mock-up. Blocks slide in as the build grows. */
+/**
+ * The 3D phone. With no build picked, the page's pieces float loose around it. Pick one and they fly in and
+ * snap into place. It tilts towards the pointer (or a finger), pulls its layers apart on hover so you can see
+ * the depth, and sways gently when left alone. Plain CSS 3D: no extra libraries.
+ */
 function Phone({ build, seo, lk, traffic }: { build: BuildId | null; seo: boolean; lk: boolean; traffic: string[] }) {
   const product = lk ? "Ceylon tea gift box" : "Glow serum";
   const brand = lk ? "yourbrand.lk" : "yourbrand.com.au";
+  const built = build !== null;
+  const [tilt, setTilt] = useState<{ x: number; y: number } | null>(null);
+
+  function onPointerMove(e: React.PointerEvent<HTMLDivElement>) {
+    const r = e.currentTarget.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - 0.5;
+    const py = (e.clientY - r.top) / r.height - 0.5;
+    setTilt({ x: -py * 22, y: px * 30 });
+  }
+
+  // Each piece: how far it lifts off the screen when built, and where it floats when the page isn't built yet.
+  const piece = (z: number, loose: string, order: number): React.CSSProperties => ({
+    transform: built ? `translateZ(${z * (tilt ? 2.4 : 1)}px)` : loose,
+    transitionDelay: built ? `${order * 90}ms` : "0ms",
+  });
+  const pieceClass = "transition-[transform,opacity] duration-700 ease-[cubic-bezier(0.2,0.9,0.3,1.2)] motion-reduce:transition-none";
+  const loose = !built && "border-2 border-dashed border-muted-foreground/30 bg-transparent opacity-70";
 
   return (
-    <div className="relative mx-auto w-full max-w-[18rem]">
-      {/* Search and AI cards float above the phone once SEO & GEO is on */}
-      {build && seo && (
-        <div className="mb-3 space-y-2 animate-in fade-in slide-in-from-bottom-2 duration-500">
-          <div className="rounded-lg border bg-card p-3 text-xs shadow-sm">
-            <p className="flex items-center gap-1.5 text-muted-foreground">
-              <Search className="size-3" aria-hidden="true" />
-              {brand}
-            </p>
-            <p className="mt-0.5 font-semibold text-primary">{product} | Your Brand</p>
-            <p className="text-muted-foreground">★★★★★ Rated by real customers · Ships {lk ? "islandwide" : "Australia-wide"}</p>
-          </div>
-          <div className="ml-6 flex items-start gap-2 rounded-lg border bg-card p-3 text-xs shadow-sm">
-            <Sparkles className="mt-0.5 size-3.5 shrink-0 text-primary" aria-hidden="true" />
-            <p>
-              <span className="text-muted-foreground">AI answer: </span>
-              &ldquo;For a {product.toLowerCase()}, {brand} is worth a look&hellip;&rdquo;
-            </p>
-          </div>
-        </div>
-      )}
-
-      <div className="rounded-[2.25rem] border-[6px] border-[#16161D] bg-[#16161D] p-1 shadow-xl dark:border-white/15">
-        <div className="relative h-[26rem] overflow-hidden rounded-[1.75rem] bg-background">
-          <div className="mx-auto mt-2 h-4 w-20 rounded-full bg-[#16161D]" aria-hidden="true" />
-
-          {traffic.length > 0 && build && (
-            <div className="mx-3 mt-2 truncate rounded-md bg-muted px-2 py-1 text-[10px] text-muted-foreground animate-in fade-in">
-              Visitors from: {traffic.join(" · ")}
+    <div
+      className="mx-auto w-full max-w-[22rem] cursor-grab touch-pan-y select-none overflow-hidden px-8 py-6 [perspective:1100px]"
+      onPointerMove={onPointerMove}
+      onPointerLeave={() => setTilt(null)}
+      onPointerUp={(e) => e.pointerType !== "mouse" && setTilt(null)}
+      aria-hidden="true"
+    >
+      <div
+        className={cn(
+          "relative mx-auto w-full max-w-[18rem] [transform-style:preserve-3d]",
+          tilt ? "transition-transform duration-150 ease-out" : "animate-[veyo-sway_7s_ease-in-out_infinite] motion-reduce:animate-none",
+        )}
+        style={tilt ? { transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` } : undefined}
+      >
+        {/* Search and AI cards float in front once SEO & GEO is on */}
+        {built && seo && (
+          <div className="mb-3 space-y-2 [transform-style:preserve-3d]">
+            <div className="rounded-lg border bg-card p-3 text-xs shadow-lg animate-in fade-in slide-in-from-bottom-3 duration-500" style={{ transform: "translateZ(70px)" }}>
+              <p className="flex items-center gap-1.5 text-muted-foreground">
+                <Search className="size-3" />
+                {brand}
+              </p>
+              <p className="mt-0.5 font-semibold text-primary">{product} | Your Brand</p>
+              <p className="text-muted-foreground">★★★★★ Rated by real customers · Ships {lk ? "islandwide" : "Australia-wide"}</p>
             </div>
-          )}
-
-          {!build ? (
-            <div className="flex h-[85%] flex-col items-center justify-center gap-3 px-6 text-center">
-              <div className="size-8 animate-spin rounded-full border-4 border-muted border-t-muted-foreground/40 motion-reduce:animate-none" aria-hidden="true" />
-              <p className="font-heading text-3xl font-bold text-muted-foreground line-through">meh</p>
-              <p className="text-xs text-muted-foreground">Still loading. Your visitor left 4 seconds ago.</p>
+            <div className="ml-6 flex items-start gap-2 rounded-lg border bg-card p-3 text-xs shadow-lg animate-in fade-in slide-in-from-bottom-3 duration-700" style={{ transform: "translateZ(110px)" }}>
+              <Sparkles className="mt-0.5 size-3.5 shrink-0 text-primary" />
+              <p>
+                <span className="text-muted-foreground">AI answer: </span>
+                &ldquo;For a {product.toLowerCase()}, {brand} is worth a look&hellip;&rdquo;
+              </p>
             </div>
-          ) : (
-            <div key={build} className="space-y-2.5 px-3 pt-3 animate-in fade-in duration-300">
-              {build === "website" && (
-                <div className="flex justify-between text-[10px] font-medium text-muted-foreground animate-in fade-in slide-in-from-top-2">
-                  {["Home", "Shop", "About", "Contact"].map((t) => (
-                    <span key={t} className={t === "Home" ? "text-foreground" : undefined}>
-                      {t}
-                    </span>
-                  ))}
+          </div>
+        )}
+
+        <div className="relative [transform-style:preserve-3d]">
+          {/* The back of the phone, for thickness when it tilts */}
+          <div className="absolute inset-0 rounded-[2.25rem] bg-[#0b0b10]" style={{ transform: "translateZ(-16px)" }} />
+          <div className="absolute inset-0 rounded-[2.25rem] bg-[#16161D]" style={{ transform: "translateZ(-8px)" }} />
+
+          <div className="relative rounded-[2.25rem] border-[6px] border-[#16161D] bg-[#16161D] p-1 shadow-2xl [transform-style:preserve-3d] dark:border-white/15">
+            <div className="relative h-[26rem] rounded-[1.75rem] bg-background [transform-style:preserve-3d]">
+              <div className="mx-auto pt-2" style={{ transform: "translateZ(4px)" }}>
+                <div className="mx-auto h-4 w-20 rounded-full bg-[#16161D]" />
+              </div>
+
+              <div className="space-y-2.5 px-3 pt-2 [transform-style:preserve-3d]">
+                {traffic.length > 0 && built && (
+                  <div className="truncate rounded-md bg-muted px-2 py-1 text-[10px] text-muted-foreground animate-in fade-in" style={{ transform: "translateZ(8px)" }}>
+                    Visitors from: {traffic.join(" · ")}
+                  </div>
+                )}
+
+                {build === "website" && (
+                  <div className="flex justify-between text-[10px] font-medium text-muted-foreground animate-in fade-in slide-in-from-top-2" style={{ transform: "translateZ(10px)" }}>
+                    {["Home", "Shop", "About", "Contact"].map((t) => (
+                      <span key={t} className={t === "Home" ? "text-foreground" : undefined}>
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                <div
+                  className={cn("flex h-24 items-end rounded-xl p-3", built ? "bg-primary" : loose, pieceClass)}
+                  style={piece(28, "translate3d(-36px,-30px,110px) rotateZ(-14deg) rotateY(25deg)", 0)}
+                >
+                  <p className={cn("font-heading text-sm font-bold leading-tight", built ? "text-primary-foreground" : "text-muted-foreground/50")}>
+                    {built ? (
+                      <>
+                        {product}.<br />
+                        {lk ? "Islandwide delivery." : "Ships tomorrow."}
+                      </>
+                    ) : (
+                      "Your headline"
+                    )}
+                  </p>
                 </div>
-              )}
-              <div className="flex h-24 items-end rounded-xl bg-primary p-3 animate-in fade-in slide-in-from-bottom-3 duration-500">
-                <p className="font-heading text-sm font-bold leading-tight text-primary-foreground">
-                  {product}.<br />
-                  {lk ? "Islandwide delivery." : "Ships tomorrow."}
-                </p>
-              </div>
-              <div className="flex items-center justify-between animate-in fade-in slide-in-from-bottom-3 duration-700">
-                <span className="font-mono text-sm font-bold">{lk ? "Rs 4,500" : "A$49"}</span>
-                <span className="flex gap-0.5 text-primary" aria-label="5 stars">
-                  {[0, 1, 2, 3, 4].map((i) => (
-                    <Star key={i} className="size-3 fill-current" aria-hidden="true" />
-                  ))}
-                </span>
-              </div>
-              <div className="space-y-1.5 animate-in fade-in duration-700" aria-hidden="true">
-                <div className="h-2 w-full rounded bg-muted" />
-                <div className="h-2 w-4/5 rounded bg-muted" />
-              </div>
-              <div className="flex h-9 items-center justify-center gap-1.5 rounded-lg bg-brand text-xs font-bold text-brand-foreground animate-in zoom-in-95 fade-in duration-500">
-                {lk ? (
-                  <>
-                    <MessageCircle className="size-3.5" aria-hidden="true" /> Order on WhatsApp
-                  </>
-                ) : (
-                  "Add to cart"
+
+                <div
+                  className={cn("flex items-center justify-between rounded-md", !built && loose, !built && "px-2 py-1", pieceClass)}
+                  style={piece(18, "translate3d(44px,10px,80px) rotateZ(12deg)", 1)}
+                >
+                  <span className={cn("font-mono text-sm font-bold", !built && "text-muted-foreground/50")}>{built ? (lk ? "Rs 4,500" : "A$49") : "Price"}</span>
+                  <span className={cn("flex gap-0.5", built ? "text-primary" : "text-muted-foreground/40")}>
+                    {[0, 1, 2, 3, 4].map((i) => (
+                      <Star key={i} className="size-3 fill-current" />
+                    ))}
+                  </span>
+                </div>
+
+                <div className={cn("space-y-1.5 rounded-md", !built && loose, !built && "p-2", pieceClass)} style={piece(8, "translate3d(-50px,30px,50px) rotateZ(8deg) rotateX(20deg)", 2)}>
+                  <div className="h-2 w-full rounded bg-muted" />
+                  <div className="h-2 w-4/5 rounded bg-muted" />
+                </div>
+
+                <div
+                  className={cn(
+                    "flex h-9 items-center justify-center gap-1.5 rounded-lg text-xs font-bold",
+                    built ? "bg-brand text-brand-foreground shadow-lg" : cn(loose, "text-muted-foreground/50"),
+                    pieceClass,
+                  )}
+                  style={piece(44, "translate3d(28px,50px,140px) rotateZ(-10deg) rotateY(-30deg)", 3)}
+                >
+                  {built && lk && <MessageCircle className="size-3.5" />}
+                  {built ? (lk ? "Order on WhatsApp" : "Add to cart") : "Button"}
+                </div>
+
+                {build === "website" && (
+                  <div className="grid grid-cols-2 gap-2 animate-in fade-in slide-in-from-bottom-4 duration-700" style={{ transform: `translateZ(${tilt ? 40 : 16}px)` }}>
+                    {["Our story", lk ? "Delivery" : "Reviews"].map((t) => (
+                      <div key={t} className="rounded-lg border bg-card p-2">
+                        <p className="text-[10px] font-semibold">{t}</p>
+                        <div className="mt-1.5 h-1.5 w-full rounded bg-muted" />
+                        <div className="mt-1 h-1.5 w-2/3 rounded bg-muted" />
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {built && seo && (
+                  <p className="flex items-center gap-1 text-[10px] font-medium text-primary animate-in fade-in" style={{ transform: "translateZ(12px)" }}>
+                    <Check className="size-3" /> FAQs answered · schema markup · search-ready
+                  </p>
                 )}
               </div>
-              {build === "website" && (
-                <div className="grid grid-cols-2 gap-2 animate-in fade-in slide-in-from-bottom-4 duration-700">
-                  {["Our story", lk ? "Delivery" : "Reviews"].map((t) => (
-                    <div key={t} className="rounded-lg border p-2">
-                      <p className="text-[10px] font-semibold">{t}</p>
-                      <div className="mt-1.5 h-1.5 w-full rounded bg-muted" />
-                      <div className="mt-1 h-1.5 w-2/3 rounded bg-muted" />
-                    </div>
-                  ))}
+
+              {!built && (
+                <div className="absolute inset-x-0 bottom-10 px-6 text-center" style={{ transform: "translateZ(20px)" }}>
+                  <p className="font-heading text-3xl font-bold text-muted-foreground line-through">meh</p>
+                  <p className="mt-1 text-xs text-muted-foreground">Pick a build and watch it snap together.</p>
                 </div>
               )}
-              {seo && (
-                <p className="flex items-center gap-1 text-[10px] font-medium text-primary animate-in fade-in">
-                  <Check className="size-3" aria-hidden="true" /> FAQs answered · schema markup · search-ready
-                </p>
-              )}
             </div>
-          )}
+          </div>
         </div>
       </div>
     </div>
