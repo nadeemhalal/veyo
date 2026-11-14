@@ -59,7 +59,7 @@ export function WebsitesPage({ region }: { region: "au" | "lk" }) {
         id="build"
         eyebrow="Build your page"
         title="Go from meh to veyo! in three taps."
-        intro="Pick a build, tell us where visitors come from, and switch on the power-ups. Watch the page come together, with the price as you go."
+        intro="Pick a build, tell us where visitors come from, and switch on the power-ups. See the page and the price change as you go."
       >
         <PageBuilderGame region={region} />
       </Section>

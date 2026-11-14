@@ -11,8 +11,8 @@ type MeterId = (typeof websites.builder.meters)[number]["id"];
 const { builder } = websites;
 
 /**
- * "Build your page": pick a build, where traffic comes from and the SEO & GEO add-on, and watch a phone
- * mock-up assemble while four meters fill. "Get a quote for this build" ticks the matching answers in the
+ * "Build your page": pick a build, where traffic comes from and the SEO & GEO add-on. A finished phone mock-up
+ * (a made-up brand) shows the matching page while four meters fill. "Get a quote for this build" ticks the matching answers in the
  * quote form below (#quote) and notes the build in its message box.
  */
 export function PageBuilderGame({ region }: { region: "au" | "lk" }) {
@@ -292,14 +292,16 @@ function Meter({ label, value }: { label: string; value: number }) {
 }
 
 /**
- * The 3D phone. With no build picked, the page's pieces float loose around it. Pick one and they fly in and
- * snap into place. It tilts towards the pointer (or a finger), pulls its layers apart on hover so you can see
- * the depth, and sways gently when left alone. Plain CSS 3D: no extra libraries.
+ * The 3D phone, showing a finished page for Dewlark, a made-up skincare brand. It is always fully built:
+ * the build picks only change which parts show (site nav and sections for a full website, search and AI
+ * cards for SEO & GEO). It tilts towards the pointer (or a finger) and sways gently when left alone.
+ * Plain CSS 3D: no extra libraries.
  */
 function Phone({ build, seo, lk, traffic }: { build: BuildId | null; seo: boolean; lk: boolean; traffic: string[] }) {
-  const product = lk ? "Ceylon tea gift box" : "Glow serum";
-  const brand = lk ? "yourbrand.lk" : "yourbrand.com.au";
-  const built = build !== null;
+  const brand = "Dewlark";
+  const domain = lk ? "dewlark.lk" : "dewlark.com.au";
+  const product = "Glow serum";
+  const website = build === "website";
   const [tilt, setTilt] = useState<{ x: number; y: number } | null>(null);
 
   function onPointerMove(e: React.PointerEvent<HTMLDivElement>) {
@@ -308,21 +310,15 @@ function Phone({ build, seo, lk, traffic }: { build: BuildId | null; seo: boolea
     const py = (e.clientY - r.top) / r.height - 0.5;
     setTilt({ x: -py * 22, y: px * 30 });
   }
-
-  // Each piece: how far it lifts off the screen when built, and where it floats when the page isn't built yet.
-  const piece = (z: number, loose: string, order: number): React.CSSProperties => ({
-    transform: built ? `translateZ(${z * (tilt ? 2.4 : 1)}px)` : loose,
-    transitionDelay: built ? `${order * 90}ms` : "0ms",
-  });
-  const pieceClass = "transition-[transform,opacity] duration-700 ease-[cubic-bezier(0.2,0.9,0.3,1.2)] motion-reduce:transition-none";
-  const loose = !built && "border-2 border-dashed border-muted-foreground/30 bg-transparent opacity-70";
+  const resetTilt = () => setTilt(null);
 
   return (
     <div
       className="mx-auto w-full max-w-[22rem] cursor-grab touch-pan-y select-none overflow-hidden px-8 py-6 [perspective:1100px]"
       onPointerMove={onPointerMove}
-      onPointerLeave={() => setTilt(null)}
-      onPointerUp={(e) => e.pointerType !== "mouse" && setTilt(null)}
+      onPointerLeave={resetTilt}
+      onPointerCancel={resetTilt}
+      onPointerUp={(e) => e.pointerType !== "mouse" && resetTilt()}
       aria-hidden="true"
     >
       <div
@@ -332,22 +328,24 @@ function Phone({ build, seo, lk, traffic }: { build: BuildId | null; seo: boolea
         )}
         style={tilt ? { transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` } : undefined}
       >
-        {/* Search and AI cards float in front once SEO & GEO is on */}
-        {built && seo && (
+        {/* Search and AI cards float in front when SEO & GEO is on */}
+        {seo && (
           <div className="mb-3 space-y-2 [transform-style:preserve-3d]">
-            <div className="rounded-lg border bg-card p-3 text-xs shadow-lg animate-in fade-in slide-in-from-bottom-3 duration-500" style={{ transform: "translateZ(70px)" }}>
+            <div className="rounded-lg border bg-card p-3 text-xs shadow-lg" style={{ transform: "translateZ(70px)" }}>
               <p className="flex items-center gap-1.5 text-muted-foreground">
                 <Search className="size-3" />
-                {brand}
+                {domain}
               </p>
-              <p className="mt-0.5 font-semibold text-primary">{product} | Your Brand</p>
-              <p className="text-muted-foreground">★★★★★ Rated by real customers · Ships {lk ? "islandwide" : "Australia-wide"}</p>
+              <p className="mt-0.5 font-semibold text-primary">
+                {product} | {brand}
+              </p>
+              <p className="text-muted-foreground">★★★★★ Rated by customers · Ships {lk ? "islandwide" : "Australia-wide"}</p>
             </div>
-            <div className="ml-6 flex items-start gap-2 rounded-lg border bg-card p-3 text-xs shadow-lg animate-in fade-in slide-in-from-bottom-3 duration-700" style={{ transform: "translateZ(110px)" }}>
+            <div className="ml-6 flex items-start gap-2 rounded-lg border bg-card p-3 text-xs shadow-lg" style={{ transform: "translateZ(110px)" }}>
               <Sparkles className="mt-0.5 size-3.5 shrink-0 text-primary" />
               <p>
                 <span className="text-muted-foreground">AI answer: </span>
-                &ldquo;For a {product.toLowerCase()}, {brand} is worth a look&hellip;&rdquo;
+                &ldquo;For a {product.toLowerCase()}, {domain} is worth a look&hellip;&rdquo;
               </p>
             </div>
           </div>
@@ -365,69 +363,53 @@ function Phone({ build, seo, lk, traffic }: { build: BuildId | null; seo: boolea
               </div>
 
               <div className="space-y-2.5 px-3 pt-2 [transform-style:preserve-3d]">
-                {traffic.length > 0 && built && (
-                  <div className="truncate rounded-md bg-muted px-2 py-1 text-[10px] text-muted-foreground animate-in fade-in" style={{ transform: "translateZ(8px)" }}>
+                {traffic.length > 0 && (
+                  <div className="truncate rounded-md bg-muted px-2 py-1 text-[10px] text-muted-foreground" style={{ transform: "translateZ(8px)" }}>
                     Visitors from: {traffic.join(" · ")}
                   </div>
                 )}
 
-                {build === "website" && (
-                  <div className="flex justify-between text-[10px] font-medium text-muted-foreground animate-in fade-in slide-in-from-top-2" style={{ transform: "translateZ(10px)" }}>
-                    {["Home", "Shop", "About", "Contact"].map((t) => (
-                      <span key={t} className={t === "Home" ? "text-foreground" : undefined}>
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                )}
+                <div className="flex items-center justify-between text-[10px] font-medium text-muted-foreground" style={{ transform: "translateZ(10px)" }}>
+                  <span className="font-heading text-xs font-bold tracking-tight text-foreground">{brand.toLowerCase()}</span>
+                  {website && (
+                    <span className="flex gap-2.5">
+                      {["Shop", "About", "Contact"].map((t) => (
+                        <span key={t}>{t}</span>
+                      ))}
+                    </span>
+                  )}
+                </div>
 
-                <div
-                  className={cn("flex h-24 items-end rounded-xl p-3", built ? "bg-primary" : loose, pieceClass)}
-                  style={piece(28, "translate3d(-36px,-30px,110px) rotateZ(-14deg) rotateY(25deg)", 0)}
-                >
-                  <p className={cn("font-heading text-sm font-bold leading-tight", built ? "text-primary-foreground" : "text-muted-foreground/50")}>
-                    {built ? (
-                      <>
-                        {product}.<br />
-                        {lk ? "Islandwide delivery." : "Ships tomorrow."}
-                      </>
-                    ) : (
-                      "Your headline"
-                    )}
+                <div className="flex h-24 items-end rounded-xl bg-primary p-3" style={{ transform: "translateZ(28px)" }}>
+                  <p className="font-heading text-sm font-bold leading-tight text-primary-foreground">
+                    {product}.<br />
+                    {lk ? "Islandwide delivery." : "Ships tomorrow."}
                   </p>
                 </div>
 
-                <div
-                  className={cn("flex items-center justify-between rounded-md", !built && loose, !built && "px-2 py-1", pieceClass)}
-                  style={piece(18, "translate3d(44px,10px,80px) rotateZ(12deg)", 1)}
-                >
-                  <span className={cn("font-mono text-sm font-bold", !built && "text-muted-foreground/50")}>{built ? (lk ? "Rs 4,500" : "A$49") : "Price"}</span>
-                  <span className={cn("flex gap-0.5", built ? "text-primary" : "text-muted-foreground/40")}>
+                <div className="flex items-center justify-between rounded-md" style={{ transform: "translateZ(18px)" }}>
+                  <span className="font-mono text-sm font-bold">{lk ? "Rs 4,500" : "A$49"}</span>
+                  <span className="flex gap-0.5 text-primary">
                     {[0, 1, 2, 3, 4].map((i) => (
                       <Star key={i} className="size-3 fill-current" />
                     ))}
                   </span>
                 </div>
 
-                <div className={cn("space-y-1.5 rounded-md", !built && loose, !built && "p-2", pieceClass)} style={piece(8, "translate3d(-50px,30px,50px) rotateZ(8deg) rotateX(20deg)", 2)}>
-                  <div className="h-2 w-full rounded bg-muted" />
-                  <div className="h-2 w-4/5 rounded bg-muted" />
-                </div>
+                <p className="text-[10px] leading-snug text-muted-foreground" style={{ transform: "translateZ(8px)" }}>
+                  A light serum for a fresh, dewy look. Rosehip and niacinamide, 30 ml.
+                </p>
 
                 <div
-                  className={cn(
-                    "flex h-9 items-center justify-center gap-1.5 rounded-lg text-xs font-bold",
-                    built ? "bg-brand text-brand-foreground shadow-lg" : cn(loose, "text-muted-foreground/50"),
-                    pieceClass,
-                  )}
-                  style={piece(44, "translate3d(28px,50px,140px) rotateZ(-10deg) rotateY(-30deg)", 3)}
+                  className="flex h-9 items-center justify-center gap-1.5 rounded-lg bg-brand text-xs font-bold text-brand-foreground shadow-lg"
+                  style={{ transform: "translateZ(44px)" }}
                 >
-                  {built && lk && <MessageCircle className="size-3.5" />}
-                  {built ? (lk ? "Order on WhatsApp" : "Add to cart") : "Button"}
+                  {lk && <MessageCircle className="size-3.5" />}
+                  {lk ? "Order on WhatsApp" : "Add to cart"}
                 </div>
 
-                {build === "website" && (
-                  <div className="grid grid-cols-2 gap-2 animate-in fade-in slide-in-from-bottom-4 duration-700" style={{ transform: `translateZ(${tilt ? 40 : 16}px)` }}>
+                {website && (
+                  <div className="grid grid-cols-2 gap-2" style={{ transform: "translateZ(16px)" }}>
                     {["Our story", lk ? "Delivery" : "Reviews"].map((t) => (
                       <div key={t} className="rounded-lg border bg-card p-2">
                         <p className="text-[10px] font-semibold">{t}</p>
@@ -438,19 +420,12 @@ function Phone({ build, seo, lk, traffic }: { build: BuildId | null; seo: boolea
                   </div>
                 )}
 
-                {built && seo && (
-                  <p className="flex items-center gap-1 text-[10px] font-medium text-primary animate-in fade-in" style={{ transform: "translateZ(12px)" }}>
+                {seo && (
+                  <p className="flex items-center gap-1 text-[10px] font-medium text-primary" style={{ transform: "translateZ(12px)" }}>
                     <Check className="size-3" /> FAQs answered · schema markup · search-ready
                   </p>
                 )}
               </div>
-
-              {!built && (
-                <div className="absolute inset-x-0 bottom-10 px-6 text-center" style={{ transform: "translateZ(20px)" }}>
-                  <p className="font-heading text-3xl font-bold text-muted-foreground line-through">meh</p>
-                  <p className="mt-1 text-xs text-muted-foreground">Pick a build and watch it snap together.</p>
-                </div>
-              )}
             </div>
           </div>
         </div>
@@ -459,32 +434,12 @@ function Phone({ build, seo, lk, traffic }: { build: BuildId | null; seo: boolea
   );
 }
 
-// The hero demo: the phone builds itself on a loop, so the first screen shows what the game below does.
-const demoSteps: { build: BuildId | null; seo: boolean; traffic: string[] }[] = [
-  { build: null, seo: false, traffic: [] },
-  { build: "landing", seo: false, traffic: ["Meta ads"] },
-  { build: "landing", seo: true, traffic: ["Meta ads", "Google search"] },
-  { build: "website", seo: true, traffic: ["Meta ads", "Google search", "ChatGPT"] },
-];
-
-/** A self-playing 3D phone for the hero. Tiltable like the one in the game; still for reduced motion. */
+/** The hero demo: the finished page (full website with SEO & GEO), tiltable like the one in the game. */
 export function HeroPhoneDemo({ region }: { region: "au" | "lk" }) {
-  const [step, setStep] = useState(0);
-
-  useEffect(() => {
-    // With reduced motion, show one finished build instead of the loop.
-    const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const id = still
-      ? window.setTimeout(() => setStep(2), 0)
-      : window.setInterval(() => setStep((s) => (s + 1) % demoSteps.length), 2600);
-    return () => (still ? window.clearTimeout(id) : window.clearInterval(id));
-  }, []);
-
-  const s = demoSteps[step];
   return (
     <div className="flex flex-col justify-end sm:min-h-[37rem]">
-      <Phone build={s.build} seo={s.seo} lk={region === "lk"} traffic={s.traffic} />
-      <p className="text-center text-xs text-muted-foreground">Live demo. Tilt it, then build yours below.</p>
+      <Phone build="website" seo lk={region === "lk"} traffic={["Meta ads", "Google search", "ChatGPT"]} />
+      <p className="text-center text-xs text-muted-foreground">Example page for a made-up brand. Tilt it, then build yours below.</p>
     </div>
   );
 }
