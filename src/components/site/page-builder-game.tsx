@@ -458,3 +458,33 @@ function Phone({ build, seo, lk, traffic }: { build: BuildId | null; seo: boolea
     </div>
   );
 }
+
+// The hero demo: the phone builds itself on a loop, so the first screen shows what the game below does.
+const demoSteps: { build: BuildId | null; seo: boolean; traffic: string[] }[] = [
+  { build: null, seo: false, traffic: [] },
+  { build: "landing", seo: false, traffic: ["Meta ads"] },
+  { build: "landing", seo: true, traffic: ["Meta ads", "Google search"] },
+  { build: "website", seo: true, traffic: ["Meta ads", "Google search", "ChatGPT"] },
+];
+
+/** A self-playing 3D phone for the hero. Tiltable like the one in the game; still for reduced motion. */
+export function HeroPhoneDemo({ region }: { region: "au" | "lk" }) {
+  const [step, setStep] = useState(0);
+
+  useEffect(() => {
+    // With reduced motion, show one finished build instead of the loop.
+    const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const id = still
+      ? window.setTimeout(() => setStep(2), 0)
+      : window.setInterval(() => setStep((s) => (s + 1) % demoSteps.length), 2600);
+    return () => (still ? window.clearTimeout(id) : window.clearInterval(id));
+  }, []);
+
+  const s = demoSteps[step];
+  return (
+    <div className="flex flex-col justify-end sm:min-h-[37rem]">
+      <Phone build={s.build} seo={s.seo} lk={region === "lk"} traffic={s.traffic} />
+      <p className="text-center text-xs text-muted-foreground">Live demo. Tilt it, then build yours below.</p>
+    </div>
+  );
+}

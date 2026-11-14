@@ -5,7 +5,7 @@ import { lkrSpendOptions, spendOptions } from "@/lib/audit-schema";
 import { AuditForm } from "@/components/site/audit-form";
 import { CtaLink } from "@/components/site/cta-link";
 import { JsonLd } from "@/components/site/json-ld";
-import { PageBuilderGame } from "@/components/site/page-builder-game";
+import { HeroPhoneDemo, PageBuilderGame } from "@/components/site/page-builder-game";
 import { Section } from "@/components/site/section";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
@@ -25,8 +25,9 @@ export function WebsitesPage({ region }: { region: "au" | "lk" }) {
         ]}
       />
 
-      <section className="border-b bg-muted/40 py-16 sm:py-20">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <section className="overflow-hidden border-b bg-muted/40 py-12 sm:py-16">
+        <div className="mx-auto grid max-w-6xl items-center gap-6 px-4 sm:px-6 lg:grid-cols-[1fr_24rem] lg:gap-10">
+          <div>
           <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-primary">{websites.eyebrow}</p>
           <h1 className="max-w-3xl font-heading text-4xl font-bold tracking-tight sm:text-5xl">{websites.headline}</h1>
           <p className="mt-5 max-w-2xl text-lg text-muted-foreground">{copy.intro}</p>
@@ -49,6 +50,8 @@ export function WebsitesPage({ region }: { region: "au" | "lk" }) {
               </CtaLink>
             )}
           </div>
+          </div>
+          <HeroPhoneDemo region={region} />
         </div>
       </section>
 
