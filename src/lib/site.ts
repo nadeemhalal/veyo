@@ -1046,7 +1046,6 @@ const guaranteeFaq = {
 
 export const websites = {
   eyebrow: "Websites & landing pages",
-  headline: "Your ad did its job. Then the page loaded.",
   // The "Build your page" game on both websites pages. Meter points show what each choice sets the page up
   // for. They are not predicted results, and the page says so.
   builder: {
@@ -1114,6 +1113,8 @@ export const websites = {
   au: {
     path: "/services/websites",
     country: "Australia",
+    // Plain enough to get in one read: the ad worked, the page didn't.
+    headline: "Your ad got the click. Your page lost the sale.",
     // Numbers for the builder's running total. Keep in step with the package prices below.
     prices: { currency: "A$", landing: 1490, website: 4490, seo: 990 },
     title: "Landing pages and websites built for ads, SEO and GEO",
@@ -1179,6 +1180,7 @@ export const websites = {
   lk: {
     path: "/sri-lanka/websites",
     country: "Sri Lanka",
+    headline: "Your ad got the click. Your page lost the order.",
     // Numbers for the builder's running total. Keep in step with the package prices below.
     prices: { currency: "Rs ", landing: 45000, website: 125000, seo: 40000 },
     title: "Landing pages and websites in Sri Lanka, with SEO and GEO",

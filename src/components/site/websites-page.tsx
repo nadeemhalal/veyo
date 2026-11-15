@@ -29,7 +29,7 @@ export function WebsitesPage({ region }: { region: "au" | "lk" }) {
         <div className="mx-auto grid max-w-6xl items-center gap-6 px-4 sm:px-6 lg:grid-cols-[1fr_24rem] lg:gap-10">
           <div>
           <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-primary">{websites.eyebrow}</p>
-          <h1 className="max-w-3xl font-heading text-4xl font-bold tracking-tight sm:text-5xl">{websites.headline}</h1>
+          <h1 className="max-w-3xl font-heading text-4xl font-bold tracking-tight sm:text-5xl">{copy.headline}</h1>
           <p className="mt-5 max-w-2xl text-lg text-muted-foreground">{copy.intro}</p>
           <div className="mt-8 flex flex-wrap gap-3">
             <CtaLink href="#build" variant="brand" arrow>
