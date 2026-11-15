@@ -10,6 +10,7 @@ const data = {
   source: "bfcm",
   whatsapp: "",
   problems: [] as string[],
+  marketingOptIn: false,
 };
 
 describe("toAuditRow", () => {

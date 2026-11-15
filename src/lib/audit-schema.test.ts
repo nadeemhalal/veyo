@@ -33,6 +33,15 @@ describe("parseAuditForm", () => {
     if (!result.ok) expect(result.fieldErrors.spend).toBeDefined();
   });
 
+  it("reads the marketing opt-in box: ticked is true, missing or junk is false", () => {
+    const ticked = parseAuditForm({ ...valid, marketingOptIn: "on" });
+    expect(ticked.ok && ticked.data.marketingOptIn).toBe(true);
+    const unticked = parseAuditForm(valid);
+    expect(unticked.ok && unticked.data.marketingOptIn).toBe(false);
+    const junk = parseAuditForm({ ...valid, marketingOptIn: ["on", "on"] });
+    expect(junk.ok && junk.data.marketingOptIn).toBe(false);
+  });
+
   it("defaults the lead source to website", () => {
     const result = parseAuditForm(valid);
     expect(result.ok && result.data.source).toBe("website");

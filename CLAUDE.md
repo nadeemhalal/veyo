@@ -110,6 +110,17 @@ npm test
 - **Lead alerts:** every saved form lead and completed checklist sends a Telegram message to the founder's phone
   (`src/lib/lead-alert.ts`, with a one-tap WhatsApp reply link). Needs Worker secrets `TELEGRAM_BOT_TOKEN` and
   `TELEGRAM_CHAT_ID` (`npm run telegram:chat-id` finds the chat id). Best effort: never blocks the form.
+- **WhatsApp auto-message:** when a form lead gives a WhatsApp number and its form has a template in
+  `src/lib/whatsapp.ts` (today only `sri-lanka-q4` → `q4_sprint_booking`), the server sends that approved template
+  from Veyo's number via the WhatsApp Cloud API. The number also stays in the WhatsApp Business app (coexistence),
+  so replies land on the phone. Needs Worker secrets `WHATSAPP_TOKEN` and `WHATSAPP_PHONE_NUMBER_ID`; the template must
+  be approved in WhatsApp Manager with the exact name and body in the code. The Telegram alert says whether it was sent,
+  and the thank-you message mentions it only when it was. Best effort: never blocks the form.
+- **Klaviyo:** every saved form lead and completed checklist goes to Klaviyo (`src/lib/klaviyo.ts`): a profile plus a
+  `Requested Audit` or `Completed Checklist` event (no email). Only leads who tick "Also send me occasional Meta ads
+  tips" (unticked by default; shown on Australian forms only) are subscribed to **Email List** (`Y6EmTp`, double
+  opt-in), which triggers the draft flow "Welcome series: newsletter". Sri Lanka leads never join that list.
+  Needs Worker secret `KLAVIYO_PRIVATE_KEY` (optional `KLAVIYO_LIST_ID`). Best effort: never blocks the form.
 - **Keep-awake:** `/api/keep-awake` does one Supabase read; `.github/workflows/keep-awake.yml` calls it daily so the
   free project doesn't pause (a failed run emails the repo owner).
 - Tests cover backend logic only (form validation, lead mapping, blog frontmatter, checklist scoring, email builder).

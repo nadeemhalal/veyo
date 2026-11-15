@@ -61,6 +61,7 @@ describe("buildLeadEvent", () => {
 describe("normalisePhone", () => {
   it("adds 94 to Sri Lankan local numbers and keeps digits only", () => {
     expect(normalisePhone("077 123 4567")).toBe("94771234567");
+    expect(normalisePhone("77 123 4567")).toBe("94771234567");
     expect(normalisePhone("+94 78 555 6938")).toBe("94785556938");
     expect(normalisePhone("+61 412 345 678")).toBe("61412345678");
     expect(normalisePhone("call me")).toBeUndefined();

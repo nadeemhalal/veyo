@@ -53,6 +53,8 @@ export const auditSchema = z.object({
   pageUrl: z.string().max(500).optional().catch(undefined),
   // Problems the visitor tapped on the form's last question.
   problems: z.array(z.string().trim().max(120)).max(10).optional().default([]).transform((ps) => ps.filter(Boolean)),
+  // The unticked "send me Meta ads tips" box on Australian forms. A ticked checkbox posts "on"; unticked posts nothing.
+  marketingOptIn: z.string().optional().catch(undefined).transform((v) => v === "on" || v === "true"),
 }).superRefine((d, ctx) => {
   const message = whatsappError(d.source, d.whatsapp);
   if (message) ctx.addIssue({ code: "custom", path: ["whatsapp"], message });

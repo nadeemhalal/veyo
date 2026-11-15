@@ -32,6 +32,16 @@ export type FormLeadAlert = {
   whatsapp?: string;
   problems?: readonly string[];
   message?: string;
+  /** The "send me Meta ads tips" box. Left out for forms that don't show it (Sri Lanka). */
+  marketingOptIn?: boolean;
+  /** Whether the automatic WhatsApp message went out (see whatsapp.ts). */
+  whatsappAuto?: "sent" | "failed" | "skipped";
+};
+
+const whatsappAutoLines = {
+  sent: "✅ Automatic WhatsApp message sent",
+  failed: "⚠️ Automatic WhatsApp message failed: message them yourself",
+  skipped: undefined,
 };
 
 /** The Telegram message for a form lead (Telegram HTML). */
@@ -47,7 +57,9 @@ export function buildFormLeadAlert(l: FormLeadAlert): string {
     `<b>Ad spend:</b> ${escapeHtml(l.spend)}`,
     l.problems?.length && `<b>Problems:</b> ${escapeHtml(l.problems.join("; "))}`,
     l.message && `<b>Note:</b> ${escapeHtml(l.message)}`,
+    l.marketingOptIn !== undefined && `<b>Marketing emails OK:</b> ${l.marketingOptIn ? "yes" : "no"}`,
     wa && "",
+    l.whatsappAuto && whatsappAutoLines[l.whatsappAuto],
     wa && `👉 <a href="https://wa.me/${wa}">Reply on WhatsApp</a>`,
   ];
   return lines.filter((x): x is string => typeof x === "string").join("\n");

@@ -101,8 +101,12 @@ export function AuditForm({
             placeholder="07X XXX XXXX"
             required
             aria-invalid={!!err.whatsapp}
+            aria-describedby="whatsapp-hint"
             className="h-11"
           />
+          <p id="whatsapp-hint" className="text-xs text-muted-foreground">
+            We&apos;ll message you on WhatsApp about your booking.
+          </p>
         </Field>
       )}
       <Field id="storeUrl" label={urlLabel} error={err.storeUrl}>
@@ -148,6 +152,15 @@ export function AuditForm({
             <Textarea id="message" name="message" rows={2} placeholder={question.notePlaceholder} />
           </Field>
         </>
+      )}
+
+      {/* Marketing consent (Spam Act): optional and unticked. Not shown on Sri Lanka forms, whose leads never join
+          the newsletter list (see klaviyo.ts). */}
+      {!source.startsWith("sri-lanka") && (
+        <label className="flex items-start gap-3 text-sm text-muted-foreground">
+          <input type="checkbox" name="marketingOptIn" className="mt-0.5 size-4 accent-[var(--primary)]" />
+          Also send me occasional Meta ads tips (optional, unsubscribe anytime).
+        </label>
       )}
 
       <input type="hidden" name="source" value={source} />

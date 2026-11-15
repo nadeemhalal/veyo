@@ -21,6 +21,12 @@ describe("buildFormLeadAlert", () => {
     expect(text).toContain('<a href="https://wa.me/94771234567">Reply on WhatsApp</a>');
   });
 
+  it("says whether the automatic WhatsApp message went out", () => {
+    expect(buildFormLeadAlert({ ...lead, whatsappAuto: "sent" })).toContain("Automatic WhatsApp message sent");
+    expect(buildFormLeadAlert({ ...lead, whatsappAuto: "failed" })).toContain("message them yourself");
+    expect(buildFormLeadAlert({ ...lead, whatsappAuto: "skipped" })).not.toContain("Automatic");
+  });
+
   it("leaves out empty fields and escapes what visitors typed", () => {
     const text = buildFormLeadAlert({ ...lead, whatsapp: "", problems: [], message: "<b>hi</b> & bye", name: "<script>" });
     expect(text).not.toContain("WhatsApp");

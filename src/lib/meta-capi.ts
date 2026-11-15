@@ -43,13 +43,14 @@ export function splitName(name: string): { fn?: string; ln?: string } {
 }
 
 /**
- * Meta wants phone numbers as digits with the country code. A Sri Lankan local number (07X...) gets 94;
- * anything else is sent as typed, digits only.
+ * Meta wants phone numbers as digits with the country code. A Sri Lankan local number (07X..., or 7X... without
+ * the 0) gets 94; anything else is sent as typed, digits only.
  */
 export function normalisePhone(phone: string): string | undefined {
   const digits = phone.replace(/\D/g, "");
   if (!digits) return undefined;
   if (/^0\d{9}$/.test(digits)) return `94${digits.slice(1)}`;
+  if (/^7\d{8}$/.test(digits)) return `94${digits}`;
   return digits;
 }
 

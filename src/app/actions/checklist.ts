@@ -3,6 +3,7 @@
 import { checklistMax, scoreChecklist, type ChecklistResult } from "@/lib/audit-checklist";
 import { buildChecklistEmail } from "@/lib/checklist-email";
 import { checklistSubmissionSchema } from "@/lib/checklist-input";
+import { sendLeadToKlaviyo } from "@/lib/klaviyo";
 import { buildChecklistAlert, sendLeadAlert } from "@/lib/lead-alert";
 import { leadRequestContext } from "@/lib/lead-request";
 import { safeEventId, safePageUrl, sendMetaLead } from "@/lib/meta-capi";
@@ -58,6 +59,17 @@ export async function viewChecklistResult(input: unknown): Promise<ViewResultSta
           marketingOptIn: data.marketingOptIn,
         }),
       ),
+      sendLeadToKlaviyo({
+        kind: "checklist",
+        email: data.email,
+        name: data.name,
+        source: "checklist",
+        marketingOptIn: data.marketingOptIn,
+        eventId: safeEventId(data.eventId),
+        organisation: data.organisation,
+        score: result.total,
+        max: checklistMax,
+      }),
     ]);
   }
   return { ok: true, result };
