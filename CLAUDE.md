@@ -117,7 +117,7 @@ npm test
   be approved in WhatsApp Manager with the exact name and body in the code. The Telegram alert says whether it was sent,
   and the thank-you message mentions it only when it was. Best effort: never blocks the form.
 - **Klaviyo:** every saved form lead and completed checklist goes to Klaviyo (`src/lib/klaviyo.ts`): a profile plus a
-  `Requested Audit` or `Completed Checklist` event (no email). Only leads who tick "Also send me occasional Meta ads
+  `Requested Audit`, `Requested Website Quote` (the websites pages) or `Completed Checklist` event (no email). Only leads who tick "Also send me occasional Meta ads
   tips" (unticked by default; shown on Australian forms only) are subscribed to **Email List** (`Y6EmTp`, double
   opt-in), which triggers the draft flow "Welcome series: newsletter". Sri Lanka leads never join that list.
   Needs Worker secret `KLAVIYO_PRIVATE_KEY` (optional `KLAVIYO_LIST_ID`). Best effort: never blocks the form.

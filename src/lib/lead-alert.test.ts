@@ -37,6 +37,8 @@ describe("buildFormLeadAlert", () => {
 
   it("labels unknown forms by their source", () => {
     expect(sourceLabel("audit")).toBe("Free ad audit (Australia)");
+    expect(sourceLabel("websites")).toBe("Website quote (Australia)");
+    expect(sourceLabel("sri-lanka-websites")).toBe("Website quote (Sri Lanka)");
     expect(sourceLabel("new-page")).toBe("Form: new-page");
   });
 });

@@ -2,7 +2,7 @@
 
 import { parseAuditForm, type AuditFormState } from "@/lib/audit-schema";
 import { saveAuditRequest } from "@/lib/audit-store";
-import { sendLeadToKlaviyo } from "@/lib/klaviyo";
+import { formLeadKind, sendLeadToKlaviyo } from "@/lib/klaviyo";
 import { buildFormLeadAlert, sendLeadAlert } from "@/lib/lead-alert";
 import { leadRequestContext } from "@/lib/lead-request";
 import { safeEventId, safePageUrl, sendMetaLead } from "@/lib/meta-capi";
@@ -48,7 +48,7 @@ export async function submitAudit(
     }),
     sendLeadWhatsApp(lead),
     sendLeadToKlaviyo({
-      kind: "audit",
+      kind: formLeadKind(lead.source),
       email: lead.email,
       name: lead.name,
       source: lead.source,

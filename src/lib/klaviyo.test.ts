@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { buildKlaviyoEvent, buildKlaviyoSubscription, canSubscribe, sendLeadToKlaviyo, type KlaviyoLead } from "./klaviyo";
+import { buildKlaviyoEvent, buildKlaviyoSubscription, canSubscribe, formLeadKind, sendLeadToKlaviyo, type KlaviyoLead } from "./klaviyo";
 
 const audit: KlaviyoLead = {
   kind: "audit",
@@ -56,6 +56,31 @@ describe("buildKlaviyoEvent", () => {
       organization: "Shop",
       properties: { lead_source: "checklist", checklist_score: 41 },
     });
+  });
+});
+
+describe("formLeadKind", () => {
+  it("treats the websites pages as quote requests and every other form as an audit", () => {
+    expect(formLeadKind("websites")).toBe("website");
+    expect(formLeadKind("sri-lanka-websites")).toBe("website");
+    for (const source of ["audit", "website", "bfcm", "linkedin", "sri-lanka", "sri-lanka-q4", "sri-lanka-tourism"]) {
+      expect(formLeadKind(source)).toBe("audit");
+    }
+  });
+
+  it("records a website quote as its own event, not an audit", () => {
+    const body = buildKlaviyoEvent({ ...audit, kind: "website", source: "sri-lanka-websites" }, now);
+    const a = body.data.attributes;
+    expect(a.metric.data.attributes.name).toBe("Requested Website Quote");
+    expect(a.profile.data.attributes.properties).toMatchObject({
+      lead_source: "sri-lanka-websites",
+      website_quote_requested: true,
+      website_quote_requested_at: now.toISOString(),
+    });
+    expect(a.profile.data.attributes.properties).not.toHaveProperty("audit_requested");
+    expect(buildKlaviyoSubscription({ ...audit, kind: "website", source: "websites" }, "L").data.attributes.custom_source).toBe(
+      "veyomedia.com website quote form (websites)",
+    );
   });
 });
 

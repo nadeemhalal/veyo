@@ -1,6 +1,7 @@
 // Sends every website lead to Klaviyo.
 //
-// Every lead becomes a Klaviyo profile with a "Requested Audit" or "Completed Checklist" event. That sends no email
+// Every lead becomes a Klaviyo profile with a "Requested Audit", "Requested Website Quote" or "Completed Checklist"
+// event. That sends no email
 // on its own; it lets flows and filters see who asked for what (e.g. the welcome series skips people who already
 // asked for an audit).
 //
@@ -19,7 +20,7 @@ const apiRevision = "2025-07-15";
 const defaultListId = "Y6EmTp";
 
 export type KlaviyoLead = {
-  kind: "audit" | "checklist";
+  kind: "audit" | "website" | "checklist";
   email: string;
   name: string;
   source: string;
@@ -35,7 +36,25 @@ export type KlaviyoLead = {
   max?: number;
 };
 
-export const klaviyoMetrics = { audit: "Requested Audit", checklist: "Completed Checklist" } as const;
+export const klaviyoMetrics = {
+  audit: "Requested Audit",
+  website: "Requested Website Quote",
+  checklist: "Completed Checklist",
+} as const;
+
+/** The kind of lead a form sends, from its source tag: the websites pages ask for a quote, every other form an audit. */
+export function formLeadKind(source: string): "audit" | "website" {
+  return source === "websites" || source.endsWith("-websites") ? "website" : "audit";
+}
+
+const kindProperties = (lead: KlaviyoLead, now: Date) =>
+  lead.kind === "audit"
+    ? { audit_requested: true, audit_requested_at: now.toISOString() }
+    : lead.kind === "website"
+      ? { website_quote_requested: true, website_quote_requested_at: now.toISOString() }
+      : { checklist_score: lead.score };
+
+const formNames = { audit: "audit form", website: "website quote form", checklist: "checklist" } as const;
 
 export function klaviyoConfigured(): boolean {
   return Boolean(process.env.KLAVIYO_PRIVATE_KEY);
@@ -59,13 +78,12 @@ function compact<T extends Record<string, unknown>>(o: T): Partial<T> {
 
 /** The body for POST /api/events: creates or updates the profile and records the lead. */
 export function buildKlaviyoEvent(lead: KlaviyoLead, now = new Date()) {
-  const audit = lead.kind === "audit";
   const profileProperties = compact({
     lead_source: lead.source,
     store_url: lead.storeUrl,
     monthly_ad_spend: lead.spend,
     whatsapp: lead.whatsapp,
-    ...(audit ? { audit_requested: true, audit_requested_at: now.toISOString() } : { checklist_score: lead.score }),
+    ...kindProperties(lead, now),
   });
   return {
     data: {
@@ -105,7 +123,7 @@ export function buildKlaviyoSubscription(lead: KlaviyoLead, listId: string) {
     data: {
       type: "profile-subscription-bulk-create-job",
       attributes: {
-        custom_source: `veyomedia.com ${lead.kind === "audit" ? "audit form" : "checklist"} (${lead.source})`,
+        custom_source: `veyomedia.com ${formNames[lead.kind]} (${lead.source})`,
         profiles: {
           data: [
             {
